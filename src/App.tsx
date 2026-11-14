@@ -21,12 +21,20 @@ import {
   visibleHistory,
   type CheckInEntry,
 } from "./state/history";
+import {
+  addEntry,
+  createEntry,
+  releaseHeld,
+  reviewEntry,
+  type LedgerEntry,
+} from "./state/ledger";
 import { buildSummaries } from "./state/regions";
 import { BodyScan } from "./ui/BodyScan";
 import { CabinStrip } from "./ui/CabinStrip";
 import type { CheckInValue } from "./ui/CheckIn";
 import { DecisionCardView } from "./ui/DecisionCard";
 import { EnvironmentBar } from "./ui/EnvironmentBar";
+import { Ledger } from "./ui/Ledger";
 import { RegionCard } from "./ui/RegionCard";
 import { RegionDetail } from "./ui/RegionDetail";
 import { ScenarioBar } from "./ui/ScenarioBar";
@@ -43,7 +51,7 @@ export default function App() {
 
   const [clock, setClock] = useState(INITIAL_CLOCK);
   const [scenarioId, setScenarioId] = useState(DEFAULT_SCENARIO);
-  const [choices, setChoices] = useState<Record<string, string>>({});
+  const [ledger, setLedger] = useState<LedgerEntry[]>([]);
   const [checkIns, setCheckIns] = useState<CheckInEntry[]>([]);
   const [dismissed, setDismissed] = useState<Record<string, boolean>>({});
 
@@ -107,9 +115,26 @@ export default function App() {
   function chooseScenario(id: string) {
     setScenarioId(id);
     setClock((c) => pause(jumpToDay(c, getScenario(id).startDay)));
-    setChoices({});
+    setLedger([]);
     setCheckIns([]);
     setDismissed({});
+  }
+
+  function logChoice(entry: (typeof entries)[number], choice: string) {
+    setLedger((l) => addEntry(l, createEntry(entry.card, entry.rule, choice, env, nowISO(clock))));
+    // Start the mission clock so the entry can be seen crossing the link.
+    setClock((c) => (c.playing ? c : play(c)));
+  }
+
+  function changeBlackout(on: boolean) {
+    setBlackout(on);
+    if (!on) {
+      setLedger((l) => releaseHeld(l, makeEnvironment(envId, delaySec, false), nowISO(clock)));
+    }
+  }
+
+  function surgeonReview(id: string, review: "concur" | "overrule") {
+    setLedger((l) => reviewEntry(l, id, review, env, nowISO(clock)));
   }
 
   function logCheckIn(values: CheckInValue[]) {
@@ -135,7 +160,7 @@ export default function App() {
           if (id === "mars") setDelaySec(MARS_DELAY_MAX_SEC);
         }}
         onDelayChange={setDelaySec}
-        onBlackoutChange={setBlackout}
+        onBlackoutChange={changeBlackout}
       />
 
       <section aria-label="Decision cards" className="flex flex-col gap-3">
@@ -154,8 +179,8 @@ export default function App() {
               clock={clock}
               nowISO={now}
               blackout={blackout}
-              choice={choices[e.card.id]}
-              onChoose={(c) => setChoices((p) => ({ ...p, [e.card.id]: c }))}
+              choice={ledger.find((l) => l.id === e.card.id)?.crewChoice}
+              onChoose={(c) => logChoice(e, c)}
             />
           ))
         )}
@@ -176,6 +201,8 @@ export default function App() {
           </div>
         ))}
       </section>
+
+      <Ledger entries={ledger} clock={clock} nowISO={now} onReview={surgeonReview} />
 
       <main className="grid gap-4 lg:grid-cols-[1fr_auto_1fr] lg:items-center lg:gap-12">
         <div className="order-2 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:order-1 lg:grid-cols-1">
