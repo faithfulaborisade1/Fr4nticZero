@@ -1,9 +1,12 @@
-import { Bell, ChevronDown, Menu, Pause, Play, Siren, Wifi, WifiOff } from "lucide-react";
-import { CREW, type CrewId } from "../../data/crew";
+import { Bell, Menu, Pause, Play, Siren, Wifi, WifiOff } from "lucide-react";
+import type { CrewId } from "../../data/crew";
 import type { Environment } from "../../engine/types";
 import { earthReplyMin } from "../../engine/verdict";
 import { missionTimeLabel, nowISO, type ClockState } from "../../state/clock";
+import { CrewSwitcher } from "./CrewSwitcher";
 import { ENV_META, formatDelay } from "./envMeta";
+
+export { initials } from "./CrewSwitcher";
 
 interface Props {
   group: string;
@@ -17,13 +20,6 @@ interface Props {
   onOpenMenu: () => void;
 }
 
-export function initials(name: string) {
-  return name
-    .split(" ")
-    .map((w) => w[0])
-    .join("")
-    .slice(0, 2);
-}
 
 /** Global context bar: where the crew is, whether the link is up, the mission clock and who is viewing. */
 export function Topbar({
@@ -89,29 +85,9 @@ export function Topbar({
           {unreadAlerts > 0 && <span className="dw-bell-dot">{unreadAlerts}</span>}
         </a>
 
-        <label className="dw-crew-switch" title="Switch simulated crew profile">
-          <span className="dw-avatar" aria-hidden="true">
-            {initials(activeCrew.name)}
-          </span>
-          <span className="dw-crew-text">
-            <strong>{activeCrew.name}</strong>
-            <small>{activeCrew.role}</small>
-          </span>
-          <ChevronDown size={14} aria-hidden="true" className="dw-crew-chevron" />
-          <select
-            value={activeCrew.id}
-            onChange={(e) => onSelectCrew(e.target.value as CrewId)}
-            aria-label="Viewing crew profile"
-          >
-            {CREW.map((p) => (
-              <option key={p.id} value={p.id}>
-                {p.name} · {p.role}
-              </option>
-            ))}
-          </select>
-        </label>
+        <CrewSwitcher active={activeCrew} onSelect={onSelectCrew} />
 
-        <a href="#emergency" className="dw-emergency-btn">
+        <a href="#emergency" className="dw-emergency-btn dw-emergency-mobile">
           <Siren size={16} aria-hidden="true" />
           <span>Emergency</span>
         </a>
