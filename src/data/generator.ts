@@ -34,6 +34,9 @@ export const INDICATORS: IndicatorSpec[] = [
   { id: "temp", mean: 36.6, sd: 0.15, min: 34, max: 42, round: 1 },
   { id: "sleep", mean: 6.2, sd: 0.5, min: 0, max: 12, round: 1 },
   { id: "mood", mean: 3.8, sd: 0.5, min: 1, max: 5, round: 0 },
+  // Extra series. Keep these last so the six required series stay identical for a given seed.
+  { id: "dose_daily", mean: 0.6, sd: 0.08, min: 0.2, max: 5, round: 2 },
+  { id: "stress", mean: 2.2, sd: 0.6, min: 1, max: 5, round: 0 },
 ];
 
 export type History = Record<string, number[]>;

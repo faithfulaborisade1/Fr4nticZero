@@ -12,9 +12,9 @@ describe("generateHistory", () => {
 
   it("covers the six required indicators for 30 days within range", () => {
     const h = generateHistory(2026, 30);
-    expect(Object.keys(h).sort()).toEqual(
-      ["bp_systolic", "glucose", "hr", "mood", "sleep", "temp"].sort(),
-    );
+    for (const id of ["bp_systolic", "glucose", "hr", "mood", "sleep", "temp"]) {
+      expect(h[id]).toHaveLength(30);
+    }
     for (const spec of INDICATORS) {
       expect(h[spec.id]).toHaveLength(30);
       for (const v of h[spec.id]) {

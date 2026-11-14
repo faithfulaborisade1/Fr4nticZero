@@ -1,3 +1,4 @@
+import { indicatorLabel } from "../data/indicators";
 import type { CardEntry } from "../state/cards";
 import { missionTimeLabel, type ClockState } from "../state/clock";
 import type { Verdict } from "../engine/types";
@@ -25,15 +26,6 @@ const VERDICT_STYLE: Record<
     box: "border-slate-400 bg-slate-500/15",
     text: "text-slate-200",
   },
-};
-
-const INDICATOR_LABEL: Record<string, string> = {
-  bp_systolic: "Systolic blood pressure (mmHg)",
-  hr: "Heart rate (bpm)",
-  glucose: "Blood sugar (mg/dL)",
-  temp: "Body temperature (°C)",
-  sleep: "Sleep (hours)",
-  mood: "Mood (1 to 5)",
 };
 
 export function formatRemaining(min: number): string {
@@ -116,7 +108,7 @@ export function DecisionCardView({
       </div>
 
       <p className="mt-2 text-sm">
-        <strong>{INDICATOR_LABEL[rule.indicator] ?? rule.indicator}</strong>{" "}
+        <strong>{indicatorLabel(rule.indicator)}</strong>{" "}
         {fmt(card.value)} · your baseline {fmt(baseline.mean)} ± {fmt(baseline.sd)}
       </p>
       <p className="mt-1 text-sm text-slate-200">{rule.explanation}</p>

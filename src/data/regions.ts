@@ -148,7 +148,8 @@ export const STATIC_READINGS = {
   bones: { status: "watch", headline: "Exercise 1 of 2 sessions", detail: "Bone loss estimate: low" },
 } as const;
 
-export const SIMULATED_DOSE = { dailyMsv: 0.6, cumulativeMsv: 38 };
+/** Simulated dose accumulated before the 30 days in the history. */
+export const SIMULATED_DOSE_BASE_MSV = 20;
 
 export const SIMULATED_CABIN = {
   co2MmHg: 2.7,

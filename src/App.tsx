@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { generateHistory } from "./data/generator";
-import { REGIONS, getRegionMeta, type RegionId } from "./data/regions";
+import { REGIONS, type RegionId } from "./data/regions";
 import { DEFAULT_SCENARIO, getScenario } from "./data/scenarios";
+import { evaluateCrosslinks } from "./engine/crosslinks";
 import { MARS_DELAY_MAX_SEC, makeEnvironment } from "./engine/environments";
 import type { Environment } from "./engine/types";
 import { buildCards } from "./state/cards";
@@ -14,56 +15,83 @@ import {
   play,
   tick,
 } from "./state/clock";
+import {
+  appendCheckIns,
+  readingTimeFor,
+  visibleHistory,
+  type CheckInEntry,
+} from "./state/history";
 import { buildSummaries } from "./state/regions";
-import { SimulatedBadge, StatusBadge } from "./ui/Badge";
 import { BodyScan } from "./ui/BodyScan";
 import { CabinStrip } from "./ui/CabinStrip";
+import type { CheckInValue } from "./ui/CheckIn";
 import { DecisionCardView } from "./ui/DecisionCard";
 import { EnvironmentBar } from "./ui/EnvironmentBar";
 import { RegionCard } from "./ui/RegionCard";
+import { RegionDetail } from "./ui/RegionDetail";
 import { ScenarioBar } from "./ui/ScenarioBar";
 
 const HISTORY_DAYS = 30;
-// Start on mission day 30, paused, one mission minute per real second.
-const INITIAL_CLOCK = jumpToDay(createClock(undefined, 1), HISTORY_DAYS - 1);
+// Start paused, one mission minute per real second.
+const INITIAL_CLOCK = jumpToDay(
+  createClock(undefined, 1),
+  getScenario(DEFAULT_SCENARIO).startDay,
+);
 
 export default function App() {
   const baseHistory = useMemo(() => generateHistory(2026, HISTORY_DAYS), []);
 
   const [clock, setClock] = useState(INITIAL_CLOCK);
   const [scenarioId, setScenarioId] = useState(DEFAULT_SCENARIO);
-  const [readingISO, setReadingISO] = useState(() => nowISO(INITIAL_CLOCK));
   const [choices, setChoices] = useState<Record<string, string>>({});
+  const [checkIns, setCheckIns] = useState<CheckInEntry[]>([]);
+  const [dismissed, setDismissed] = useState<Record<string, boolean>>({});
 
   const [envId, setEnvId] = useState<Environment["id"]>("station");
   const [delaySec, setDelaySec] = useState(MARS_DELAY_MAX_SEC);
   const [blackout, setBlackout] = useState(false);
   const [selected, setSelected] = useState<RegionId | null>(null);
   const [hovered, setHovered] = useState<RegionId | null>(null);
+  const detailRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const id = setInterval(() => setClock((c) => tick(c, 0.25)), 250);
     return () => clearInterval(id);
   }, []);
 
-  const history = useMemo(
+  useEffect(() => {
+    if (selected) detailRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }, [selected]);
+
+  const day = missionDay(clock);
+  const fullHistory = useMemo(
     () => getScenario(scenarioId).apply(baseHistory),
     [baseHistory, scenarioId],
   );
-  const summaries = useMemo(() => buildSummaries(history), [history]);
+  const visible = useMemo(() => visibleHistory(fullHistory, day), [fullHistory, day]);
+  const history = useMemo(() => appendCheckIns(visible, checkIns), [visible, checkIns]);
+
+  const links = useMemo(() => evaluateCrosslinks(history), [history]);
+  const summaries = useMemo(() => buildSummaries(history, links), [history, links]);
 
   const env = makeEnvironment(envId, delaySec, blackout);
   const entries = useMemo(
-    () => buildCards(history, env, readingISO),
-    // env is rebuilt each render from primitives; depend on those.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [history, envId, delaySec, blackout, readingISO],
+    () =>
+      buildCards(history, makeEnvironment(envId, delaySec, blackout), (ind) =>
+        readingTimeFor(
+          ind,
+          clock.startISO,
+          Math.min(day + 1, fullHistory[ind]?.length ?? 1),
+          checkIns,
+        ),
+      ),
+    [history, envId, delaySec, blackout, clock.startISO, day, fullHistory, checkIns],
   );
   const now = nowISO(clock);
+  const nudges = links.nudges.filter((n) => !dismissed[n.id]);
 
   const left = REGIONS.filter((r) => r.side === "left");
   const right = REGIONS.filter((r) => r.side === "right");
-  const sel = selected ? getRegionMeta(selected) : null;
 
   const card = (r: (typeof REGIONS)[number]) => (
     <RegionCard
@@ -76,6 +104,19 @@ export default function App() {
     />
   );
 
+  function chooseScenario(id: string) {
+    setScenarioId(id);
+    setClock((c) => pause(jumpToDay(c, getScenario(id).startDay)));
+    setChoices({});
+    setCheckIns([]);
+    setDismissed({});
+  }
+
+  function logCheckIn(values: CheckInValue[]) {
+    const atISO = nowISO(clock);
+    setCheckIns((p) => [...p, ...values.map((v) => ({ ...v, atISO }))]);
+  }
+
   return (
     <div className="mx-auto flex min-h-screen max-w-6xl flex-col gap-4 p-4">
       <header>
@@ -87,7 +128,7 @@ export default function App() {
 
       <EnvironmentBar
         env={env}
-        missionDay={missionDay(clock) + 1}
+        missionDay={day + 1}
         onEnvChange={(id) => {
           setEnvId(id);
           if (id === "moon") setDelaySec(8);
@@ -118,6 +159,22 @@ export default function App() {
             />
           ))
         )}
+        {nudges.map((n) => (
+          <div
+            key={n.id}
+            role="status"
+            className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-sky-400/60 bg-sky-400/10 p-3 text-sm"
+          >
+            <span>💬 {n.text}</span>
+            <button
+              type="button"
+              onClick={() => setDismissed((p) => ({ ...p, [n.id]: true }))}
+              className="min-h-11 rounded-lg border border-slate-500 px-3 hover:bg-slate-800"
+            >
+              Done
+            </button>
+          </div>
+        ))}
       </section>
 
       <main className="grid gap-4 lg:grid-cols-[1fr_auto_1fr] lg:items-center lg:gap-12">
@@ -137,46 +194,28 @@ export default function App() {
         </div>
       </main>
 
-      {sel && selected && (
-        <section
-          aria-label={`${sel.label} details`}
-          className="rounded-xl border border-slate-700 bg-slate-900/70 p-4"
-        >
-          <div className="flex flex-wrap items-center gap-2">
-            <h2 className="text-lg font-semibold">
-              {sel.icon} {sel.label}
-            </h2>
-            <StatusBadge status={summaries[selected].status} />
-            <span className="rounded border border-slate-500 px-1.5 py-0.5 text-xs capitalize">
-              Hazard: {sel.hazard}
-            </span>
-            <SimulatedBadge />
-          </div>
-          <p className="mt-2 text-sm">{sel.explanation}</p>
-          <dl className="mt-3 grid gap-3 text-sm sm:grid-cols-2">
-            <div>
-              <dt className="font-semibold text-slate-300">Measured on board</dt>
-              <dd>{sel.measuredInSpace}</dd>
-            </div>
-            <div>
-              <dt className="font-semibold text-slate-300">Needs Earth</dt>
-              <dd>{sel.needsEarth}</dd>
-            </div>
-          </dl>
-        </section>
-      )}
+      <div ref={detailRef}>
+        {selected && (
+          <RegionDetail
+            regionId={selected}
+            summary={summaries[selected]}
+            history={history}
+            nudges={links.nudges}
+            dismissedNudges={dismissed}
+            onDismissNudge={(id) => setDismissed((p) => ({ ...p, [id]: true }))}
+            onCheckIn={logCheckIn}
+          />
+        )}
+      </div>
 
       <CabinStrip />
 
       <ScenarioBar
         scenarioId={scenarioId}
         clock={clock}
-        onScenario={(id) => {
-          setScenarioId(id);
-          setReadingISO(nowISO(clock));
-          setChoices({});
-        }}
+        onScenario={chooseScenario}
         onTogglePlay={() => setClock((c) => (c.playing ? pause(c) : play(c)))}
+        onNextDay={() => setClock((c) => jumpToDay(c, missionDay(c) + 1))}
         onSpeed={(s) => setClock((c) => ({ ...c, speed: s }))}
       />
 

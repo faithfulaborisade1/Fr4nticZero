@@ -7,6 +7,7 @@ interface Props {
   clock: ClockState;
   onScenario: (id: string) => void;
   onTogglePlay: () => void;
+  onNextDay: () => void;
   onSpeed: (minPerSec: number) => void;
 }
 
@@ -14,6 +15,7 @@ const SPEEDS = [
   { label: "Real time", value: 1 / 60 },
   { label: "1 min / s", value: 1 },
   { label: "10 min / s", value: 10 },
+  { label: "1 day / 3 s", value: 480 },
 ];
 
 export function ScenarioBar({
@@ -21,6 +23,7 @@ export function ScenarioBar({
   clock,
   onScenario,
   onTogglePlay,
+  onNextDay,
   onSpeed,
 }: Props) {
   const scenario = getScenario(scenarioId);
@@ -54,6 +57,13 @@ export function ScenarioBar({
           className="min-h-11 rounded-lg border border-slate-600 px-4 text-sm font-medium hover:bg-slate-800"
         >
           {clock.playing ? "⏸ Pause clock" : "▶ Play clock"}
+        </button>
+        <button
+          type="button"
+          onClick={onNextDay}
+          className="min-h-11 rounded-lg border border-slate-600 px-4 text-sm font-medium hover:bg-slate-800"
+        >
+          Next day ⏭
         </button>
         <label className="flex items-center gap-2 text-sm">
           Speed

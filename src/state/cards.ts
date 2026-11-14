@@ -20,9 +20,10 @@ const VERDICT_ORDER = { crew_decides: 0, consult_earth: 1, monitor: 2 } as const
 export function buildCards(
   history: History,
   env: Environment,
-  readingISO: string,
+  readingISO: string | ((indicator: string) => string),
   groundResponseMin?: number,
 ): CardEntry[] {
+  const timeFor = typeof readingISO === "function" ? readingISO : () => readingISO;
   const out: CardEntry[] = [];
   for (const rule of RULES) {
     const series = history[rule.indicator];
@@ -35,7 +36,7 @@ export function buildCards(
       baseline,
       { day: series.length - 1, recent: history },
       env,
-      { nowISO: readingISO, groundResponseMin },
+      { nowISO: timeFor(rule.indicator), groundResponseMin },
     );
     if (card) out.push({ card, rule, baseline });
   }
