@@ -2,7 +2,7 @@
 
 Living document. Updated whenever a rule, threshold, source, scenario, cross-link or design decision changes (see `CLAUDE.md`). The README is built from this file.
 
-Last updated: Saturday 14 Nov 2026, after adding heart rate and temperature how-to guides.
+Last updated: Saturday 14 Nov 2026, after deploying the live demo to Vercel.
 
 ## 1. What we are building
 
@@ -188,6 +188,7 @@ Figures to check at the source: Moon distance 238,855 miles is about 1.3 s one w
 
 | When (Dublin) | Step | What changed |
 | --- | --- | --- |
+| Sat | Deployment | Deployed the static build to Vercel at https://decision-window.vercel.app, linked to the GitHub repo for automatic deploys from `main`. Added `.vercelignore` so local credential and message files are never uploaded. Crew messaging is not available on the hosted demo. |
 | Sat | How-to guides 2 | Added heart rate (AHA pulse guidance) and body temperature (MedlinePlus) guides, so all four device-measured indicators have one. The heart-rate re-measure step and the thermometer step on decision cards now open them. |
 | Sat | How-to guides | Added animated step-by-step guides for blood pressure and blood sugar (team idea), launched from check-in fields and decision-card steps. General technique from the AHA and FDA sources already cited, with weightlessness notes; not flight procedures. Also gave each indicator and body system its own icon and colour. |
 | Sat | Enterprise UI pass | Read the official challenge page and its Resources tab. New design layer: neutral palette, original logo mark, grouped sidebar with icons, collapse and phone drawer, a sticky mission context bar (environment, delay, link, clock, notices, crew switcher, Emergency) and a KPI-led overview. Added a lunar rover environment that carries only part of the kit, a daily routine ring with streak and points (engagement only), and "What it does" and "Why we check it" text for every body region. Checked all 15 pages at 375 px and 768 px for overflow, and contrast on the main pages. |

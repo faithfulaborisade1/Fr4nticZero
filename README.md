@@ -4,6 +4,8 @@
 
 NASA Space Apps Challenge 2026 entry for *Create Health Monitoring Software for Astronauts on Space Missions*.
 
+**Live demo: [decision-window.vercel.app](https://decision-window.vercel.app)** (works offline after the first visit; crew messages and notices are not available there, see below).
+
 **Prototype, not a medical device. Mission scenarios use simulated crew data; the research view displays historical NASA data.**
 
 Decision Window is a health monitor for astronauts that makes the **decision** the product. Every flagged reading becomes one card that answers a single question: **whose call is this, and by when?** It compares the time left to act with the round-trip delay to Earth and says one of three things:
@@ -36,6 +38,12 @@ npm run preview    # serve the production build locally
 ```
 
 The health simulation runs in the browser without a server. Shared crew messages and notices use an optional Node service; the decision engine remains local and does not automatically send alerts.
+
+### Deployment
+
+The live demo at https://decision-window.vercel.app is the static build on Vercel (project `decision-window`). It is linked to this GitHub repository, so every push to `main` builds and deploys automatically (`npm run build`, output `dist`). `.vercelignore` keeps local files such as `crew-credentials.local` and `crew-messages.local` from ever being uploaded.
+
+The hosted demo has no crew server, so the **Messages** and **Notices** pages cannot connect there. Everything else works on the live link: the decision engine, body scan, check-ins and how-to guides, ledger and surgeon review, equipment and rover kit, trends and the NASA research view. To show shared messaging, run the crew service below on a local network.
 
 ### Shared crew chat and notices
 

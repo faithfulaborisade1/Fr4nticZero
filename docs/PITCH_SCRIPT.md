@@ -1,6 +1,6 @@
 # Decision Window: 3-minute pitch script and Q&A
 
-Deck: 7 slides (the Space Apps guidance the team found allows up to seven). Speaker notes in the deck repeat these lines. Replace `[Presenter A/B/C]` with names, and fill `[demo link]`, `[backup video link]` and `[Local event]` on slides 1, 5 and 7.
+Deck: 7 slides (the Space Apps guidance the team found allows up to seven). Speaker notes in the deck repeat these lines. The live demo is https://decision-window.vercel.app. Still to fill: `[Presenter A/B/C]` names, plus `[Local event]` on slide 1 and `[backup video link]` on slide 5.
 
 ## Who says what
 
@@ -34,14 +34,14 @@ If there is no live demo slot, Presenter B uses slide 4 (Product) for 20 seconds
 4. *(Click “I will follow the holding steps”.)* “The choice queues behind the real 22-minute delay.” *(Decision ledger, Flight surgeon view, Concur.)* “And the surgeon’s answer comes back the same way.”
 
 **[Presenter C], slide 6 (20 s).**
-“Three reasons to trust it. It’s grounded in NASA’s framework: the five hazards, the human-risk list, CSA’s radiation work, and real Inspiration4 and ISS data, kept separate from the simulation. It’s honest: every number we couldn’t source carries a Demo badge, the rules are readable, and trends are projections, not predictions. And it works where it’s needed: offline, on any screen, with 136 automated tests behind it.”
+“Three reasons to trust it. It’s grounded in NASA’s framework: the five hazards, the human-risk list, CSA’s radiation work, and real Inspiration4 and ISS data, kept separate from the simulation. It’s honest: every number we couldn’t source carries a Demo badge, the rules are readable, and trends are projections, not predictions. And it works where it’s needed: offline, on any screen, with 140 automated tests behind it.”
 
 **[Presenter C], slide 7 (15 s).**
 “Every crew far from help faces the same question: whose call is it, and by when? That’s true on a ship, at a polar station or in a rural clinic. Next we’d connect real sensors, let flight surgeons set the windows, and validate the rules with clinicians. Decision Window. Thank you.”
 
 ## Before you go on (2 minutes)
 
-- [ ] Open the app on the presenting laptop and load it once online, so it also works offline.
+- [ ] Open https://decision-window.vercel.app on the presenting laptop and load it once online, so it also works offline. Don’t demo Messages or Notices from this link.
 - [ ] Mission settings → Simulation & scenarios → **Reset demo**. Check: Station, scenario 1, Overview shows “Consult Earth, hold meanwhile”.
 - [ ] In the same panel set **Speed** to **10 min / s**, so the 22-minute delivery and the surgeon review each take about 2 seconds on stage. Leave the clock paused; logging a choice starts it.
 - [ ] Browser zoom so the top bar and Overview fit the projector. Close other tabs and notifications.
@@ -103,4 +103,4 @@ An AI coding assistant wrote much of the code from our design and specification,
 Real sensor input, flight-surgeon-set action windows per mission, clinical review of the rules, and syncing the ledger with mission control. Then a pilot in an analogue mission, such as a polar station or a NASA HERA-style habitat.
 
 **17. How do you know it works?**
-136 automated tests cover the decision engine, baselines, scenarios, ledger delays, the rover kit and saved state. We checked every page at phone and tablet width and checked text contrast. It’s still a prototype, so clinical validation is the honest next step.
+140 automated tests cover the decision engine, baselines, scenarios, ledger delays, the rover kit and saved state. We checked every page at phone and tablet width and checked text contrast. It’s still a prototype, so clinical validation is the honest next step.
