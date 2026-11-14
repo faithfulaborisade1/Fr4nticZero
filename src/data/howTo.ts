@@ -12,7 +12,15 @@ export type SceneId =
   | "glu-strip"
   | "glu-prick"
   | "glu-touch"
-  | "glu-log";
+  | "glu-log"
+  | "hr-rest"
+  | "hr-find"
+  | "hr-count"
+  | "hr-log"
+  | "temp-wait"
+  | "temp-cover"
+  | "temp-tongue"
+  | "temp-log";
 
 export interface HowToStep {
   title: string;
@@ -100,10 +108,72 @@ export const HOW_TO: Record<string, HowToGuide> = {
     ],
     source: { title: "FDA · tips for using a blood glucose meter", url: "https://www.fda.gov/media/119150/download" },
   },
+  hr: {
+    indicator: "hr",
+    title: "Measure heart rate",
+    minutes: 4,
+    steps: [
+      {
+        title: "Rest for a few minutes",
+        text: "Stay still for a few minutes first, so you measure your resting heart rate.",
+        space: "In weightlessness, hold yourself steady with a foot loop or handrail.",
+        scene: "hr-rest",
+      },
+      {
+        title: "Find the pulse on your wrist",
+        text: "Place two fingers, not your thumb, lightly on the inside of your wrist below the thumb.",
+        scene: "hr-find",
+      },
+      {
+        title: "Count for 60 seconds",
+        text: "Count every beat for a full minute. A wearable reading works too, if it is approved for the mission.",
+        scene: "hr-count",
+      },
+      {
+        title: "Log beats per minute",
+        text: "Log the number and the time, and note that you were resting.",
+        scene: "hr-log",
+      },
+    ],
+    source: {
+      title: "American Heart Association · all about heart rate (pulse)",
+      url: "https://www.heart.org/en/health-topics/high-blood-pressure/the-facts-about-high-blood-pressure/all-about-heart-rate-pulse",
+    },
+  },
+  temp: {
+    indicator: "temp",
+    title: "Measure body temperature",
+    minutes: 4,
+    steps: [
+      {
+        title: "Wait after eating or drinking",
+        text: "Wait 20 to 30 minutes after anything hot or cold to eat or drink, and longer after hard exercise.",
+        scene: "temp-wait",
+      },
+      {
+        title: "Clean it and fit a probe cover",
+        text: "Wipe the thermometer and slide on a fresh probe cover from the kit.",
+        scene: "temp-cover",
+      },
+      {
+        title: "Place it under your tongue",
+        text: "Put the tip under your tongue, to one side. Close your lips and breathe through your nose.",
+        scene: "temp-tongue",
+      },
+      {
+        title: "Wait for the beep, then log",
+        text: "Keep still until it beeps. Log the value in °C and the time.",
+        space: "Bag the used cover straight away: nothing should float free in the cabin.",
+        scene: "temp-log",
+      },
+    ],
+    source: { title: "MedlinePlus · body temperature measurement", url: "https://medlineplus.gov/ency/article/003400.htm" },
+  },
 };
 
 /** Which guide teaches the step a device is used for. */
 export const DEVICE_HOW_TO: Record<string, string> = {
   bp_cuff: "bp_systolic",
   glucose_meter: "glucose",
+  thermometer: "temp",
 };

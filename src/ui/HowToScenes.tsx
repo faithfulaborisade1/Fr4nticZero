@@ -70,40 +70,62 @@ function Meter({ x, y, screen }: { x: number; y: number; screen?: React.ReactNod
   );
 }
 
+function RestScene({ label, accent }: { label: string; accent: string }) {
+  return (
+    <g>
+      <line x1="40" y1="205" x2="200" y2="205" stroke={SOFT} strokeWidth="3" />
+      <rect x="88" y="196" width="34" height="12" rx="6" fill="none" stroke={SOFT} strokeWidth="2" />
+      <g className="ht-breathe">
+        <circle cx="105" cy="52" r="18" fill="#1b2433" stroke={LINE} strokeWidth="2" />
+        <line x1="105" y1="70" x2="105" y2="140" stroke={LINE} strokeWidth="3" strokeLinecap="round" />
+        <path d="M105 88 L135 116 L172 116" fill="none" stroke={LINE} strokeWidth="3" strokeLinecap="round" />
+        <path d="M105 88 L82 118" fill="none" stroke={LINE} strokeWidth="3" strokeLinecap="round" />
+        <path d="M105 140 L94 200 M105 140 L116 200" stroke={LINE} strokeWidth="3" strokeLinecap="round" />
+      </g>
+      <circle cx="268" cy="104" r="44" fill="none" stroke="#263245" strokeWidth="8" />
+      <circle className="ht-timer" cx="268" cy="104" r="44" fill="none" stroke={accent} strokeWidth="8" strokeLinecap="round" pathLength={100} strokeDasharray="100" transform="rotate(-90 268 104)" />
+      <text x="268" y="102" textAnchor="middle" fill={LINE} fontSize="18" fontWeight="700">{label}</text>
+      <text x="268" y="122" textAnchor="middle" fill={SOFT} fontSize="11">quiet rest</text>
+    </g>
+  );
+}
+
+function LogCard({ value }: { value: string }) {
+  return (
+    <g>
+      <path className="ht-appear d1" d="M200 94 H244 M236 86 l8 8 l-8 8" fill="none" stroke={TEAL} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      <g className="ht-appear d2">
+        <rect x="254" y="54" width="86" height="80" rx="10" fill="#0f2a2c" stroke={TEAL} strokeWidth="2" />
+        <text x="297" y="84" textAnchor="middle" fill={LINE} fontSize="13" fontWeight="700">Log</text>
+        <text x="297" y="102" textAnchor="middle" fill={SOFT} fontSize="11">{value}</text>
+        <path d="M284 116 l8 8 l14 -16" fill="none" stroke={TEAL} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      </g>
+    </g>
+  );
+}
+
+const PULSE = "#f472b6";
+const THERMO = "#f9a8d4";
+
+function Thermometer({ x = 60, y = 96, cover = false }: { x?: number; y?: number; cover?: boolean }) {
+  return (
+    <g transform={`translate(${x} ${y})`}>
+      <rect x="0" y="0" width="200" height="30" rx="15" fill="#111823" stroke={LINE} strokeWidth="2" />
+      <rect x="14" y="7" width="58" height="16" rx="3" fill="#0b1018" stroke={SOFT} />
+      <rect x="196" y="9" width="44" height="12" rx="6" fill="#1b2433" stroke={LINE} strokeWidth="2" />
+      {cover && (
+        <g className="ht-cover-on">
+          <rect x="186" y="4" width="60" height="22" rx="10" fill={THERMO} fillOpacity="0.25" stroke={THERMO} strokeWidth="2" />
+        </g>
+      )}
+    </g>
+  );
+}
+
 export function HowToScene({ id }: { id: SceneId }) {
   return (
     <svg viewBox="0 0 360 220" className="ht-svg" aria-hidden="true" focusable="false">
-      {id === "bp-rest" && (
-        <g>
-          {/* handrail and foot loop */}
-          <line x1="40" y1="205" x2="200" y2="205" stroke={SOFT} strokeWidth="3" />
-          <rect x="88" y="196" width="34" height="12" rx="6" fill="none" stroke={SOFT} strokeWidth="2" />
-          <g className="ht-breathe">
-            <circle cx="105" cy="52" r="18" fill="#1b2433" stroke={LINE} strokeWidth="2" />
-            <line x1="105" y1="70" x2="105" y2="140" stroke={LINE} strokeWidth="3" strokeLinecap="round" />
-            <path d="M105 88 L135 116 L172 116" fill="none" stroke={LINE} strokeWidth="3" strokeLinecap="round" />
-            <path d="M105 88 L82 118" fill="none" stroke={LINE} strokeWidth="3" strokeLinecap="round" />
-            <path d="M105 140 L94 200 M105 140 L116 200" stroke={LINE} strokeWidth="3" strokeLinecap="round" />
-          </g>
-          {/* five-minute timer */}
-          <circle cx="268" cy="104" r="44" fill="none" stroke="#263245" strokeWidth="8" />
-          <circle
-            className="ht-timer"
-            cx="268"
-            cy="104"
-            r="44"
-            fill="none"
-            stroke={ROSE}
-            strokeWidth="8"
-            strokeLinecap="round"
-            pathLength={100}
-            strokeDasharray="100"
-            transform="rotate(-90 268 104)"
-          />
-          <text x="268" y="102" textAnchor="middle" fill={LINE} fontSize="20" fontWeight="700">5 min</text>
-          <text x="268" y="122" textAnchor="middle" fill={SOFT} fontSize="11">quiet rest</text>
-        </g>
-      )}
+      {id === "bp-rest" && <RestScene label="5 min" accent={ROSE} />}
 
       {id === "bp-cuff" && (
         <g>
@@ -227,6 +249,104 @@ export function HowToScene({ id }: { id: SceneId }) {
           <path className="ht-appear d2" d="M150 100 l8 8 l16 -18" fill="none" stroke={TEAL} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
           <text x="140" y="130" fill={SOFT} fontSize="11">log value,</text>
           <text x="140" y="147" fill={SOFT} fontSize="11">time and meal</text>
+        </g>
+      )}
+      {id === "hr-rest" && <RestScene label="2–5 min" accent={PULSE} />}
+
+      {id === "hr-find" && (
+        <g>
+          <rect x="30" y="104" width="230" height="40" rx="20" fill="#1b2433" stroke={LINE} strokeWidth="2" />
+          <ellipse cx="292" cy="124" rx="44" ry="30" fill="#1b2433" stroke={LINE} strokeWidth="2" />
+          <path d="M276 98 q-6 -26 18 -30" fill="none" stroke={LINE} strokeWidth="2" />
+          <text x="300" y="80" fill={SOFT} fontSize="11">thumb</text>
+          <circle className="ht-ring" cx="232" cy="118" r="10" fill="none" stroke={PULSE} strokeWidth="2" />
+          <circle className="ht-ring d1" cx="232" cy="118" r="10" fill="none" stroke={PULSE} strokeWidth="2" />
+          <g className="ht-press">
+            <rect x="206" y="44" width="18" height="70" rx="9" fill="#243044" stroke={LINE} strokeWidth="2" />
+            <rect x="228" y="40" width="18" height="74" rx="9" fill="#243044" stroke={LINE} strokeWidth="2" />
+          </g>
+          <text x="40" y="176" fill={PINK} fontSize="12">two fingers, inside of the wrist</text>
+        </g>
+      )}
+
+      {id === "hr-count" && (
+        <g>
+          <circle cx="110" cy="112" r="58" fill="none" stroke="#263245" strokeWidth="8" />
+          <circle className="ht-timer" cx="110" cy="112" r="58" fill="none" stroke={PULSE} strokeWidth="8" strokeLinecap="round" pathLength={100} strokeDasharray="100" transform="rotate(-90 110 112)" />
+          <rect x="100" y="44" width="20" height="10" rx="3" fill={SOFT} />
+          <text x="110" y="118" textAnchor="middle" fill={LINE} fontSize="22" fontWeight="700">60 s</text>
+          <g fill={PULSE}>
+            {[0, 1, 2, 3, 4, 5].map((i) => (
+              <path
+                key={i}
+                className="ht-beat"
+                style={{ animationDelay: `${i * 0.5}s` }}
+                d={`M${206 + i * 22} 112 l5 -5 a5 5 0 0 1 7 7 l-7 7 l-7 -7 a5 5 0 0 1 7 -7`}
+              />
+            ))}
+          </g>
+          <text x="204" y="150" fill={SOFT} fontSize="11">count every beat</text>
+        </g>
+      )}
+
+      {id === "hr-log" && (
+        <g>
+          <rect x="40" y="44" width="150" height="100" rx="12" fill="#111823" stroke={LINE} strokeWidth="2" />
+          <path className="ht-blink" d="M64 76 l5 -5 a5 5 0 0 1 7 7 l-7 7 l-7 -7 a5 5 0 0 1 7 -7" fill={PULSE} />
+          <text x="168" y="104" textAnchor="end" fill={PULSE} fontSize="34" fontWeight="700">63</text>
+          <text x="168" y="126" textAnchor="end" fill={SOFT} fontSize="12">bpm, resting</text>
+          <LogCard value="63 · 08:12" />
+        </g>
+      )}
+
+      {id === "temp-wait" && (
+        <g>
+          <path d="M60 110 h70 l-8 78 h-54 z" fill="#1b2433" stroke={LINE} strokeWidth="2" />
+          <path d="M130 126 q22 0 22 20 q0 20 -22 20" fill="none" stroke={LINE} strokeWidth="2" />
+          <g stroke={SOFT} strokeWidth="2" fill="none" strokeLinecap="round">
+            <path className="ht-steam" d="M80 98 q-8 -14 0 -28 q8 -14 0 -28" />
+            <path className="ht-steam d1" d="M100 98 q-8 -14 0 -28 q8 -14 0 -28" />
+          </g>
+          <circle cx="262" cy="112" r="50" fill="none" stroke="#263245" strokeWidth="8" />
+          <circle className="ht-timer" cx="262" cy="112" r="50" fill="none" stroke={THERMO} strokeWidth="8" strokeLinecap="round" pathLength={100} strokeDasharray="100" transform="rotate(-90 262 112)" />
+          <text x="262" y="110" textAnchor="middle" fill={LINE} fontSize="17" fontWeight="700">20–30</text>
+          <text x="262" y="128" textAnchor="middle" fill={SOFT} fontSize="11">minutes</text>
+        </g>
+      )}
+
+      {id === "temp-cover" && (
+        <g>
+          <Thermometer x={40} y={96} cover />
+          <text x="40" y="160" fill={PINK} fontSize="12">fresh probe cover from the kit</text>
+        </g>
+      )}
+
+      {id === "temp-tongue" && (
+        <g>
+          <circle cx="120" cy="110" r="74" fill="#1b2433" stroke={LINE} strokeWidth="2" />
+          <circle cx="94" cy="88" r="5" fill={LINE} />
+          <circle cx="146" cy="88" r="5" fill={LINE} />
+          <path d="M92 142 q28 14 56 0" fill="none" stroke={LINE} strokeWidth="3" strokeLinecap="round" />
+          <g className="ht-approach">
+            <rect x="150" y="136" width="170" height="14" rx="7" fill="#111823" stroke={THERMO} strokeWidth="2" />
+          </g>
+          <text x="210" y="184" fill={PINK} fontSize="12">under the tongue, to one side</text>
+          <text x="210" y="200" fill={SOFT} fontSize="11">lips closed</text>
+        </g>
+      )}
+
+      {id === "temp-log" && (
+        <g>
+          <Thermometer x={20} y={100} />
+          <text x="62" y="120" textAnchor="middle" fill={THERMO} fontSize="13" fontWeight="700">36.6°</text>
+          <g className="ht-blink" fill="none" stroke={THERMO} strokeWidth="2" strokeLinecap="round">
+            <path d="M58 88 q4 -8 0 -16" />
+            <path d="M68 88 q6 -10 0 -22" />
+          </g>
+          <text x="40" y="160" fill={SOFT} fontSize="11">beep</text>
+          <g transform="translate(-10 70)">
+            <LogCard value="36.6 °C" />
+          </g>
         </g>
       )}
     </svg>

@@ -51,7 +51,7 @@ export const RULES: Rule[] = [
     actionWindowMin: 20,
     holdingSteps: [
       { text: "Stop activity and rest.", crewMinutes: 5 },
-      { text: "Re-measure heart rate after 5 minutes.", crewMinutes: 5 },
+      { text: "Re-measure heart rate after 5 minutes.", crewMinutes: 5, howTo: "hr" },
       { text: "Log symptoms and notify the medical team.", crewMinutes: 5 },
     ],
     explanation:

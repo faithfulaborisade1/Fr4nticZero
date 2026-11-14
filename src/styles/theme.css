@@ -1828,3 +1828,16 @@ section[aria-label$="details"] > div:first-child h2 {
   vertical-align: -2px;
 }
 @keyframes ht-grow { 0%, 38% { transform: scale(0); } 62%, 100% { transform: scale(1); } }
+
+.ht-ring { transform-box: fill-box; transform-origin: center; animation: ht-ring 1.1s ease-out infinite; }
+.ht-ring.d1 { animation-delay: 0.55s; }
+@keyframes ht-ring { from { transform: scale(0.6); opacity: 0.9; } to { transform: scale(2.4); opacity: 0; } }
+.ht-press { animation: ht-press 2s ease-in-out infinite; }
+@keyframes ht-press { 0%, 100% { transform: translateY(-6px); } 50% { transform: translateY(0); } }
+.ht-beat { opacity: 0.25; animation: ht-beat 3s steps(1) infinite; }
+@keyframes ht-beat { 0%, 15% { opacity: 1; } 16%, 100% { opacity: 0.25; } }
+.ht-steam { animation: ht-steam 2.4s ease-in-out infinite; }
+.ht-steam.d1 { animation-delay: 1.2s; }
+@keyframes ht-steam { 0% { opacity: 0; transform: translateY(8px); } 40% { opacity: 1; } 100% { opacity: 0; transform: translateY(-10px); } }
+.ht-cover-on { animation: ht-cover-on 1.4s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes ht-cover-on { from { transform: translateX(60px); opacity: 0; } }

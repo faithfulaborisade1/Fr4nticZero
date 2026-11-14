@@ -4,8 +4,8 @@ import { DEVICE_HOW_TO, HOW_TO } from "./howTo";
 import { RULES } from "../engine/rules";
 
 describe("how-to guides", () => {
-  it("cover blood pressure and blood sugar", () => {
-    expect(Object.keys(HOW_TO).sort()).toEqual(["bp_systolic", "glucose"]);
+  it("cover blood pressure, blood sugar, heart rate and temperature", () => {
+    expect(Object.keys(HOW_TO).sort()).toEqual(["bp_systolic", "glucose", "hr", "temp"]);
   });
 
   it("have short, sourced steps with a scene each", () => {
@@ -36,5 +36,9 @@ describe("how-to guides", () => {
     }
     const bp = RULES.find((r) => r.id === "bp_systolic_high")!;
     expect(bp.holdingSteps.some((s) => s.device && DEVICE_HOW_TO[s.device] === "bp_systolic")).toBe(true);
+    const hr = RULES.find((r) => r.id === "hr_high")!;
+    expect(hr.holdingSteps.some((s) => s.howTo === "hr" && HOW_TO[s.howTo])).toBe(true);
+    const temp = RULES.find((r) => r.id === "temp_high")!;
+    expect(temp.holdingSteps.some((s) => s.device && DEVICE_HOW_TO[s.device] === "temp")).toBe(true);
   });
 });

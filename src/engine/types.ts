@@ -18,6 +18,8 @@ export interface Step {
   uses?: { item: string; qty: number }[];
   /** Device this step needs. If it has failed the step is blocked and a fallback is shown. */
   device?: string;
+  /** Indicator whose how-to guide teaches this step, when no device implies it. */
+  howTo?: string;
 }
 
 /** Personal baseline: mean and standard deviation of the crew member's own recent readings. */
