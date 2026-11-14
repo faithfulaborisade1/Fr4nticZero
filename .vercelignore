@@ -1,0 +1,7 @@
+# Never upload local secrets, state or tooling to Vercel
+*.local
+.claude
+.vite
+node_modules
+dist
+tsconfig.tsbuildinfo
