@@ -1,0 +1,137 @@
+{
+  "sourceSha256": "5eb1e7f025dd8443a9e70111e62bc32afae3432753024489c5c013e401d709d9",
+  "participants": [
+    {
+      "id": "C001",
+      "samples": [
+        {
+          "timepoint": "L-92",
+          "value": 83
+        },
+        {
+          "timepoint": "L-44",
+          "value": 80
+        },
+        {
+          "timepoint": "L-3",
+          "value": 69
+        },
+        {
+          "timepoint": "R+1",
+          "value": 90
+        },
+        {
+          "timepoint": "R+45",
+          "value": 84
+        },
+        {
+          "timepoint": "R+82",
+          "value": 91
+        },
+        {
+          "timepoint": "R+194",
+          "value": 87
+        }
+      ]
+    },
+    {
+      "id": "C002",
+      "samples": [
+        {
+          "timepoint": "L-92",
+          "value": 69
+        },
+        {
+          "timepoint": "L-44",
+          "value": 72
+        },
+        {
+          "timepoint": "L-3",
+          "value": 78
+        },
+        {
+          "timepoint": "R+1",
+          "value": 83
+        },
+        {
+          "timepoint": "R+45",
+          "value": 44
+        },
+        {
+          "timepoint": "R+82",
+          "value": 77
+        },
+        {
+          "timepoint": "R+194",
+          "value": 84
+        }
+      ]
+    },
+    {
+      "id": "C003",
+      "samples": [
+        {
+          "timepoint": "L-92",
+          "value": 77
+        },
+        {
+          "timepoint": "L-44",
+          "value": 62
+        },
+        {
+          "timepoint": "L-3",
+          "value": 75
+        },
+        {
+          "timepoint": "R+1",
+          "value": 103
+        },
+        {
+          "timepoint": "R+45",
+          "value": 36
+        },
+        {
+          "timepoint": "R+82",
+          "value": 80
+        },
+        {
+          "timepoint": "R+194",
+          "value": 73
+        }
+      ]
+    },
+    {
+      "id": "C004",
+      "samples": [
+        {
+          "timepoint": "L-92",
+          "value": 100
+        },
+        {
+          "timepoint": "L-44",
+          "value": 83
+        },
+        {
+          "timepoint": "L-3",
+          "value": 56
+        },
+        {
+          "timepoint": "R+1",
+          "value": 97
+        },
+        {
+          "timepoint": "R+45",
+          "value": 43
+        },
+        {
+          "timepoint": "R+82",
+          "value": 80
+        },
+        {
+          "timepoint": "R+194",
+          "value": 84
+        }
+      ]
+    }
+  ]
+}

@@ -32,7 +32,7 @@ export function ScenarioBar({
   return (
     <section
       aria-label="Scenario player"
-      className="rounded-xl border border-slate-700 bg-slate-900/70 p-4"
+      className="scenario-panel"
     >
       <div className="flex flex-wrap items-center gap-3">
         <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-300">
@@ -93,6 +93,7 @@ export function ScenarioBar({
         </button>
       </div>
       <p className="mt-2 text-sm text-slate-300">{scenario.blurb}</p>
+      <p className="scenario-warning">The scenario event follows Alex; the cabin is shared. Changing scenarios clears all profiles’ check-ins and decisions and resets supplies and equipment. Medication and workout history stay. Reset demo clears local records; shared server messages and notices remain.</p>
     </section>
   );
 }

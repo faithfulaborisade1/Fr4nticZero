@@ -129,9 +129,9 @@ export const REGIONS: RegionMeta[] = [
     side: "right",
     depth: "shallow",
     explanation:
-      "Without gravity bones lose about 1 to 1.5% mineral per month and muscles shrink unless crew exercise every day.",
-    measuredInSpace: "Exercise log against plan, estimated bone loss.",
-    needsEarth: "Bone density scans.",
+      "Reduced loading in microgravity can weaken bones and muscles. Exercise is one countermeasure, but does not eliminate all loss.",
+    measuredInSpace: "Exercise and strength checks, depending on mission equipment. Workouts logged here are self-reported.",
+    needsEarth: "Bone density imaging before and after flight.",
   },
 ];
 
@@ -143,7 +143,6 @@ export function getRegionMeta(id: RegionId): RegionMeta {
 export const STATIC_READINGS = {
   ear: { status: "ok", headline: "Balance check: steady", detail: "Weekly check, 2 days ago" },
   immune: { status: "ok", headline: "Cortisol: in range", detail: "Viral flag: none" },
-  bones: { status: "watch", headline: "Exercise 1 of 2 sessions", detail: "Bone loss estimate: low" },
 } as const;
 
 /** Simulated dose accumulated before the 30 days in the history. */

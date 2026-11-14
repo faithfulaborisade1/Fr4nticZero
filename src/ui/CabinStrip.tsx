@@ -35,7 +35,7 @@ export function CabinStrip({
         </h2>
         <SimulatedBadge />
       </div>
-      <div className="mt-3 grid grid-cols-2 gap-3 md:grid-cols-4">
+      <div className="cabin-grid mt-3 grid grid-cols-2 gap-3 md:grid-cols-4">
         {tiles.map((t) => {
           const s = STATUS_STYLE[t.status];
           return (

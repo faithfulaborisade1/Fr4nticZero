@@ -10,28 +10,10 @@ import { missionTimeLabel, type ClockState } from "../state/clock";
 import { missingItem, minutesToday, stepKey, type Supplies } from "../state/supplies";
 import { DemoBadge, StatusBadge } from "./Badge";
 
-const VERDICT_STYLE: Record<
-  Verdict,
-  { word: string; icon: string; box: string; text: string }
-> = {
-  crew_decides: {
-    word: "Crew decides now",
-    icon: "🧑‍🚀",
-    box: "border-orange-400 bg-orange-500/15",
-    text: "text-orange-200",
-  },
-  consult_earth: {
-    word: "Consult Earth, hold meanwhile",
-    icon: "📡",
-    box: "border-sky-400 bg-sky-500/15",
-    text: "text-sky-200",
-  },
-  monitor: {
-    word: "Monitor",
-    icon: "👁",
-    box: "border-slate-400 bg-slate-500/15",
-    text: "text-slate-200",
-  },
+const VERDICT_STYLE: Record<Verdict, { word: string; label: string }> = {
+  crew_decides: { word: "Crew decides now", label: "CREW ACTION" },
+  consult_earth: { word: "Consult Earth, hold meanwhile", label: "GROUND CONSULTATION" },
+  monitor: { word: "Monitor", label: "MONITORING" },
 };
 
 export function formatRemaining(min: number): string {
@@ -48,6 +30,7 @@ function fmt(n: number): string {
 
 interface Props {
   entry: CardEntry;
+  buddyName?: string;
   clock: ClockState;
   nowISO: string;
   day: number;
@@ -65,6 +48,7 @@ interface Props {
 
 export function DecisionCardView({
   entry,
+  buddyName,
   clock,
   nowISO,
   day,
@@ -91,7 +75,7 @@ export function DecisionCardView({
     ? (new Date(card.deadlineISO).getTime() - new Date(nowISO).getTime()) / 60_000
     : null;
   const crewMinutes = rule.holdingSteps.reduce((a, s) => a + s.crewMinutes, 0);
-  const alert = escalation(card);
+  const alert = escalation(card, buddyName);
 
   let why: string;
   if (card.verdict === "monitor") {
@@ -115,119 +99,42 @@ export function DecisionCardView({
         : ["Noted, I will re-check"];
 
   return (
-    <article
-      aria-label={`Decision card: ${rule.indicator}`}
-      className={`rounded-xl border-2 p-4 ${v.box}`}
-    >
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <h3 className={`text-xl font-bold ${v.text}`}>
-          <span aria-hidden="true" className="mr-2">
-            {v.icon}
-          </span>
-          {v.word}
-        </h3>
-        <div className="flex flex-wrap items-center gap-2">
-          <StatusBadge status={card.status} />
-          <span className="rounded border border-slate-500 px-1.5 py-0.5 text-xs capitalize">
-            Hazard: {rule.hazard}
-          </span>
+    <article aria-label={`Decision card: ${rule.indicator}`} className={`decision-case verdict-${card.verdict}`}>
+      <div className="case-topline"><span><span className="case-pulse" /> ACTIVE READING</span><div><StatusBadge status={card.status} /><span className="case-hazard">{rule.hazard} hazard</span></div></div>
+      <div className="case-layout">
+        <div className="case-main">
+          <div className="case-reading"><span className="case-kicker">FLAGGED INDICATOR</span><h3>{indicatorLabel(rule.indicator)}</h3><div className="case-reading-values"><strong>{fmt(card.value)}</strong><span>Your baseline <b>{fmt(baseline.mean)} ± {fmt(baseline.sd)}</b></span></div><p>{rule.explanation}</p></div>
+          {failed && <p role="alert" className="case-device-warning">⚠ <strong>{failed.name} has failed</strong>, so this reading may be out of date. Fallback: {failed.fallback}</p>}
+          <div className="case-verdict"><div className="verdict-symbol" aria-hidden="true">{card.verdict === "crew_decides" ? "!" : card.verdict === "consult_earth" ? "↗" : "◉"}</div><div><span className="case-kicker">{v.label}</span><h4>{v.word}</h4><p>{why}</p></div></div>
         </div>
+        <aside className="case-timing" aria-label="Decision timing">
+          <span className="case-kicker">{remaining !== null ? "ACTION WINDOW" : "NEXT CHECK"}</span>
+          {remaining !== null ? <><div className="case-clock">{formatRemaining(remaining)}</div><p>remaining · mission clock</p><div className="case-timing-rule" /><div className="timing-pair"><span>Window closes</span><strong>{missionTimeLabel(clock, card.deadlineISO!)}</strong></div></> : <><div className="case-recheck">{card.recheckISO ? missionTimeLabel(clock, card.recheckISO) : "Monitor"}</div><p>Re-check time · mission clock</p></>}
+          {window !== null && <><div className="timing-pair"><span>Earth reply</span><strong>{blackout ? "Blackout" : `~${fmt(reply)} min`}</strong></div><div className="timing-pair"><span>Action window</span><strong>{window} min</strong></div><div className="case-timing-badge"><DemoBadge label="Demo action window" /></div></>}
+        </aside>
       </div>
-
-      <p className="mt-2 text-sm">
-        <strong>{indicatorLabel(rule.indicator)}</strong> {fmt(card.value)} · your baseline{" "}
-        {fmt(baseline.mean)} ± {fmt(baseline.sd)}
-      </p>
-      <p className="mt-1 text-sm text-slate-200">{rule.explanation}</p>
-
-      {failed && (
-        <p role="alert" className="mt-2 rounded-lg border border-red-400/80 bg-red-400/10 p-2 text-sm">
-          ⚠ <strong>{failed.name} has failed</strong>, so this reading may be out of date.
-          Fallback: {failed.fallback}
-        </p>
-      )}
-
-      <div className="mt-3 rounded-lg bg-slate-950/50 p-3 text-sm">
-        <div className="font-semibold">{why}</div>
-        <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-slate-300">
-          <span>
-            Earth reply ≈ {fmt(reply)} min
-            {window !== null && <> vs window {window} min</>}
-          </span>
-          {window !== null && <DemoBadge label="Demo action window" />}
-        </div>
-        {remaining !== null && (
-          <div className="mt-2 text-base">
-            Window closes in <strong>{formatRemaining(remaining)}</strong>{" "}
-            <span className="text-xs text-slate-400">
-              (by {missionTimeLabel(clock, card.deadlineISO!)}, mission clock)
-            </span>
-          </div>
-        )}
-        {card.recheckISO && (
-          <div className="mt-2">
-            Re-check at <strong>{missionTimeLabel(clock, card.recheckISO)}</strong>
-          </div>
-        )}
-      </div>
-
-      <p className="mt-3 flex flex-wrap items-center gap-2 text-sm">
-        <span aria-hidden="true">{alert.icon}</span>
-        <strong>{alert.word}:</strong> {alert.text} <DemoBadge label="Demo rule" />
-      </p>
-
-      <div className="mt-3">
-        <h4 className="text-sm font-semibold">Do this now</h4>
-        <ol className="mt-1 space-y-2 text-sm">
-          {rule.holdingSteps.map((s, i) => {
+      <div className="case-alert"><span className="case-alert-icon" aria-hidden="true">◎</span><div><strong>{alert.word}</strong><p>{alert.text}</p></div><DemoBadge label="Demo rule" /><a href="#alerts" className="case-notice-link">Write shared crew notice →</a></div>
+      <div className="case-lower">
+        <section className="case-steps" aria-label="Holding steps">
+          <div className="case-section-heading"><div><span className="case-kicker">HOLDING STEPS</span><h4>Do this now</h4></div><span className="step-estimate">~{crewMinutes} min total</span></div>
+          <ol className="step-list">{rule.holdingSteps.map((s, i) => {
             const key = stepKey(card.id, i);
             const done = !!supplies.done[key];
             const missing = missingItem(supplies, s);
             const stepDevice = s.device ? getDevice(s.device) : undefined;
             const deviceDown = !!s.device && isDown(devices, s.device);
-            return (
-              <li key={s.text} className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                <span>
-                  {i + 1}. {s.text}{" "}
-                  <span className="text-slate-400">
-                    ({s.crewMinutes} min
-                    {s.uses?.map((u) => `, uses ${u.qty} × ${kitName(u.item)}`).join("")})
-                  </span>
-                </span>
-                {done ? (
-                  <span className="text-emerald-300" role="status">
-                    ✓ Done
-                  </span>
-                ) : deviceDown ? (
-                  <span className="text-red-300">
-                    ⚠ {stepDevice?.name} is down. Fallback: {stepDevice?.fallback}
-                  </span>
-                ) : missing ? (
-                  <span className="text-red-300">⚠ Out of {kitName(missing)}</span>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => onTakeStep(i, s)}
-                    className="min-h-11 rounded-lg border border-slate-400 px-3 text-sm hover:bg-white hover:text-slate-900"
-                  >
-                    Mark done
-                  </button>
-                )}
-              </li>
-            );
-          })}
-        </ol>
-        <div className="mt-1 text-xs text-slate-400">
-          Crew time: about {crewMinutes} min · {minutesToday(supplies, day)} min taken today
-        </div>
-      </div>
-
+            return <li key={s.text} className="step-row"><span className={`step-number ${done ? "step-complete" : ""}`} aria-hidden="true">{done ? "✓" : String(i + 1).padStart(2, "0")}</span><div className="step-copy"><strong>{s.text}</strong><small>{s.crewMinutes} min{s.uses?.map((u) => ` · ${u.qty} × ${kitName(u.item)}`).join("")}</small>{deviceDown && !done && <span className="step-warning">⚠ {stepDevice?.name} is down. Fallback: {stepDevice?.fallback}</span>}{!deviceDown && missing && !done && <span className="step-warning">⚠ Out of {kitName(missing)}</span>}</div>{done ? <span className="step-done" role="status">Done</span> : !deviceDown && !missing ? <button type="button" onClick={() => onTakeStep(i, s)} className="step-button">Mark done</button> : null}</li>;
+          })}</ol>
+          <p className="case-footnote">{minutesToday(supplies, day)} min of health steps taken today</p>
+        </section>
+        <section className="case-record" aria-label="Log a decision">
+          <span className="case-kicker">DECISION LOG</span><h4>Record your choice</h4><p>Log your choice for simulated flight-surgeon review. Nothing is transmitted.</p>
+          <div className="case-choice-list">{choice ? <p className="choice-logged" role="status">✓ Logged: <strong>{choice}</strong></p> : choices.map((c, i) => <button key={c} type="button" onClick={() => onChoose(c)} className={i === 0 ? "choice-primary" : "choice-secondary"}>{c}<span aria-hidden="true">→</span></button>)}</div>
       {!choice && (
-        <div className="mt-3 rounded-lg border border-slate-600 bg-slate-950/40 p-3 text-sm">
-          <h4 className="font-semibold">Attach an image (optional)</h4>
+        <details className="decision-disclosure">
+          <summary className="decision-disclosure-summary">Attach an image (optional)</summary>
           <p className="mt-1 text-xs text-slate-300">
-            A photo or scan travels to Earth with your logged choice, after the same delay. It is
-            kept on this device and is <strong>not analysed here</strong>. Earth reviews it.
+            In this demo, a photo or scan is made available in the simulated flight-surgeon view after the same delay. It is kept on this device and is <strong>not uploaded or analysed</strong>.
           </p>
           {ultrasoundDown && (
             <p className="mt-1 text-xs text-red-300">
@@ -300,59 +207,11 @@ export function DecisionCardView({
               ))}
             </ul>
           )}
-        </div>
+        </details>
       )}
-
-      <div className="mt-3 flex flex-wrap items-center gap-2">
-        {choice ? (
-          <p className="text-sm" role="status">
-            ✓ Logged: <strong>{choice}</strong>
-          </p>
-        ) : (
-          choices.map((c) => (
-            <button
-              key={c}
-              type="button"
-              onClick={() => onChoose(c)}
-              className="min-h-11 rounded-lg border border-white/70 px-4 text-sm font-medium hover:bg-white hover:text-slate-900"
-            >
-              {c}
-            </button>
-          ))
-        )}
-      </div>
-
-      <details className="mt-3 text-sm">
-        <summary className="cursor-pointer font-semibold">How this is measured</summary>
-        <dl className="mt-2 grid gap-2 sm:grid-cols-2">
-          <div>
-            <dt className="text-slate-300">On board</dt>
-            <dd>{rule.measuredInSpace}</dd>
-          </div>
-          <div>
-            <dt className="text-slate-300">Needs Earth</dt>
-            <dd>{rule.needsEarth}</dd>
-          </div>
-        </dl>
-      </details>
-
-      <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-slate-400">
-        <span>Threshold:</span>
-        {rule.source === "DEMO" ? (
-          <DemoBadge />
-        ) : (
-          <a className="underline" href={rule.source.url} target="_blank" rel="noreferrer">
-            {rule.source.title}
-          </a>
-        )}
-        <span>Window:</span>
-        {rule.windowSource === "DEMO" ? (
-          <DemoBadge />
-        ) : (
-          <a className="underline" href={rule.windowSource.url} target="_blank" rel="noreferrer">
-            {rule.windowSource.title}
-          </a>
-        )}
+          <details className="decision-disclosure"><summary className="decision-disclosure-summary">How this is measured</summary><dl className="measurement-list"><div><dt>On board</dt><dd>{rule.measuredInSpace}</dd></div><div><dt>Needs Earth</dt><dd>{rule.needsEarth}</dd></div></dl></details>
+          <div className="case-sources"><span>Threshold:</span>{rule.source === "DEMO" ? <DemoBadge /> : <a href={rule.source.url} target="_blank" rel="noreferrer">{rule.source.title}</a>}<span>Window:</span>{rule.windowSource === "DEMO" ? <DemoBadge /> : <a href={rule.windowSource.url} target="_blank" rel="noreferrer">{rule.windowSource.title}</a>}</div>
+        </section>
       </div>
     </article>
   );

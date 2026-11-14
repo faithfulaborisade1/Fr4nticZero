@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
+import { useEffect, useState } from "react";
 import { regionInHazard, type HazardFilter } from "../data/hazards";
 import { getRegionMeta, type RegionId } from "../data/regions";
-import type { Status } from "../engine/types";
 import type { RegionSummary } from "../state/regions";
 import { STATUS_STYLE } from "./status";
 
 interface Props {
+  model: "male" | "female";
   summaries: Record<RegionId, RegionSummary>;
   selected: RegionId | null;
   highlighted: RegionId | null;
@@ -13,201 +13,35 @@ interface Props {
   onSelect: (id: RegionId) => void;
 }
 
-type Box = [number, number, number, number];
-const FULL: Box = [0, 0, 240, 480];
+// Positions are relative to the full figure. The adjacent body-system list offers
+// a second, labelled way to select every region, including radiation.
+const POINTS: { id: RegionId; x: number; y: number }[] = [
+  { id: "head", x: 50, y: 4 },
+  { id: "eyes", x: 62, y: 10 },
+  { id: "ear", x: 38, y: 10 },
+  { id: "heart", x: 57, y: 25 },
+  { id: "immune", x: 43, y: 30 },
+  { id: "stomach", x: 51, y: 40 },
+  { id: "skin", x: 72, y: 45 },
+  { id: "bones", x: 46, y: 69 },
+  { id: "radiation", x: 70, y: 19 },
+];
 
-// Zoom targets as centre x, centre y and width. Height is twice the width so the
-// figure keeps its 1:2 shape and the layout does not jump.
-const ZOOM: Partial<Record<RegionId, [number, number, number]>> = {
-  head: [120, 62, 130],
-  eyes: [120, 62, 100],
-  ear: [76, 66, 100],
-  heart: [130, 150, 120],
-  immune: [100, 150, 110],
-  stomach: [120, 206, 110],
-  skin: [120, 180, 170],
-  bones: [120, 330, 150],
-};
-
-const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
-
-function boxFor(id: RegionId | null): Box {
-  const z = id ? ZOOM[id] : undefined;
-  if (!z) return FULL;
-  const [cx, cy, w] = z;
-  const h = w * 2;
-  return [clamp(cx - w / 2, 0, 240 - w), clamp(cy - h / 2, 0, 480 - h), w, h];
-}
-
-/** Original flat astronaut figure. Each clickable shape is a body region. Selecting one zooms in. */
-export function BodyScan({ summaries, selected, highlighted, filter, onSelect }: Props) {
-  const outline = STATUS_STYLE[summaries.radiation.status].hex;
-
+export function BodyScan({ model, summaries, selected, highlighted, filter, onSelect }: Props) {
   const [zoomedOut, setZoomedOut] = useState(false);
-  const [vb, setVb] = useState<Box>(FULL);
-  const vbRef = useRef<Box>(FULL);
-
-  // Choosing a different region zooms in again.
   useEffect(() => setZoomedOut(false), [selected]);
-
-  const zoomable = !!selected && !!ZOOM[selected];
-  const zoomed = zoomable && !zoomedOut;
-
-  useEffect(() => {
-    const target = zoomed ? boxFor(selected) : FULL;
-    const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) {
-      vbRef.current = target;
-      setVb(target);
-      return;
-    }
-    const from = vbRef.current;
-    const t0 = performance.now();
-    let raf = 0;
-    const step = (t: number) => {
-      const k = Math.min(1, (t - t0) / 350);
-      const e = 1 - (1 - k) ** 3;
-      const next = from.map((f, i) => f + (target[i] - f) * e) as Box;
-      vbRef.current = next;
-      setVb(next);
-      if (k < 1) raf = requestAnimationFrame(step);
-    };
-    raf = requestAnimationFrame(step);
-    // If frames are throttled (background tab), still land on the final view.
-    const settle = setTimeout(() => {
-      vbRef.current = target;
-      setVb(target);
-    }, 450);
-    return () => {
-      cancelAnimationFrame(raf);
-      clearTimeout(settle);
-    };
-  }, [zoomed, selected]);
-
-  function region(id: RegionId, shape: (p: ShapeProps) => ReactNode) {
-    const status: Status = summaries[id].status;
-    const hex = STATUS_STYLE[status].hex;
-    const active = selected === id || highlighted === id;
-    const inFilter = regionInHazard(id, filter);
-    const label = `${getRegionMeta(id).label}: ${STATUS_STYLE[status].word}. ${summaries[id].headline}`;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        onSelect(id);
-      }
-    };
-    return (
-      <g
-        role="button"
-        tabIndex={0}
-        aria-label={label}
-        onClick={() => onSelect(id)}
-        onKeyDown={onKey}
-        className="cursor-pointer outline-none focus-visible:[&>*]:stroke-white"
-        style={{ opacity: inFilter ? 1 : 0.2, transition: "opacity 200ms" }}
-      >
-        {shape({
-          fill: hex,
-          fillOpacity: active ? 0.85 : 0.45,
-          stroke: active ? "#ffffff" : hex,
-          strokeWidth: active ? 3 : 1.5,
-        })}
-      </g>
-    );
-  }
-
-  return (
-    <div className="mx-auto w-full max-w-[300px]">
-    <svg
-      viewBox={vb.map((n) => n.toFixed(2)).join(" ")}
-      className="h-auto w-full"
-      role="group"
-      aria-label="Astronaut body scan. Whole-figure outline shows radiation dose status."
-    >
-      {/* Backpack */}
-      <rect x="86" y="118" width="68" height="120" rx="14" fill="#1e293b" stroke={outline} strokeWidth="3" />
-      {/* Arms */}
-      <rect x="36" y="128" width="30" height="112" rx="15" fill="#334155" stroke={outline} strokeWidth="3" />
-      <rect x="174" y="128" width="30" height="112" rx="15" fill="#334155" stroke={outline} strokeWidth="3" />
-      {/* Hands */}
-      <circle cx="51" cy="248" r="11" fill="#475569" stroke={outline} strokeWidth="3" />
-      <circle cx="189" cy="248" r="11" fill="#475569" stroke={outline} strokeWidth="3" />
-      {/* Boots */}
-      <rect x="72" y="418" width="48" height="26" rx="10" fill="#475569" stroke={outline} strokeWidth="3" />
-      <rect x="120" y="418" width="48" height="26" rx="10" fill="#475569" stroke={outline} strokeWidth="3" />
-
-      {/* Legs: bones and muscles */}
-      {region("bones", (p) => (
-        <>
-          <rect x="74" y="236" width="44" height="186" rx="20" {...p} />
-          <rect x="122" y="236" width="44" height="186" rx="20" {...p} />
-        </>
-      ))}
-
-      {/* Torso: skin / core */}
-      {region("skin", (p) => (
-        <rect x="64" y="112" width="112" height="140" rx="30" {...p} />
-      ))}
-
-      {/* Head (mind): helmet shell */}
-      {region("head", (p) => (
-        <circle cx="120" cy="62" r="50" {...p} />
-      ))}
-      {/* Inner ear: side of helmet */}
-      {region("ear", (p) => (
-        <ellipse cx="76" cy="66" rx="9" ry="14" {...p} />
-      ))}
-      {/* Eyes: visor */}
-      {region("eyes", (p) => (
-        <rect x="92" y="48" width="64" height="30" rx="14" {...p} />
-      ))}
-
-      {/* Heart */}
-      {region("heart", (p) => (
-        <circle cx="140" cy="152" r="17" {...p} />
-      ))}
-      {/* Immune (blood) */}
-      {region("immune", (p) => (
-        <path d="M100 138 C 90 154, 86 162, 100 172 C 114 162, 110 154, 100 138 Z" {...p} />
-      ))}
-      {/* Stomach */}
-      {region("stomach", (p) => (
-        <ellipse cx="120" cy="206" rx="28" ry="22" {...p} />
-      ))}
-
-      {/* Region labels inside the figure for quick reading */}
-      <g
-        fontSize="9"
-        fill="#e8ecf5"
-        stroke="#0b1020"
-        strokeWidth="2.5"
-        paintOrder="stroke"
-        strokeLinejoin="round"
-        textAnchor="middle"
-        pointerEvents="none"
-      >
-        <text x="120" y="66">Eyes</text>
-        <text x="120" y="209">Stomach</text>
-      </g>
-    </svg>
-    {zoomable && (
-      <div className="mt-1 text-center">
-        <button
-          type="button"
-          onClick={() => setZoomedOut((z) => !z)}
-          className="min-h-11 rounded-lg border border-slate-600 px-3 text-sm hover:bg-slate-800"
-        >
-          {zoomedOut ? "Zoom in on " + getRegionMeta(selected!).label : "Show whole body"}
-        </button>
-      </div>
-    )}
+  const focus = POINTS.find((point) => point.id === selected);
+  const zoomed = !!focus && !zoomedOut;
+  return <div className="body-model" aria-label="Interactive body scan">
+    <div className={`body-model-inner ${zoomed ? "is-zoomed" : ""}`} style={{ transformOrigin: focus ? `${focus.x}% ${focus.y}%` : "center" }}>
+    <img className="body-model-image" src={model === "male" ? "/body-model.png" : "/body-model-female.png"} alt={`Illustrative front view of a ${model} human body`} />
+    {POINTS.map(({ id, x, y }) => {
+      const status = summaries[id].status;
+      const active = selected === id || highlighted === id;
+      return <button key={id} type="button" className={`body-point body-point-${summaries[id].statusAvailable === false ? "unassessed" : status} ${active ? "is-active" : ""}`} style={{ left: `${x}%`, top: `${y}%`, opacity: regionInHazard(id, filter) ? 1 : 0.25 }} aria-label={`${getRegionMeta(id).label}: ${summaries[id].statusAvailable === false ? "Not assessed" : STATUS_STYLE[status].word}. ${summaries[id].headline}`} aria-pressed={selected === id} onClick={() => onSelect(id)}><span /></button>;
+    })}
     </div>
-  );
-}
-
-interface ShapeProps {
-  fill: string;
-  fillOpacity: number;
-  stroke: string;
-  strokeWidth: number;
+    <span className="body-model-disclosure">AI-GENERATED ILLUSTRATION</span>
+    {selected && <button type="button" className="zoom-control" onClick={() => setZoomedOut((value) => !value)}>{zoomedOut ? `Zoom in on ${getRegionMeta(selected).label}` : "Show whole body"}</button>}
+  </div>;
 }

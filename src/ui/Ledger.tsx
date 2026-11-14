@@ -22,8 +22,8 @@ const VERDICT_WORD: Record<Verdict, string> = {
 
 const ALERT_WORD = {
   self: "🙋 Self top-up",
-  buddy: "🤝 Buddy alerted",
-  all: "📣 All crew alerted",
+  buddy: "🤝 Buddy alert tier (simulated)",
+  all: "📣 All-crew alert tier (simulated)",
 } as const;
 
 const ENV_LABEL = { station: "Station", moon: "Moon surface", mars: "Mars transit" } as const;

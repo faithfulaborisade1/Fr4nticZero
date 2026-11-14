@@ -26,6 +26,9 @@ import { NutritionLog } from "./NutritionLog";
 import { RadiationGauge } from "./RadiationGauge";
 import { STATUS_STYLE } from "./status";
 import { TrendChart, type RefLine } from "./TrendChart";
+import { BonesAndMuscles } from "./BonesAndMuscles";
+import type { WorkoutEntry } from "../state/crew";
+import type { ClockState } from "../state/clock";
 
 const FORMS: Partial<
   Record<
@@ -93,6 +96,11 @@ interface Props {
   onDismissNudge: (id: string) => void;
   onCheckIn: (values: CheckInValue[]) => void;
   onEat: (id: string) => void;
+  crewName: string;
+  workouts: WorkoutEntry[];
+  clock: ClockState;
+  onAddWorkout: (activity: string, minutes: number) => void;
+  onRemoveWorkout: (id: string) => void;
 }
 
 export function RegionDetail({
@@ -106,6 +114,11 @@ export function RegionDetail({
   onDismissNudge,
   onCheckIn,
   onEat,
+  crewName,
+  workouts,
+  clock,
+  onAddWorkout,
+  onRemoveWorkout,
 }: Props) {
   const meta = getRegionMeta(regionId);
   const indicators = REGION_INDICATORS[regionId] ?? [];
@@ -130,19 +143,20 @@ export function RegionDetail({
   return (
     <section
       aria-label={`${meta.label} details`}
-      className="rounded-xl border border-slate-700 bg-slate-900/70 p-4"
+      className="region-detail rounded-xl border border-slate-700 bg-slate-900/70 p-4"
     >
       <div className="flex flex-wrap items-center gap-2">
         <h2 className="text-lg font-semibold">
           {meta.icon} {meta.label}
         </h2>
-        <StatusBadge status={summary.status} />
+        {summary.statusAvailable === false ? <span className="bones-unassessed">Not assessed</span> : <StatusBadge status={summary.status} />}
         <span className="rounded border border-slate-500 px-1.5 py-0.5 text-xs capitalize">
           Hazard: {REGION_HAZARDS[regionId].join(", ")}
         </span>
         <SimulatedBadge />
       </div>
       <p className="mt-2 text-sm">{meta.explanation}</p>
+      {regionId === "bones" && <BonesAndMuscles key={crewName} name={crewName} workouts={workouts} clock={clock} onAdd={onAddWorkout} onRemove={onRemoveWorkout} />}
 
       {summary.note && (
         <p className="mt-2 rounded-lg border border-amber-400/60 bg-amber-400/10 p-2 text-sm">
@@ -317,9 +331,9 @@ export function RegionDetail({
             <dd>{meta.needsEarth}</dd>
           </div>
         </dl>
-        <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-slate-400">
+        {regionId !== "bones" && <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-slate-400">
           Thresholds: <DemoBadge />
-        </div>
+        </div>}
       </div>
     </section>
   );

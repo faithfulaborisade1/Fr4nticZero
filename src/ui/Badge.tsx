@@ -23,7 +23,7 @@ export function DemoBadge({ label = "Demo parameter" }: { label?: string }) {
 
 export function SimulatedBadge() {
   return (
-    <span className="rounded border border-sky-500/60 px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-sky-300">
+    <span className="rounded border border-emerald-500/60 px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-emerald-300">
       Simulated
     </span>
   );

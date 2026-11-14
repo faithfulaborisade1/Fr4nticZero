@@ -18,8 +18,9 @@ Also bump the "Last updated" line and add a row to the changelog (section 11). N
 
 ## Honesty rules
 
-- Footer and README: "Prototype, not a medical device. All crew data is simulated."
+- Footer and README must say this is a prototype, not a medical device; distinguish simulated mission data from the separate historical NASA research data.
 - Every unsourced threshold and action window shows a "Demo parameter" badge.
+- NASA research results remain historical and separate from the simulated decision path; do not represent them as live data or as validation of the decision engine.
 - Decision-support wording only. No diagnosis, treatment or prediction language. No drug doses or calorie targets. The one exception is the trend projection: it must say "projection", show its basis (last 7 readings, straight line) and carry the Demo badge. Do not add a trained ML model without real data to validate it.
 - Images attached to a decision are never analysed and never uploaded. Keep only the small preview, in local storage.
 - Cross-links between hazards are labelled "under investigation".

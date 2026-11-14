@@ -1,0 +1,5044 @@
+{
+  "sources": {
+    "metabolic": "5eb1e7f025dd8443a9e70111e62bc32afae3432753024489c5c013e401d709d9",
+    "blood": "32e4f9c97d3b636b5d5c2e72dab8c4d3319dee64c437508b092dad04603b2b8f",
+    "immune": "efa8fb807e3b7e363df47f64f48d03c57d2397daf8fd22afc0ea4335d5d3d53e",
+    "cardiovascular": "fdba6c3ce45401c12ca9b699fa375303793959aa0391e2f3c722f354d9cfc75c",
+    "temperature": "f3add507d62943d40e219ae9ea39a183c7ee58bb08196e76c6f9a6a26bf24477",
+    "humidity": "7e5e0056d73150aae0a07fd61b0dd747a36a9618ca5a9189a154274348887d78",
+    "co2": "aa924c3e36a85ce7b38e963e12b9472573d56272fe35016aa621d231b273788a"
+  },
+  "metrics": [
+    {
+      "id": "glucose",
+      "label": "Glucose",
+      "unit": "mg/dL",
+      "source": "metabolic",
+      "participants": [
+        {
+          "id": "C001",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 83.0
+            },
+            {
+              "timepoint": "L-44",
+              "value": 80.0
+            },
+            {
+              "timepoint": "L-3",
+              "value": 69.0
+            },
+            {
+              "timepoint": "R+1",
+              "value": 90.0
+            },
+            {
+              "timepoint": "R+45",
+              "value": 84.0
+            },
+            {
+              "timepoint": "R+82",
+              "value": 91.0
+            },
+            {
+              "timepoint": "R+194",
+              "value": 87.0
+            }
+          ]
+        },
+        {
+          "id": "C002",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 69.0
+            },
+            {
+              "timepoint": "L-44",
+              "value": 72.0
+            },
+            {
+              "timepoint": "L-3",
+              "value": 78.0
+            },
+            {
+              "timepoint": "R+1",
+              "value": 83.0
+            },
+            {
+              "timepoint": "R+45",
+              "value": 44.0
+            },
+            {
+              "timepoint": "R+82",
+              "value": 77.0
+            },
+            {
+              "timepoint": "R+194",
+              "value": 84.0
+            }
+          ]
+        },
+        {
+          "id": "C003",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 77.0
+            },
+            {
+              "timepoint": "L-44",
+              "value": 62.0
+            },
+            {
+              "timepoint": "L-3",
+              "value": 75.0
+            },
+            {
+              "timepoint": "R+1",
+              "value": 103.0
+            },
+            {
+              "timepoint": "R+45",
+              "value": 36.0
+            },
+            {
+              "timepoint": "R+82",
+              "value": 80.0
+            },
+            {
+              "timepoint": "R+194",
+              "value": 73.0
+            }
+          ]
+        },
+        {
+          "id": "C004",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 100.0
+            },
+            {
+              "timepoint": "L-44",
+              "value": 83.0
+            },
+            {
+              "timepoint": "L-3",
+              "value": 56.0
+            },
+            {
+              "timepoint": "R+1",
+              "value": 97.0
+            },
+            {
+              "timepoint": "R+45",
+              "value": 43.0
+            },
+            {
+              "timepoint": "R+82",
+              "value": 80.0
+            },
+            {
+              "timepoint": "R+194",
+              "value": 84.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sodium",
+      "label": "Sodium",
+      "unit": "mmol/L",
+      "source": "metabolic",
+      "participants": [
+        {
+          "id": "C001",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 141.0
+            },
+            {
+              "timepoint": "L-44",
+              "value": 139.0
+            },
+            {
+              "timepoint": "L-3",
+              "value": 142.0
+            },
+            {
+              "timepoint": "R+1",
+              "value": 138.0
+            },
+            {
+              "timepoint": "R+45",
+              "value": 138.0
+            },
+            {
+              "timepoint": "R+82",
+              "value": 140.0
+            },
+            {
+              "timepoint": "R+194",
+              "value": 137.0
+            }
+          ]
+        },
+        {
+          "id": "C002",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 142.0
+            },
+            {
+              "timepoint": "L-44",
+              "value": 141.0
+            },
+            {
+              "timepoint": "L-3",
+              "value": 143.0
+            },
+            {
+              "timepoint": "R+1",
+              "value": 137.0
+            },
+            {
+              "timepoint": "R+45",
+              "value": 140.0
+            },
+            {
+              "timepoint": "R+82",
+              "value": 141.0
+            },
+            {
+              "timepoint": "R+194",
+              "value": 138.0
+            }
+          ]
+        },
+        {
+          "id": "C003",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 139.0
+            },
+            {
+              "timepoint": "L-44",
+              "value": 139.0
+            },
+            {
+              "timepoint": "L-3",
+              "value": 138.0
+            },
+            {
+              "timepoint": "R+1",
+              "value": 137.0
+            },
+            {
+              "timepoint": "R+45",
+              "value": 136.0
+            },
+            {
+              "timepoint": "R+82",
+              "value": 138.0
+            },
+            {
+              "timepoint": "R+194",
+              "value": 137.0
+            }
+          ]
+        },
+        {
+          "id": "C004",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 138.0
+            },
+            {
+              "timepoint": "L-44",
+              "value": 140.0
+            },
+            {
+              "timepoint": "L-3",
+              "value": 141.0
+            },
+            {
+              "timepoint": "R+1",
+              "value": 140.0
+            },
+            {
+              "timepoint": "R+45",
+              "value": 139.0
+            },
+            {
+              "timepoint": "R+82",
+              "value": 140.0
+            },
+            {
+              "timepoint": "R+194",
+              "value": 141.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "potassium",
+      "label": "Potassium",
+      "unit": "mmol/L",
+      "source": "metabolic",
+      "participants": [
+        {
+          "id": "C001",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 4.6
+            },
+            {
+              "timepoint": "L-44",
+              "value": 4.2
+            },
+            {
+              "timepoint": "L-3",
+              "value": 3.9
+            },
+            {
+              "timepoint": "R+1",
+              "value": 4.4
+            },
+            {
+              "timepoint": "R+45",
+              "value": 4.0
+            },
+            {
+              "timepoint": "R+82",
+              "value": 4.3
+            },
+            {
+              "timepoint": "R+194",
+              "value": 4.3
+            }
+          ]
+        },
+        {
+          "id": "C002",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 3.9
+            },
+            {
+              "timepoint": "L-44",
+              "value": 4.0
+            },
+            {
+              "timepoint": "L-3",
+              "value": 3.8
+            },
+            {
+              "timepoint": "R+1",
+              "value": 3.5
+            },
+            {
+              "timepoint": "R+45",
+              "value": 4.1
+            },
+            {
+              "timepoint": "R+82",
+              "value": 3.7
+            },
+            {
+              "timepoint": "R+194",
+              "value": 4.4
+            }
+          ]
+        },
+        {
+          "id": "C003",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 3.7
+            },
+            {
+              "timepoint": "L-44",
+              "value": 3.5
+            },
+            {
+              "timepoint": "L-3",
+              "value": 3.3
+            },
+            {
+              "timepoint": "R+1",
+              "value": 3.0
+            },
+            {
+              "timepoint": "R+45",
+              "value": 4.4
+            },
+            {
+              "timepoint": "R+82",
+              "value": 3.7
+            },
+            {
+              "timepoint": "R+194",
+              "value": 3.8
+            }
+          ]
+        },
+        {
+          "id": "C004",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 4.2
+            },
+            {
+              "timepoint": "L-44",
+              "value": 4.2
+            },
+            {
+              "timepoint": "L-3",
+              "value": 3.7
+            },
+            {
+              "timepoint": "R+1",
+              "value": 4.0
+            },
+            {
+              "timepoint": "R+45",
+              "value": 5.9
+            },
+            {
+              "timepoint": "R+82",
+              "value": 4.2
+            },
+            {
+              "timepoint": "R+194",
+              "value": 3.8
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "calcium",
+      "label": "Calcium",
+      "unit": "mg/dL",
+      "source": "metabolic",
+      "participants": [
+        {
+          "id": "C001",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 9.7
+            },
+            {
+              "timepoint": "L-44",
+              "value": 10.0
+            },
+            {
+              "timepoint": "L-3",
+              "value": 9.6
+            },
+            {
+              "timepoint": "R+1",
+              "value": 9.7
+            },
+            {
+              "timepoint": "R+45",
+              "value": 9.6
+            },
+            {
+              "timepoint": "R+82",
+              "value": 10.1
+            },
+            {
+              "timepoint": "R+194",
+              "value": 9.4
+            }
+          ]
+        },
+        {
+          "id": "C002",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 10.2
+            },
+            {
+              "timepoint": "L-44",
+              "value": 9.7
+            },
+            {
+              "timepoint": "L-3",
+              "value": 9.3
+            },
+            {
+              "timepoint": "R+1",
+              "value": 9.2
+            },
+            {
+              "timepoint": "R+45",
+              "value": 9.3
+            },
+            {
+              "timepoint": "R+82",
+              "value": 9.7
+            },
+            {
+              "timepoint": "R+194",
+              "value": 9.5
+            }
+          ]
+        },
+        {
+          "id": "C003",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 9.3
+            },
+            {
+              "timepoint": "L-44",
+              "value": 10.3
+            },
+            {
+              "timepoint": "L-3",
+              "value": 9.5
+            },
+            {
+              "timepoint": "R+1",
+              "value": 9.4
+            },
+            {
+              "timepoint": "R+45",
+              "value": 9.6
+            },
+            {
+              "timepoint": "R+82",
+              "value": 10.0
+            },
+            {
+              "timepoint": "R+194",
+              "value": 9.6
+            }
+          ]
+        },
+        {
+          "id": "C004",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 10.0
+            },
+            {
+              "timepoint": "L-44",
+              "value": 10.1
+            },
+            {
+              "timepoint": "L-3",
+              "value": 10.2
+            },
+            {
+              "timepoint": "R+1",
+              "value": 9.8
+            },
+            {
+              "timepoint": "R+45",
+              "value": 9.8
+            },
+            {
+              "timepoint": "R+82",
+              "value": 10.0
+            },
+            {
+              "timepoint": "R+194",
+              "value": 9.8
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wbc",
+      "label": "White blood cell count",
+      "unit": "thousand/µL",
+      "source": "blood",
+      "participants": [
+        {
+          "id": "C001",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 5.4
+            },
+            {
+              "timepoint": "L-44",
+              "value": 5.5
+            },
+            {
+              "timepoint": "L-3",
+              "value": 7.0
+            },
+            {
+              "timepoint": "R+1",
+              "value": 5.0
+            },
+            {
+              "timepoint": "R+45",
+              "value": 4.9
+            },
+            {
+              "timepoint": "R+82",
+              "value": 4.9
+            },
+            {
+              "timepoint": "R+194",
+              "value": 4.9
+            }
+          ]
+        },
+        {
+          "id": "C002",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 6.5
+            },
+            {
+              "timepoint": "L-44",
+              "value": 5.4
+            },
+            {
+              "timepoint": "L-3",
+              "value": 7.2
+            },
+            {
+              "timepoint": "R+1",
+              "value": 5.5
+            },
+            {
+              "timepoint": "R+45",
+              "value": 6.4
+            },
+            {
+              "timepoint": "R+82",
+              "value": 5.3
+            },
+            {
+              "timepoint": "R+194",
+              "value": 6.4
+            }
+          ]
+        },
+        {
+          "id": "C003",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 9.6
+            },
+            {
+              "timepoint": "L-44",
+              "value": 9.3
+            },
+            {
+              "timepoint": "L-3",
+              "value": 9.8
+            },
+            {
+              "timepoint": "R+1",
+              "value": 7.0
+            },
+            {
+              "timepoint": "R+45",
+              "value": 7.8
+            },
+            {
+              "timepoint": "R+82",
+              "value": 8.8
+            },
+            {
+              "timepoint": "R+194",
+              "value": 7.4
+            }
+          ]
+        },
+        {
+          "id": "C004",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 7.7
+            },
+            {
+              "timepoint": "L-44",
+              "value": 6.4
+            },
+            {
+              "timepoint": "L-3",
+              "value": 10.6
+            },
+            {
+              "timepoint": "R+1",
+              "value": 8.1
+            },
+            {
+              "timepoint": "R+45",
+              "value": 6.8
+            },
+            {
+              "timepoint": "R+82",
+              "value": 7.9
+            },
+            {
+              "timepoint": "R+194",
+              "value": 8.3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rbc",
+      "label": "Red blood cell count",
+      "unit": "million/µL",
+      "source": "blood",
+      "participants": [
+        {
+          "id": "C001",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 4.58
+            },
+            {
+              "timepoint": "L-44",
+              "value": 4.85
+            },
+            {
+              "timepoint": "L-3",
+              "value": 4.69
+            },
+            {
+              "timepoint": "R+1",
+              "value": 4.84
+            },
+            {
+              "timepoint": "R+45",
+              "value": 4.63
+            },
+            {
+              "timepoint": "R+82",
+              "value": 5.02
+            },
+            {
+              "timepoint": "R+194",
+              "value": 4.66
+            }
+          ]
+        },
+        {
+          "id": "C002",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 4.36
+            },
+            {
+              "timepoint": "L-44",
+              "value": 3.93
+            },
+            {
+              "timepoint": "L-3",
+              "value": 3.72
+            },
+            {
+              "timepoint": "R+1",
+              "value": 4.02
+            },
+            {
+              "timepoint": "R+45",
+              "value": 4.02
+            },
+            {
+              "timepoint": "R+82",
+              "value": 3.84
+            },
+            {
+              "timepoint": "R+194",
+              "value": 4.11
+            }
+          ]
+        },
+        {
+          "id": "C003",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 4.46
+            },
+            {
+              "timepoint": "L-44",
+              "value": 4.62
+            },
+            {
+              "timepoint": "L-3",
+              "value": 4.5
+            },
+            {
+              "timepoint": "R+1",
+              "value": 4.67
+            },
+            {
+              "timepoint": "R+45",
+              "value": 5.09
+            },
+            {
+              "timepoint": "R+82",
+              "value": 4.89
+            },
+            {
+              "timepoint": "R+194",
+              "value": 4.64
+            }
+          ]
+        },
+        {
+          "id": "C004",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 5.48
+            },
+            {
+              "timepoint": "L-44",
+              "value": 5.57
+            },
+            {
+              "timepoint": "L-3",
+              "value": 5.4
+            },
+            {
+              "timepoint": "R+1",
+              "value": 5.55
+            },
+            {
+              "timepoint": "R+45",
+              "value": 5.54
+            },
+            {
+              "timepoint": "R+82",
+              "value": 5.45
+            },
+            {
+              "timepoint": "R+194",
+              "value": 5.58
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "platelets",
+      "label": "Platelet count",
+      "unit": "thousand/µL",
+      "source": "blood",
+      "participants": [
+        {
+          "id": "C001",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 241.0
+            },
+            {
+              "timepoint": "L-44",
+              "value": 237.0
+            },
+            {
+              "timepoint": "L-3",
+              "value": 258.0
+            },
+            {
+              "timepoint": "R+1",
+              "value": 227.0
+            },
+            {
+              "timepoint": "R+45",
+              "value": 228.0
+            },
+            {
+              "timepoint": "R+82",
+              "value": 257.0
+            },
+            {
+              "timepoint": "R+194",
+              "value": 214.0
+            }
+          ]
+        },
+        {
+          "id": "C002",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 241.0
+            },
+            {
+              "timepoint": "L-44",
+              "value": 229.0
+            },
+            {
+              "timepoint": "L-3",
+              "value": 241.0
+            },
+            {
+              "timepoint": "R+1",
+              "value": 252.0
+            },
+            {
+              "timepoint": "R+45",
+              "value": 252.0
+            },
+            {
+              "timepoint": "R+82",
+              "value": 245.0
+            },
+            {
+              "timepoint": "R+194",
+              "value": 243.0
+            }
+          ]
+        },
+        {
+          "id": "C003",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 12.9
+            },
+            {
+              "timepoint": "L-44",
+              "value": 345.0
+            },
+            {
+              "timepoint": "L-3",
+              "value": 367.0
+            },
+            {
+              "timepoint": "R+1",
+              "value": 359.0
+            },
+            {
+              "timepoint": "R+45",
+              "value": 396.0
+            },
+            {
+              "timepoint": "R+82",
+              "value": 345.0
+            },
+            {
+              "timepoint": "R+194",
+              "value": 185.0
+            }
+          ]
+        },
+        {
+          "id": "C004",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 239.0
+            },
+            {
+              "timepoint": "L-44",
+              "value": 227.0
+            },
+            {
+              "timepoint": "L-3",
+              "value": 295.0
+            },
+            {
+              "timepoint": "R+1",
+              "value": 240.0
+            },
+            {
+              "timepoint": "R+45",
+              "value": 281.0
+            },
+            {
+              "timepoint": "R+82",
+              "value": 198.0
+            },
+            {
+              "timepoint": "R+194",
+              "value": 256.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lymphocytes",
+      "label": "Absolute lymphocytes",
+      "unit": "cells/µL",
+      "source": "blood",
+      "participants": [
+        {
+          "id": "C001",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 2241.0
+            },
+            {
+              "timepoint": "L-44",
+              "value": 1859.0
+            },
+            {
+              "timepoint": "L-3",
+              "value": 2667.0
+            },
+            {
+              "timepoint": "R+1",
+              "value": 1640.0
+            },
+            {
+              "timepoint": "R+45",
+              "value": 2146.0
+            },
+            {
+              "timepoint": "R+82",
+              "value": 2171.0
+            },
+            {
+              "timepoint": "R+194",
+              "value": 1847.0
+            }
+          ]
+        },
+        {
+          "id": "C002",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 2119.0
+            },
+            {
+              "timepoint": "L-44",
+              "value": 1982.0
+            },
+            {
+              "timepoint": "L-3",
+              "value": 2873.0
+            },
+            {
+              "timepoint": "R+1",
+              "value": 1540.0
+            },
+            {
+              "timepoint": "R+45",
+              "value": 2874.0
+            },
+            {
+              "timepoint": "R+82",
+              "value": 1701.0
+            },
+            {
+              "timepoint": "R+194",
+              "value": 2573.0
+            }
+          ]
+        },
+        {
+          "id": "C003",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 6826.0
+            },
+            {
+              "timepoint": "L-44",
+              "value": 2083.0
+            },
+            {
+              "timepoint": "L-3",
+              "value": 3156.0
+            },
+            {
+              "timepoint": "R+1",
+              "value": 2086.0
+            },
+            {
+              "timepoint": "R+45",
+              "value": 2379.0
+            },
+            {
+              "timepoint": "R+82",
+              "value": 3247.0
+            },
+            {
+              "timepoint": "R+194",
+              "value": 2220.0
+            }
+          ]
+        },
+        {
+          "id": "C004",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 1786.0
+            },
+            {
+              "timepoint": "L-44",
+              "value": 1613.0
+            },
+            {
+              "timepoint": "L-3",
+              "value": 2947.0
+            },
+            {
+              "timepoint": "R+1",
+              "value": 2155.0
+            },
+            {
+              "timepoint": "R+45",
+              "value": 1938.0
+            },
+            {
+              "timepoint": "R+82",
+              "value": 2307.0
+            },
+            {
+              "timepoint": "R+194",
+              "value": 2639.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "il6",
+      "label": "Interleukin-6 (IL-6)",
+      "unit": "pg/mL",
+      "source": "immune",
+      "participants": [
+        {
+          "id": "C001",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 2.87
+            },
+            {
+              "timepoint": "L-44",
+              "value": 2.58
+            },
+            {
+              "timepoint": "L-3",
+              "value": 5.94
+            },
+            {
+              "timepoint": "R+1",
+              "value": 6.86
+            },
+            {
+              "timepoint": "R+45",
+              "value": 1.65
+            },
+            {
+              "timepoint": "R+82",
+              "value": 1.04
+            },
+            {
+              "timepoint": "R+194",
+              "value": 4.26
+            }
+          ]
+        },
+        {
+          "id": "C002",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 4.49
+            },
+            {
+              "timepoint": "L-44",
+              "value": 4.19
+            },
+            {
+              "timepoint": "L-3",
+              "value": 4.53
+            },
+            {
+              "timepoint": "R+1",
+              "value": 5.76
+            },
+            {
+              "timepoint": "R+45",
+              "value": 12.07
+            },
+            {
+              "timepoint": "R+82",
+              "value": 5.11
+            },
+            {
+              "timepoint": "R+194",
+              "value": 0.75
+            }
+          ]
+        },
+        {
+          "id": "C003",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 2.67
+            },
+            {
+              "timepoint": "L-44",
+              "value": 2.69
+            },
+            {
+              "timepoint": "L-3",
+              "value": 2.51
+            },
+            {
+              "timepoint": "R+1",
+              "value": 7.6
+            },
+            {
+              "timepoint": "R+45",
+              "value": 1.32
+            },
+            {
+              "timepoint": "R+82",
+              "value": 3.64
+            },
+            {
+              "timepoint": "R+194",
+              "value": 5.78
+            }
+          ]
+        },
+        {
+          "id": "C004",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 4.9
+            },
+            {
+              "timepoint": "L-44",
+              "value": 3.09
+            },
+            {
+              "timepoint": "L-3",
+              "value": 3.97
+            },
+            {
+              "timepoint": "R+1",
+              "value": 6.34
+            },
+            {
+              "timepoint": "R+45",
+              "value": 3.59
+            },
+            {
+              "timepoint": "R+82",
+              "value": 6.02
+            },
+            {
+              "timepoint": "R+194",
+              "value": 4.11
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "il10",
+      "label": "Interleukin-10 (IL-10)",
+      "unit": "pg/mL",
+      "source": "immune",
+      "participants": [
+        {
+          "id": "C001",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 6.64
+            },
+            {
+              "timepoint": "L-44",
+              "value": 3.44
+            },
+            {
+              "timepoint": "L-3",
+              "value": 7.07
+            },
+            {
+              "timepoint": "R+1",
+              "value": 11.25
+            },
+            {
+              "timepoint": "R+45",
+              "value": 4.2
+            },
+            {
+              "timepoint": "R+82",
+              "value": 8.91
+            },
+            {
+              "timepoint": "R+194",
+              "value": 7.41
+            }
+          ]
+        },
+        {
+          "id": "C002",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 12.04
+            },
+            {
+              "timepoint": "L-44",
+              "value": 5.51
+            },
+            {
+              "timepoint": "L-3",
+              "value": 11.33
+            },
+            {
+              "timepoint": "R+1",
+              "value": 12.86
+            },
+            {
+              "timepoint": "R+45",
+              "value": 11.21
+            },
+            {
+              "timepoint": "R+82",
+              "value": 13.5
+            },
+            {
+              "timepoint": "R+194",
+              "value": 8.18
+            }
+          ]
+        },
+        {
+          "id": "C003",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 11.25
+            },
+            {
+              "timepoint": "L-44",
+              "value": 12.29
+            },
+            {
+              "timepoint": "L-3",
+              "value": 10.61
+            },
+            {
+              "timepoint": "R+1",
+              "value": 15.33
+            },
+            {
+              "timepoint": "R+45",
+              "value": 10.31
+            },
+            {
+              "timepoint": "R+82",
+              "value": 8.83
+            },
+            {
+              "timepoint": "R+194",
+              "value": 12.45
+            }
+          ]
+        },
+        {
+          "id": "C004",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 15.48
+            },
+            {
+              "timepoint": "L-44",
+              "value": 4.36
+            },
+            {
+              "timepoint": "L-3",
+              "value": 12.27
+            },
+            {
+              "timepoint": "R+1",
+              "value": 16.37
+            },
+            {
+              "timepoint": "R+45",
+              "value": 12.75
+            },
+            {
+              "timepoint": "R+82",
+              "value": 9.86
+            },
+            {
+              "timepoint": "R+194",
+              "value": 21.74
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "crp",
+      "label": "C-reactive protein (CRP)",
+      "unit": "pg/mL",
+      "source": "cardiovascular",
+      "participants": [
+        {
+          "id": "C001",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 18385000.0
+            },
+            {
+              "timepoint": "L-44",
+              "value": 2191000.0
+            },
+            {
+              "timepoint": "L-3",
+              "value": 5131700.0
+            },
+            {
+              "timepoint": "R+1",
+              "value": 10637600.0
+            },
+            {
+              "timepoint": "R+45",
+              "value": 6713900.0
+            },
+            {
+              "timepoint": "R+82",
+              "value": 25030000.0
+            },
+            {
+              "timepoint": "R+194",
+              "value": 15415000.0
+            }
+          ]
+        },
+        {
+          "id": "C002",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 8927100.0
+            },
+            {
+              "timepoint": "L-44",
+              "value": 1568500.0
+            },
+            {
+              "timepoint": "L-3",
+              "value": 11967000.0
+            },
+            {
+              "timepoint": "R+1",
+              "value": 9311500.0
+            },
+            {
+              "timepoint": "R+45",
+              "value": 3677200.0
+            },
+            {
+              "timepoint": "R+82",
+              "value": 8633700.0
+            },
+            {
+              "timepoint": "R+194",
+              "value": 21462000.0
+            }
+          ]
+        },
+        {
+          "id": "C003",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 75749000.0
+            },
+            {
+              "timepoint": "L-44",
+              "value": 9383100.0
+            },
+            {
+              "timepoint": "L-3",
+              "value": 42838000.0
+            },
+            {
+              "timepoint": "R+1",
+              "value": 83617000.0
+            },
+            {
+              "timepoint": "R+45",
+              "value": 39190000.0
+            },
+            {
+              "timepoint": "R+82",
+              "value": 12680000.0
+            },
+            {
+              "timepoint": "R+194",
+              "value": 9379400.0
+            }
+          ]
+        },
+        {
+          "id": "C004",
+          "samples": [
+            {
+              "timepoint": "L-92",
+              "value": 21378000.0
+            },
+            {
+              "timepoint": "L-44",
+              "value": 1289600.0
+            },
+            {
+              "timepoint": "L-3",
+              "value": 13742000.0
+            },
+            {
+              "timepoint": "R+1",
+              "value": 17701000.0
+            },
+            {
+              "timepoint": "R+45",
+              "value": 22407000.0
+            },
+            {
+              "timepoint": "R+82",
+              "value": 7902300.0
+            },
+            {
+              "timepoint": "R+194",
+              "value": 46006000.0
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "telemetry": [
+    {
+      "id": "temperature",
+      "label": "Temperature",
+      "unit": "°C",
+      "points": [
+        {
+          "time": "2014-09-25T00:00:00Z",
+          "value": 23.2
+        },
+        {
+          "time": "2014-09-25T00:05:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T00:10:00Z",
+          "value": 23.2
+        },
+        {
+          "time": "2014-09-25T00:15:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T00:20:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T00:25:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T00:30:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T00:35:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T00:40:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T00:45:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T00:50:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T00:55:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T01:00:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T01:05:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T01:10:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T01:15:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T01:20:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T01:25:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T01:30:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T01:35:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T01:40:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T01:45:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T01:50:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T01:55:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T02:00:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T02:05:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T02:10:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T02:15:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T02:20:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T02:25:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T02:30:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T02:35:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T02:40:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T02:45:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T02:50:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T02:55:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T03:00:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T03:05:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T03:10:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T03:15:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T03:20:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T03:25:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T03:30:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T03:35:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T03:40:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T03:45:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T03:50:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T03:55:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T04:00:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T04:05:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T04:10:00Z",
+          "value": 23.2
+        },
+        {
+          "time": "2014-09-25T04:15:00Z",
+          "value": 23.3
+        },
+        {
+          "time": "2014-09-25T04:20:00Z",
+          "value": 23.3
+        },
+        {
+          "time": "2014-09-25T04:25:00Z",
+          "value": 23.3
+        },
+        {
+          "time": "2014-09-25T04:30:00Z",
+          "value": 23.3
+        },
+        {
+          "time": "2014-09-25T04:35:00Z",
+          "value": 23.3
+        },
+        {
+          "time": "2014-09-25T04:40:00Z",
+          "value": 23.4
+        },
+        {
+          "time": "2014-09-25T04:45:00Z",
+          "value": 23.5
+        },
+        {
+          "time": "2014-09-25T04:50:00Z",
+          "value": 23.5
+        },
+        {
+          "time": "2014-09-25T04:55:00Z",
+          "value": 23.6
+        },
+        {
+          "time": "2014-09-25T05:00:00Z",
+          "value": 23.7
+        },
+        {
+          "time": "2014-09-25T05:05:00Z",
+          "value": 23.7
+        },
+        {
+          "time": "2014-09-25T05:10:00Z",
+          "value": 23.8
+        },
+        {
+          "time": "2014-09-25T05:15:00Z",
+          "value": 23.8
+        },
+        {
+          "time": "2014-09-25T05:20:00Z",
+          "value": 23.9
+        },
+        {
+          "time": "2014-09-25T05:25:00Z",
+          "value": 23.9
+        },
+        {
+          "time": "2014-09-25T05:30:00Z",
+          "value": 23.9
+        },
+        {
+          "time": "2014-09-25T05:35:00Z",
+          "value": 23.8
+        },
+        {
+          "time": "2014-09-25T05:40:00Z",
+          "value": 23.8
+        },
+        {
+          "time": "2014-09-25T05:45:00Z",
+          "value": 23.8
+        },
+        {
+          "time": "2014-09-25T05:50:00Z",
+          "value": 23.7
+        },
+        {
+          "time": "2014-09-25T05:55:00Z",
+          "value": 23.7
+        },
+        {
+          "time": "2014-09-25T06:00:00Z",
+          "value": 23.6
+        },
+        {
+          "time": "2014-09-25T06:05:00Z",
+          "value": 23.6
+        },
+        {
+          "time": "2014-09-25T06:10:00Z",
+          "value": 23.5
+        },
+        {
+          "time": "2014-09-25T06:15:00Z",
+          "value": 23.5
+        },
+        {
+          "time": "2014-09-25T06:20:00Z",
+          "value": 23.5
+        },
+        {
+          "time": "2014-09-25T06:25:00Z",
+          "value": 23.5
+        },
+        {
+          "time": "2014-09-25T06:30:00Z",
+          "value": 23.5
+        },
+        {
+          "time": "2014-09-25T06:35:00Z",
+          "value": 23.5
+        },
+        {
+          "time": "2014-09-25T06:40:00Z",
+          "value": 23.6
+        },
+        {
+          "time": "2014-09-25T06:45:00Z",
+          "value": 23.6
+        },
+        {
+          "time": "2014-09-25T06:50:00Z",
+          "value": 23.6
+        },
+        {
+          "time": "2014-09-25T06:55:00Z",
+          "value": 23.6
+        },
+        {
+          "time": "2014-09-25T07:00:00Z",
+          "value": 23.6
+        },
+        {
+          "time": "2014-09-25T07:05:00Z",
+          "value": 23.5
+        },
+        {
+          "time": "2014-09-25T07:10:00Z",
+          "value": 23.5
+        },
+        {
+          "time": "2014-09-25T07:15:00Z",
+          "value": 23.4
+        },
+        {
+          "time": "2014-09-25T07:20:00Z",
+          "value": 23.4
+        },
+        {
+          "time": "2014-09-25T07:25:00Z",
+          "value": 23.4
+        },
+        {
+          "time": "2014-09-25T07:30:00Z",
+          "value": 23.3
+        },
+        {
+          "time": "2014-09-25T07:35:00Z",
+          "value": 23.3
+        },
+        {
+          "time": "2014-09-25T07:40:00Z",
+          "value": 23.2
+        },
+        {
+          "time": "2014-09-25T07:45:00Z",
+          "value": 23.2
+        },
+        {
+          "time": "2014-09-25T07:50:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T07:55:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T08:00:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T08:05:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T08:10:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T08:15:00Z",
+          "value": 23.2
+        },
+        {
+          "time": "2014-09-25T08:20:00Z",
+          "value": 23.2
+        },
+        {
+          "time": "2014-09-25T08:25:00Z",
+          "value": 23.2
+        },
+        {
+          "time": "2014-09-25T08:30:00Z",
+          "value": 23.2
+        },
+        {
+          "time": "2014-09-25T08:35:00Z",
+          "value": 23.2
+        },
+        {
+          "time": "2014-09-25T08:40:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T08:45:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T08:50:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T08:55:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T09:00:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T09:05:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T09:10:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T09:15:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T09:20:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T09:25:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T09:30:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T09:35:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T09:40:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T09:45:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T09:50:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T09:55:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T10:00:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T10:05:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T10:10:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T10:15:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T10:20:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T10:25:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T10:30:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T10:35:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T10:40:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T10:45:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T10:50:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T10:55:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T11:00:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T11:05:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T11:10:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T11:15:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T11:20:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T11:25:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T11:30:00Z",
+          "value": 23.2
+        },
+        {
+          "time": "2014-09-25T11:35:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T11:40:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T11:45:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T11:50:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T11:55:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T12:00:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T12:05:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T12:10:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T12:15:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T12:20:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T12:25:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T12:30:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T12:35:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T12:40:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T12:45:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T12:50:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T12:55:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T13:00:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T13:05:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T13:10:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T13:15:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T13:20:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T13:25:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T13:30:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T13:35:00Z",
+          "value": 23.1
+        },
+        {
+          "time": "2014-09-25T13:40:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T13:45:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T13:50:00Z",
+          "value": 22.9
+        },
+        {
+          "time": "2014-09-25T13:55:00Z",
+          "value": 22.9
+        },
+        {
+          "time": "2014-09-25T14:00:00Z",
+          "value": 22.9
+        },
+        {
+          "time": "2014-09-25T14:05:00Z",
+          "value": 22.9
+        },
+        {
+          "time": "2014-09-25T14:10:00Z",
+          "value": 22.9
+        },
+        {
+          "time": "2014-09-25T14:15:00Z",
+          "value": 22.9
+        },
+        {
+          "time": "2014-09-25T14:20:00Z",
+          "value": 22.9
+        },
+        {
+          "time": "2014-09-25T14:25:00Z",
+          "value": 22.9
+        },
+        {
+          "time": "2014-09-25T14:30:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T14:35:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T14:40:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T14:45:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T14:50:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T14:55:00Z",
+          "value": 23.0
+        },
+        {
+          "time": "2014-09-25T15:00:00Z",
+          "value": 22.9
+        },
+        {
+          "time": "2014-09-25T15:05:00Z",
+          "value": 22.9
+        },
+        {
+          "time": "2014-09-25T15:10:00Z",
+          "value": 22.8
+        },
+        {
+          "time": "2014-09-25T15:15:00Z",
+          "value": 22.8
+        },
+        {
+          "time": "2014-09-25T15:20:00Z",
+          "value": 22.8
+        },
+        {
+          "time": "2014-09-25T15:25:00Z",
+          "value": 22.7
+        },
+        {
+          "time": "2014-09-25T15:30:00Z",
+          "value": 22.7
+        },
+        {
+          "time": "2014-09-25T15:35:00Z",
+          "value": 22.6
+        },
+        {
+          "time": "2014-09-25T15:40:00Z",
+          "value": 22.6
+        },
+        {
+          "time": "2014-09-25T15:45:00Z",
+          "value": 22.7
+        },
+        {
+          "time": "2014-09-25T15:50:00Z",
+          "value": 22.7
+        },
+        {
+          "time": "2014-09-25T15:55:00Z",
+          "value": 22.7
+        },
+        {
+          "time": "2014-09-25T16:00:00Z",
+          "value": 22.7
+        },
+        {
+          "time": "2014-09-25T16:05:00Z",
+          "value": 22.8
+        },
+        {
+          "time": "2014-09-25T16:10:00Z",
+          "value": 22.9
+        },
+        {
+          "time": "2014-09-25T16:15:00Z",
+          "value": 22.9
+        },
+        {
+          "time": "2014-09-25T16:20:00Z",
+          "value": 22.9
+        },
+        {
+          "time": "2014-09-25T16:25:00Z",
+          "value": 22.9
+        },
+        {
+          "time": "2014-09-25T16:30:00Z",
+          "value": 22.9
+        },
+        {
+          "time": "2014-09-25T16:35:00Z",
+          "value": 22.8
+        },
+        {
+          "time": "2014-09-25T16:40:00Z",
+          "value": 22.8
+        },
+        {
+          "time": "2014-09-25T16:45:00Z",
+          "value": 22.8
+        },
+        {
+          "time": "2014-09-25T16:50:00Z",
+          "value": 22.7
+        },
+        {
+          "time": "2014-09-25T16:55:00Z",
+          "value": 22.7
+        },
+        {
+          "time": "2014-09-25T17:00:00Z",
+          "value": 22.7
+        },
+        {
+          "time": "2014-09-25T17:05:00Z",
+          "value": 22.6
+        },
+        {
+          "time": "2014-09-25T17:10:00Z",
+          "value": 22.6
+        },
+        {
+          "time": "2014-09-25T17:15:00Z",
+          "value": 22.6
+        },
+        {
+          "time": "2014-09-25T17:20:00Z",
+          "value": 22.6
+        },
+        {
+          "time": "2014-09-25T17:25:00Z",
+          "value": 22.6
+        },
+        {
+          "time": "2014-09-25T17:30:00Z",
+          "value": 22.6
+        },
+        {
+          "time": "2014-09-25T17:35:00Z",
+          "value": 22.7
+        },
+        {
+          "time": "2014-09-25T17:40:00Z",
+          "value": 22.7
+        },
+        {
+          "time": "2014-09-25T17:45:00Z",
+          "value": 22.8
+        },
+        {
+          "time": "2014-09-25T17:50:00Z",
+          "value": 22.8
+        },
+        {
+          "time": "2014-09-25T17:55:00Z",
+          "value": 22.8
+        },
+        {
+          "time": "2014-09-25T18:00:00Z",
+          "value": 22.8
+        },
+        {
+          "time": "2014-09-25T18:05:00Z",
+          "value": 22.8
+        },
+        {
+          "time": "2014-09-25T18:10:00Z",
+          "value": 22.7
+        },
+        {
+          "time": "2014-09-25T18:15:00Z",
+          "value": 22.7
+        },
+        {
+          "time": "2014-09-25T18:20:00Z",
+          "value": 22.7
+        },
+        {
+          "time": "2014-09-25T18:25:00Z",
+          "value": 22.7
+        },
+        {
+          "time": "2014-09-25T18:30:00Z",
+          "value": 22.7
+        },
+        {
+          "time": "2014-09-25T18:35:00Z",
+          "value": 22.7
+        },
+        {
+          "time": "2014-09-25T18:40:00Z",
+          "value": 22.7
+        },
+        {
+          "time": "2014-09-25T18:45:00Z",
+          "value": 22.7
+        },
+        {
+          "time": "2014-09-25T18:50:00Z",
+          "value": 22.7
+        },
+        {
+          "time": "2014-09-25T18:55:00Z",
+          "value": 22.7
+        },
+        {
+          "time": "2014-09-25T19:00:00Z",
+          "value": 22.8
+        },
+        {
+          "time": "2014-09-25T19:05:00Z",
+          "value": 22.8
+        },
+        {
+          "time": "2014-09-25T19:10:00Z",
+          "value": 22.8
+        },
+        {
+          "time": "2014-09-25T19:15:00Z",
+          "value": 22.8
+        },
+        {
+          "time": "2014-09-25T19:20:00Z",
+          "value": 22.9
+        },
+        {
+          "time": "2014-09-25T19:25:00Z",
+          "value": 22.9
+        },
+        {
+          "time": "2014-09-25T19:30:00Z",
+          "value": 22.9
+        },
+        {
+          "time": "2014-09-25T19:35:00Z",
+          "value": 22.9
+        },
+        {
+          "time": "2014-09-25T19:40:00Z",
+          "value": 22.9
+        },
+        {
+          "time": "2014-09-25T19:45:00Z",
+          "value": 22.9
+        },
+        {
+          "time": "2014-09-25T19:50:00Z",
+          "value": 22.9
+        },
+        {
+          "time": "2014-09-25T19:55:00Z",
+          "value": 22.9
+        },
+        {
+          "time": "2014-09-25T20:00:00Z",
+          "value": 22.9
+        },
+        {
+          "time": "2014-09-25T20:05:00Z",
+          "value": 22.9
+        },
+        {
+          "time": "2014-09-25T20:10:00Z",
+          "value": 22.9
+        },
+        {
+          "time": "2014-09-25T20:15:00Z",
+          "value": 22.8
+        },
+        {
+          "time": "2014-09-25T20:20:00Z",
+          "value": 22.8
+        },
+        {
+          "time": "2014-09-25T20:25:00Z",
+          "value": 22.8
+        },
+        {
+          "time": "2014-09-25T20:30:00Z",
+          "value": 22.9
+        },
+        {
+          "time": "2014-09-25T20:35:00Z",
+          "value": 22.9
+        },
+        {
+          "time": "2014-09-25T20:40:00Z",
+          "value": 22.9
+        },
+        {
+          "time": "2014-09-25T20:45:00Z",
+          "value": 22.9
+        },
+        {
+          "time": "2014-09-25T20:50:00Z",
+          "value": 22.9
+        },
+        {
+          "time": "2014-09-25T20:55:00Z",
+          "value": 22.9
+        },
+        {
+          "time": "2014-09-25T21:00:00Z",
+          "value": 22.9
+        },
+        {
+          "time": "2014-09-25T21:05:00Z",
+          "value": 22.9
+        },
+        {
+          "time": "2014-09-25T21:10:00Z",
+          "value": 22.8
+        },
+        {
+          "time": "2014-09-25T21:15:00Z",
+          "value": 22.8
+        },
+        {
+          "time": "2014-09-25T21:20:00Z",
+          "value": 22.7
+        },
+        {
+          "time": "2014-09-25T21:25:00Z",
+          "value": 22.7
+        },
+        {
+          "time": "2014-09-25T21:30:00Z",
+          "value": 22.7
+        },
+        {
+          "time": "2014-09-25T21:35:00Z",
+          "value": 22.7
+        },
+        {
+          "time": "2014-09-25T21:40:00Z",
+          "value": 22.7
+        },
+        {
+          "time": "2014-09-25T21:45:00Z",
+          "value": 22.7
+        },
+        {
+          "time": "2014-09-25T21:50:00Z",
+          "value": 22.7
+        },
+        {
+          "time": "2014-09-25T21:55:00Z",
+          "value": 22.8
+        },
+        {
+          "time": "2014-09-25T22:00:00Z",
+          "value": 22.8
+        },
+        {
+          "time": "2014-09-25T22:05:00Z",
+          "value": 22.8
+        },
+        {
+          "time": "2014-09-25T22:10:00Z",
+          "value": 22.8
+        },
+        {
+          "time": "2014-09-25T22:15:00Z",
+          "value": 22.8
+        },
+        {
+          "time": "2014-09-25T22:20:00Z",
+          "value": 22.8
+        },
+        {
+          "time": "2014-09-25T22:25:00Z",
+          "value": 22.8
+        },
+        {
+          "time": "2014-09-25T22:30:00Z",
+          "value": 22.8
+        },
+        {
+          "time": "2014-09-25T22:35:00Z",
+          "value": 22.8
+        },
+        {
+          "time": "2014-09-25T22:40:00Z",
+          "value": 22.8
+        },
+        {
+          "time": "2014-09-25T22:45:00Z",
+          "value": 22.7
+        },
+        {
+          "time": "2014-09-25T22:50:00Z",
+          "value": 22.6
+        },
+        {
+          "time": "2014-09-25T22:55:00Z",
+          "value": 22.6
+        },
+        {
+          "time": "2014-09-25T23:00:00Z",
+          "value": 22.6
+        },
+        {
+          "time": "2014-09-25T23:05:00Z",
+          "value": 22.5
+        },
+        {
+          "time": "2014-09-25T23:10:00Z",
+          "value": 22.5
+        },
+        {
+          "time": "2014-09-25T23:15:00Z",
+          "value": 22.5
+        },
+        {
+          "time": "2014-09-25T23:20:00Z",
+          "value": 22.5
+        },
+        {
+          "time": "2014-09-25T23:25:00Z",
+          "value": 22.6
+        },
+        {
+          "time": "2014-09-25T23:30:00Z",
+          "value": 22.6
+        },
+        {
+          "time": "2014-09-25T23:35:00Z",
+          "value": 22.6
+        },
+        {
+          "time": "2014-09-25T23:40:00Z",
+          "value": 22.7
+        },
+        {
+          "time": "2014-09-25T23:45:00Z",
+          "value": 22.7
+        },
+        {
+          "time": "2014-09-25T23:50:00Z",
+          "value": 22.7
+        },
+        {
+          "time": "2014-09-25T23:55:00Z",
+          "value": 22.7
+        },
+        {
+          "time": "2014-09-26T00:00:00Z",
+          "value": 22.7
+        }
+      ]
+    },
+    {
+      "id": "humidity",
+      "label": "Relative humidity",
+      "unit": "%",
+      "points": [
+        {
+          "time": "2014-09-25T00:00:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T00:05:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T00:10:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T00:15:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T00:20:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T00:25:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T00:30:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T00:35:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T00:40:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T00:45:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T00:50:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T00:55:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T01:00:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T01:05:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T01:10:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T01:15:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T01:20:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T01:25:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T01:30:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T01:35:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T01:40:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T01:45:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T01:50:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T01:55:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T02:00:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T02:05:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T02:10:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T02:15:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T02:20:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T02:25:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T02:30:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T02:35:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T02:40:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T02:45:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T02:50:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T02:55:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T03:00:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T03:05:00Z",
+          "value": 34.0
+        },
+        {
+          "time": "2014-09-25T03:10:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T03:15:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T03:20:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T03:25:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T03:30:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T03:35:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T03:40:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T03:45:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T03:50:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T03:55:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T04:00:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T04:05:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T04:10:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T04:15:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T04:20:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T04:25:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T04:30:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T04:35:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T04:40:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T04:45:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T04:50:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T04:55:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T05:00:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T05:05:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T05:10:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T05:15:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T05:20:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T05:25:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T05:30:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T05:35:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T05:40:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T05:45:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T05:50:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T05:55:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T06:00:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T06:05:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T06:10:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T06:15:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T06:20:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T06:25:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T06:30:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T06:35:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T06:40:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T06:45:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T06:50:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T06:55:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T07:00:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T07:05:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T07:10:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T07:15:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T07:20:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T07:25:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T07:30:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T07:35:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T07:40:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T07:45:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T07:50:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T07:55:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T08:00:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T08:05:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T08:10:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T08:15:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T08:20:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T08:25:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T08:30:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T08:35:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T08:40:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T08:45:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T08:50:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T08:55:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T09:00:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T09:05:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T09:10:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T09:15:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T09:20:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T09:25:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T09:30:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T09:35:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T09:40:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T09:45:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T09:50:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T09:55:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T10:00:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T10:05:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T10:10:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T10:15:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T10:20:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T10:25:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T10:30:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T10:35:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T10:40:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T10:45:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T10:50:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T10:55:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T11:00:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T11:05:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T11:10:00Z",
+          "value": 33.0
+        },
+        {
+          "time": "2014-09-25T11:15:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T11:20:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T11:25:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T11:30:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T11:35:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T11:40:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T11:45:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T11:50:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T11:55:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T12:00:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T12:05:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T12:10:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T12:15:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T12:20:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T12:25:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T12:30:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T12:35:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T12:40:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T12:45:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T12:50:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T12:55:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T13:00:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T13:05:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T13:10:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T13:15:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T13:20:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T13:25:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T13:30:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T13:35:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T13:40:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T13:45:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T13:50:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T13:55:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T14:00:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T14:05:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T14:10:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T14:15:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T14:20:00Z",
+          "value": 32.0
+        },
+        {
+          "time": "2014-09-25T14:25:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T14:30:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T14:35:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T14:40:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T14:45:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T14:50:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T14:55:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T15:00:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T15:05:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T15:10:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T15:15:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T15:20:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T15:25:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T15:30:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T15:35:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T15:40:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T15:45:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T15:50:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T15:55:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T16:00:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T16:05:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T16:10:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T16:15:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T16:20:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T16:25:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T16:30:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T16:35:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T16:40:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T16:45:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T16:50:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T16:55:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T17:00:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T17:05:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T17:10:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T17:15:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T17:20:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T17:25:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T17:30:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T17:35:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T17:40:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T17:45:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T17:50:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T17:55:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T18:00:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T18:05:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T18:10:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T18:15:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T18:20:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T18:25:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T18:30:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T18:35:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T18:40:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T18:45:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T18:50:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T18:55:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T19:00:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T19:05:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T19:10:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T19:15:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T19:20:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T19:25:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T19:30:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T19:35:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T19:40:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T19:45:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T19:50:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T19:55:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T20:00:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T20:05:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T20:10:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T20:15:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T20:20:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T20:25:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T20:30:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T20:35:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T20:40:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T20:45:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T20:50:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T20:55:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T21:00:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T21:05:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T21:10:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T21:15:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T21:20:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T21:25:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T21:30:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T21:35:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T21:40:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T21:45:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T21:50:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T21:55:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T22:00:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T22:05:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T22:10:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T22:15:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T22:20:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T22:25:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T22:30:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T22:35:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T22:40:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T22:45:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T22:50:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T22:55:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T23:00:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T23:05:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T23:10:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T23:15:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T23:20:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T23:25:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T23:30:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T23:35:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T23:40:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T23:45:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T23:50:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-25T23:55:00Z",
+          "value": 31.0
+        },
+        {
+          "time": "2014-09-26T00:00:00Z",
+          "value": 31.0
+        }
+      ]
+    },
+    {
+      "id": "co2",
+      "label": "Carbon dioxide",
+      "unit": "ppm",
+      "points": [
+        {
+          "time": "2014-09-25T00:00:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T00:05:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T00:10:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T00:15:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T00:20:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T00:25:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T00:30:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T00:35:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T00:40:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T00:45:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T00:50:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T00:55:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T01:00:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T01:05:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T01:10:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T01:15:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T01:20:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T01:25:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T01:30:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T01:35:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T01:40:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T01:45:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T01:50:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T01:55:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T02:00:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T02:05:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T02:10:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T02:15:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T02:20:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T02:25:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T02:30:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T02:35:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T02:40:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T02:45:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T02:50:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T02:55:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T03:00:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T03:05:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T03:10:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T03:15:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T03:20:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T03:25:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T03:30:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T03:35:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T03:40:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T03:45:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T03:50:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T03:55:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T04:00:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T04:05:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T04:10:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T04:15:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T04:20:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T04:25:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T04:30:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T04:35:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T04:40:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T04:45:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T04:50:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T04:55:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T05:00:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T05:05:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T05:10:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T05:15:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T05:20:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T05:25:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T05:30:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T05:35:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T05:40:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T05:45:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T05:50:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T05:55:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T06:00:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T06:05:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T06:10:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T06:15:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T06:20:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T06:25:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T06:30:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T06:35:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T06:40:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T06:45:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T06:50:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T06:55:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T07:00:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T07:05:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T07:10:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T07:15:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T07:20:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T07:25:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T07:30:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T07:35:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T07:40:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T07:45:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T07:50:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T07:55:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T08:00:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T08:05:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T08:10:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T08:15:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T08:20:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T08:25:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T08:30:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T08:35:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T08:40:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T08:45:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T08:50:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T08:55:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T09:00:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T09:05:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T09:10:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T09:15:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T09:20:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T09:25:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T09:30:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T09:35:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T09:40:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T09:45:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T09:50:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T09:55:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T10:00:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T10:05:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T10:10:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T10:15:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T10:20:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T10:25:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T10:30:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T10:35:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T10:40:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T10:45:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T10:50:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T10:55:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T11:00:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T11:05:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T11:10:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T11:15:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T11:20:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T11:25:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T11:30:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T11:35:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T11:40:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T11:45:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T11:50:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T11:55:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T12:00:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T12:05:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T12:10:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T12:15:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T12:20:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T12:25:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T12:30:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T12:35:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T12:40:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T12:45:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T12:50:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T12:55:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T13:00:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T13:05:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T13:10:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T13:15:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T13:20:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T13:25:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T13:30:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T13:35:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T13:40:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T13:45:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T13:50:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T13:55:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T14:00:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T14:05:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T14:10:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T14:15:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T14:20:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T14:25:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T14:30:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T14:35:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T14:40:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T14:45:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T14:50:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T14:55:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T15:00:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T15:05:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T15:10:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T15:15:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T15:20:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T15:25:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T15:30:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T15:35:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T15:40:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T15:45:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T15:50:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T15:55:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T16:00:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T16:05:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T16:10:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T16:15:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T16:20:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T16:25:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T16:30:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T16:35:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T16:40:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T16:45:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T16:50:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T16:55:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T17:00:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T17:05:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T17:10:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T17:15:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T17:20:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T17:25:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T17:30:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T17:35:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T17:40:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T17:45:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T17:50:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T17:55:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T18:00:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T18:05:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T18:10:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T18:15:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T18:20:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T18:25:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T18:30:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T18:35:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T18:40:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T18:45:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T18:50:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T18:55:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T19:00:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T19:05:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T19:10:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T19:15:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T19:20:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T19:25:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T19:30:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T19:35:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T19:40:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T19:45:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T19:50:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T19:55:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T20:00:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T20:05:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T20:10:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T20:15:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T20:20:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T20:25:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T20:30:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T20:35:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T20:40:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T20:45:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T20:50:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T20:55:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T21:00:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T21:05:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T21:10:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T21:15:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T21:20:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T21:25:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T21:30:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T21:35:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T21:40:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T21:45:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T21:50:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T21:55:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T22:00:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T22:05:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T22:10:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T22:15:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T22:20:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T22:25:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T22:30:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T22:35:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T22:40:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T22:45:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T22:50:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T22:55:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T23:00:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T23:05:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T23:10:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T23:15:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T23:20:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T23:25:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T23:30:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T23:35:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T23:40:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T23:45:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T23:50:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-25T23:55:00Z",
+          "value": 2646.0
+        },
+        {
+          "time": "2014-09-26T00:00:00Z",
+          "value": 2646.0
+        }
+      ]
+    }
+  ]
+}

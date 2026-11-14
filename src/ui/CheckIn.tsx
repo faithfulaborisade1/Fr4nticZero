@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { INDICATOR_META } from "../data/indicators";
+import { MeasurementGuide } from "./MeasurementGuide";
 
 export interface CheckInField {
   indicator: string;
@@ -104,6 +105,7 @@ export function CheckIn({ title, fields, onSubmit, blocked = {} }: Props) {
           );
         })}
       </div>
+      <div className="checkin-guides"><p>Measurement guidance uses general Earth-based references; follow the mission-approved procedure and device instructions.</p>{fields.map((field) => <MeasurementGuide key={field.indicator} indicator={field.indicator} />)}</div>
       <div className="mt-3 flex flex-wrap items-center gap-3">
         <button
           type="submit"

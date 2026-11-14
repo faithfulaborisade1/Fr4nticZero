@@ -11,7 +11,7 @@ const TABS: { id: HazardFilter; label: string }[] = [
   ...HAZARDS.map((h) => ({ id: h.id as HazardFilter, label: h.label })),
 ];
 
-/** Five hazard tabs that filter the same data: figure, region cards and decision cards. */
+/** Explore hazard context and select the shared body and decision filter. */
 export function HazardTabs({ value, onChange }: Props) {
   const info = value === "all" ? null : getHazard(value);
   return (
@@ -59,8 +59,8 @@ export function HazardTabs({ value, onChange }: Props) {
         </div>
       ) : (
         <p className="mt-3 flex flex-wrap items-center gap-2 text-sm text-slate-300">
-          Pick a hazard to see only the areas, readings and decisions it affects.
-          Region colours compare you with your own baseline using demo thresholds <DemoBadge />
+          Pick a hazard to explore its effects and filter the body scan and decisions.
+          Health flags compare you with your own baseline using demo thresholds <DemoBadge />
         </p>
       )}
     </section>

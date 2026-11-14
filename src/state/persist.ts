@@ -7,6 +7,7 @@ import type { Attachment } from "./attachments";
 import type { CheckInEntry } from "./history";
 import type { LedgerEntry } from "./ledger";
 import type { Supplies } from "./supplies";
+import { validWorkspace, type CrewWorkspace } from "./crew";
 
 /**
  * Everything the crew has done in the app is kept in this browser (local storage) so a
@@ -15,6 +16,8 @@ import type { Supplies } from "./supplies";
  */
 export interface SavedState {
   v: 1;
+  /** Optional crew workspace; older single-person saves migrate to Alex. */
+  crew?: CrewWorkspace;
   scenarioId: string;
   elapsedMin: number;
   speed: number;
@@ -60,6 +63,7 @@ export function parseSaved(text: string | null): SavedState | null {
     // Older saves do not have these two fields.
     if (d.devices !== undefined && !isObj(d.devices)) return null;
     if (d.pending !== undefined && !isObj(d.pending)) return null;
+    if (d.crew !== undefined && !validWorkspace(d.crew)) return null;
     const saved = d as unknown as SavedState;
     return {
       ...saved,

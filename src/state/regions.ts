@@ -23,6 +23,8 @@ export interface RegionSummary {
   detail?: string;
   /** Cross-link explanation, always labelled "under investigation". */
   note?: string;
+  /** False when the interface has no health assessment for this region. */
+  statusAvailable?: boolean;
 }
 
 const RANK: Record<Status, number> = { ok: 0, watch: 1, act: 2 };
@@ -58,6 +60,7 @@ export function cumulativeDoseMsv(history: History): number {
 export function buildSummaries(
   history: History,
   links: Crosslinks = evaluateCrosslinks(history),
+  workoutCount = 0,
 ): Record<RegionId, RegionSummary> {
   const st = (i: string) => indicatorStatus(history, i);
   const out = {} as Record<RegionId, RegionSummary>;
@@ -87,9 +90,10 @@ export function buildSummaries(
     headline: `${Math.round(cumulative)} mSv total`,
     detail: `${latest(history, "dose_daily").toFixed(2)} mSv today · limit under 600`,
   };
-  for (const id of ["ear", "immune", "bones"] as const) {
+  for (const id of ["ear", "immune"] as const) {
     out[id] = { id, ...STATIC_READINGS[id] };
   }
+  out.bones = { id: "bones", status: "ok", statusAvailable: false, headline: `${workoutCount} ${workoutCount === 1 ? "workout" : "workouts"} logged today`, detail: "Bone health not assessed" };
 
   const eyesScore = latest(history, "eyes_score");
   out.eyes = {

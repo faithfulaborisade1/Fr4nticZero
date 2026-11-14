@@ -2,11 +2,11 @@
 
 Living document. Updated whenever a rule, threshold, source, scenario, cross-link or design decision changes (see `CLAUDE.md`). The README is built from this file.
 
-Last updated: Saturday 14 Nov 2026, after step 10 (trend projection, equipment status, image attach).
+Last updated: Saturday 14 Nov 2026, after moving scenario controls into mission settings and improving responsive navigation.
 
 ## 1. What we are building
 
-A static, offline-capable web app for the NASA Space Apps 2026 challenge "Create Health Monitoring Software for Astronauts on Space Missions". The home screen is a body scan. Every flagged reading becomes a **decision card** answering: *whose call is this, and by when?*
+A static, offline-capable web app for the NASA Space Apps 2026 challenge "Create Health Monitoring Software for Astronauts on Space Missions". The home screen summarises priority decisions and body-system status; the body scan and supporting tools have their own pages. Every flagged reading becomes a **decision card** answering: *whose call is this, and by when?*
 
 Pitch: the same reading means "ask Houston" in orbit and "your call" on the way to Mars.
 
@@ -22,13 +22,13 @@ Worked example (blood pressure, window 30 min): Station reply about 15 min, so c
 
 ## 2. Open items to confirm (not yet verified)
 
-- [ ] Official challenge text. The brief we have is second-hand. Compare objectives with `HANDOFF.md` section 3.
+- [ ] Confirm against the official challenge page when available. On 14 November it returned an error; the comparison in `CHALLENGE_AUDIT.md` uses the HackAthlone local event's published challenge text.
 - [ ] 2026 Project Submission Guide: demo length, AI-tool disclosure rules.
 - [ ] 2026 Judging and Awards Guide: criteria wording (the guide read for the brief carried 2024 dates).
-- [ ] Every source link below, opened and the number confirmed. **None has been opened by the build agent yet.**
+- [ ] Every numerical claim in the source table below must still be checked against the original linked publication. The mission risk guide's general NASA sources have been opened separately.
 - [ ] Whether a planning document counts as allowed pre-work (participant FAQ: no work on challenges before the hackathon). Disclose it.
-- [ ] Which NASA OSDR dataset (Inspiration4 processed data) to use for the "real data" touch. The PDF says use at least one real dataset; the handoff says stretch. Not started, and the README states that no real dataset is loaded.
-- [ ] Add the exact challenge-resource links (CSA CANS, Artemis II Immune Biomarkers, B-vitamins and SANS, SANS spinal fluid, menu fatigue, CSA infographic) to the README. They are on the challenge Resources tab and the README currently names them without links.
+- [x] NASA OSD-575 / LSDS-8 transformed comprehensive metabolic panel selected for a separate historical research view. The source file contains 28 glucose results from four coded participants. The NASA study description lists time points through R+82; the NASA sample metadata and downloaded file also identify R+194 as 194 days after return.
+- [x] Correct the challenge-resource list in the README against the HackAthlone page's five listed resources. The official challenge page remains the final authority; older handoff notes about other studies are additional research, not confirmed challenge-listed resources.
 - [ ] Check the README's AI-use disclosure wording against the 2026 submission and judging guides.
 - [ ] Check the README claims against the final live demo before submitting (the README describes what the app does today).
 
@@ -44,14 +44,14 @@ Worked example (blood pressure, window 30 min): Station reply about 15 min, so c
 | Gravity (eyes) | About 70% of long-duration crew show signs of SANS | Eyes explanation | https://ntrs.nasa.gov/api/citations/20230006218/downloads/Brunstetter%20-%20Crewmember%20SANS%20Overview%20-%20Export%20Control%20-FINAL%20-%2001May23.pdf |
 | Environment | ISS CO2 held to 4.0 mmHg daily average; symptoms from 2.3 mmHg; headaches above about 3.0 | CO2 bands (`co2Status`) | https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/20150019624.pdf |
 
-Challenge resources mapped (exact links are on the challenge Resources tab, not yet copied here):
+Additional research concepts from the handoff (not verified as challenge-listed resources):
 
 - **CSA CANS** neutron instrument: dose gauge is labelled "modelled on an onboard neutron dosimeter such as CSA's CANS".
 - **Artemis II Immune Biomarkers**: saliva on board, blood immune-cell counts on Earth. Only four subjects, so no prediction claims.
 - **B-complex vitamins and SANS**: log B2/B6/B9/B12 intake beside vision checks. One astronaut improved, causation not confirmed. Wording: "intake below plan, top up and re-check", never "B vitamins fix vision".
 - **SANS spinal fluid study**: spinal fluid sampling is Earth-only.
 - **Menu fatigue**: weekly meal survey on taste, appearance, texture, smell, plus intake and body mass trend.
-- **CSA "How does space affect the human body"** infographic: source for region explanations. Layout inspiration only. Our figure is original.
+- **CSA "How does space affect the human body"** infographic: source for region explanations. Layout inspiration only. The body illustration was AI-generated for this project.
 
 ## 4. Demo parameters (every unsourced number)
 
@@ -85,7 +85,7 @@ Honest limits: no action window has a published source. The README frames them a
 
 ## 5. Scenarios
 
-All crew data is simulated (one crew member, 30 days, seeded generator, seed 2026). Scenarios 2, 3 and the extra one start on day 25 and are played with Next day or the clock.
+All mission scenario crew data is simulated (six fictional profiles with separate seeded histories over 30 days; Alex uses seed 2026). The selected scenario’s health event applies to Alex and cabin CO₂ is shared by all crew. Scenarios 2, 3 and the extra one start on day 25 and are played with Next day or the clock.
 
 | Scenario | What happens | What it shows |
 | --- | --- | --- |
@@ -104,18 +104,27 @@ All crew data is simulated (one crew member, 30 days, seeded generator, seed 202
 
 ## 7. Design decisions and why
 
+- **Crew workspace.** Six fictional crew members have separately seeded health histories and profile-specific check-ins, decisions, attachments, nudges, workouts and medication entries. The cabin, supplies, equipment, mission clock and environment are shared. The optional server exchanges crew messages and notices using separate access codes; health and medication records remain browser-local. Medication entries have no dosage instructions or reminders. Old single-profile saved state migrates to Alex. Changing a scenario clears all profiles’ health check-ins and decisions and resets shared supplies and equipment, while medication entries, workouts, messages and notices remain; Reset demo clears local records but not server communications.
+- **Navigation and scenario controls.** The desktop sidebar can collapse to an icon rail; on phones and tablets the navigation opens as a scrollable menu and closes after a selection. Layouts adapt to the space left by the rail. Simulation controls are in an expandable Mission settings section, and old `#scenario` links open it.
+- **Historical research data.** The dedicated research page shows 11 selected measures (308 values) from four public NASA transformed lab files: OSD-575 / LSDS-8 metabolic, immune and cardiovascular serum panels, and OSD-569 / LSDS-7 whole-blood count. It also shows a separate RR-1 ISS sample of 289 original five-minute readings each of temperature, humidity and CO₂ (25 Sep 2014 00:00 through 26 Sep 00:00 UTC), courtesy of NASA’s Environmental Data Application https://visualization.osdr.nasa.gov/eda/ (EDA version not identified in API response). The ISS mission is not Inspiration4, and the observations are not linked to participants. The returned CO₂ values are identical over this interval; this does not establish sensor accuracy. The view presents the paper’s reported 6.7 ± 0.7 hours/night self-reported in-flight sleep and its count of 424 one-hour heart-rate averages across mission phases as published summary context; no individual wearable or sleep records have been loaded. Source: https://pmc.ncbi.nlm.nih.gov/articles/PMC11357997/.
+- The seven source files were downloaded 14 Nov 2026 and preserved under `data/`. SHA-256 hashes are recorded in `scripts/prepare-research-data.py`, which validates every source, sample label, numeric value and telemetry timestamp; `python scripts/prepare-research-data.py --check` verifies the bundled data. OSD-575 DOI https://doi.org/10.26030/mc5d-p710; NASA lists CC0-1.0. The source description lists time points through R+82, while the NASA sample metadata and file also identify R+194 as 194 days after return. Historical data never enters the simulated decision engine and does not validate its demo thresholds.
 - **Decision first.** Most public entries are a vitals dashboard with anomaly alerts and a chatbot. This one makes the decision the product, matching NASA's Earth-Independent Medical Operations (EIMO) framing where ground support is delayed or unavailable.
 - **No LLM or network in the decision path.** Pure, unit-tested TypeScript. The app works offline.
 - **Personal baseline first.** Readings are judged against the crew member's own last 14 days, because we have no clinical authority to set population thresholds.
 - **Status is never colour alone.** Each status has a colour, a symbol and a word.
+- **Profile vitals.** The header shows the selected profile's latest simulated heart-rate reading with an illustrative animated trace. Oxygen saturation is a fixed fictional example for each profile, not a measurement or an input to decision rules. The trace is not an ECG or a live sensor feed, and reduced-motion settings disable its animation.
+- **Check-ins and measurement guides.** A daily page displays six example in-app reminders, completed only by manual check-ins for the selected profile within the current simulated mission day. Pausing the mission clock also pauses the simulated day; there are no background notifications. Public terrestrial references from the American Heart Association, FDA and MedlinePlus supply general measurement examples, not mission-approved or microgravity-validated procedures.
+- **Emergency access.** A persistent link offers high-level orientation to alert crew, follow mission procedures and contact medical support. It sends no alert, is not a clinical checklist, and does not create a real flight-surgeon connection.
+- **Bones and muscles.** The detail view logs self-reported workout type and duration in the selected profile's browser-local record. The progress display counts entries within the current simulated mission day against an illustrative two-session target. Workout history survives reloads and scenario changes, but is cleared by Reset demo; entries later than a rewound mission clock remain visible in history and do not count yet. Bone status is explicitly not assessed; exercise counts are not bone-density measurements or clinical assessments.
+- **Mission health risks.** A dedicated guide uses the selected station, Moon surface or Mars transit environment to present selected hazards, exposure reduction and high-level response planning. Sources are linked per card: NASA's pages on [radiation](https://www.nasa.gov/hrp/hazard-space-radiation/), [radiation protection](https://srag.jsc.nasa.gov/spaceradiation/how/how.cfm), [gravity](https://www.nasa.gov/hrp/hazard-gravity-fields/), [closed environments](https://www.nasa.gov/hrp/hazard-hostile-closed-environments/), [isolation](https://www.nasa.gov/hrp/hazard-isolation-and-confinement/), [distance](https://www.nasa.gov/hrp/hazard-distance-from-earth/) and [celestial dust](https://www.nasa.gov/directorates/esdmd/hhp/risk-of-adverse-health-performance-effects-of-celestial-dust-exposure/). These source pages were opened on 14 Nov 2026. The selection and ordering are editorial, not a validated mission-specific risk ranking; response text directs crews to mission-approved procedures rather than supplying a clinical protocol. Changing the guide's environment also changes the simulation environment.
 - **Wording.** "Flag", "re-check", "notify the medical team". Never "diagnose", "treat" or "predict". No drug doses, no calorie targets.
-- **Ledger.** An entry is stored when the crew chooses an action. It queues for one one-way delay, a surgeon review travels back with another, and a blackout holds both. State is in memory for now.
-- **Figure.** Original flat SVG, not copied or traced from any agency artwork. Tapping a region zooms the figure in on it (turned off for users who prefer reduced motion), with a "Show whole body" button.
-- **Hazard tabs.** Five tabs plus "All hazards" filter the same data: region cards, figure regions (others dim), decision cards and the cabin strip. Each tab shows the published figure and its source link. Stomach and immune each belong to two hazards, as in the build spec.
-- **Buddy system (team notes).** Every decision card says who is alerted. Watch: you top up and re-check. Act: a simulated buddy (Sam) and the medical team. Crew decides now: all crew, because Earth cannot reply in time. The tier is stored on the ledger entry. These tiers are a demo rule.
+- **Ledger.** An entry is stored for the selected profile when the crew chooses an action. It queues for one simulated one-way delay, a simulated surgeon review travels back with another, and a blackout holds both. Records are stored in the browser; nothing is transmitted.
+- **Figure.** AI-generated illustrative 2D male and female human figures with accessible body-region markers; they are not validated anatomical models. The selector changes the image only and does not switch crew members or data. Selecting a region zooms the figure, with a "Show whole body" button. Reduced-motion settings suppress the animation. Radiation status appears in its marker and the body-systems list.
+- **Hazard tabs.** Five tabs plus "All hazards" select a shared filter for region cards, figure regions (others dim) and decision cards. The overview always shows all active readings, and the cabin strip remains visible on the trends page. Each tab shows the published figure and its source link. Stomach and immune each belong to two hazards, as in the build spec.
+- **Buddy system (team notes).** Every decision card shows a simulated alert tier. Watch: self. Act: the selected profile’s paired simulated buddy and the medical team. Crew decides now: all crew. The tier is stored on that profile’s ledger entry. No alert is actually sent.
 - **Supplies and crew time.** Each holding step shows its minutes and the kit items it uses. "Mark done" uses the stock and adds to the day's crew-time tally, and is blocked when the item is out. The pantry suggestions in Nutrition have an "Ate one" button that uses stock.
-- **Offline.** The app makes no network calls of its own. A small service worker caches the built files on first load, so the app opens and runs with the network off. Checked by serving the production build, letting the worker cache it, stopping the server and reloading: the app rendered and the Station-to-Mars verdict flip still worked. Needs one online visit first. External source links only open when online.
-- **Accessibility checks (step 8).** At 375 px wide there was no horizontal scroll on the home screen, any region detail, the surgeon ledger view or a hazard tab, and the only control under 40 px was the blackout checkbox (its label is a full-size target). A script that compared text and background colours found no text below WCAG AA (4.5:1, or 3:1 for large text) across about 300 text elements in two states. In-figure labels have a dark outline. Smooth scrolling and the figure zoom respect reduced-motion settings. Not tested with a screen reader.
+- **Offline.** The simulated decision path works locally, and a service worker caches the built files on first load. Shared crew messages and notices require the separate crew server and a network connection; the service worker does not cache its API. External source links only open when online.
+- **Responsive and accessibility checks.** Browser viewport checks covered the main pages at 320, 375, 768 and 1024 px, including expanded and collapsed desktop navigation; no horizontal page overflow was found in those checks. A previous contrast audit applied to an earlier design and has not been repeated in full. Smooth scrolling and figure zoom respect reduced-motion settings. Not tested with a screen reader or on a physical phone.
 - **Trend projection.** A straight line is fitted to the last 7 readings and extended, with an approximate 95% band, to say roughly when a reading would reach its flag level if the trend continued. The flag level uses the baseline from before the 7 readings so a slow drift cannot hide in it. It is a projection, not a prediction, and no machine-learning model is used: with simulated data any model would be trained and tested on data we made up. The final week of generated data is re-ordered so chance runs in random numbers do not start the demo with a warning.
 - **Known quirk found while building the projection.** The daily rule check judges a reading against the 14 readings before it, so a slow rise drags its own baseline up and can stay "ok" while the projection (stable baseline) says the reading is already past the flag level. Scenario 4 shows this on purpose. The two can disagree, and the README says so.
 - **Equipment failure.** A device panel marks equipment as failed. The cuff, glucose meter and thermometer block their re-measure steps and disable the matching entry field. The cabin CO2 sensor turns the CO2 tile into a watch (we do not know the level) and shows the last good reading. The ultrasound option for attached images is disabled. Each shows a fallback in holding-step wording.
@@ -124,16 +133,19 @@ All crew data is simulated (one crew member, 30 days, seeded generator, seed 202
 
 ## 8. Limitations to state in the README
 
-- Prototype, not a medical device. All crew data is simulated.
+- Prototype, not a medical device. Mission scenario data is simulated; the separate research view contains historical NASA data.
 - Action windows and most thresholds are demo parameters.
-- State is saved in this browser only (local storage) and restored on reload, with the clock coming back paused. A "Reset demo" button clears it. It is a prototype store, not a medical record, and nothing leaves the device.
-- Region areas without a deep flow (inner ear, immune, bones and muscles) use fixed simulated values. The immune panel only reacts through the cross-link; there is no saliva strip or viral-reactivation flag yet.
+- Health simulation state is saved in this browser (local storage) and restored on reload, with the clock coming back paused. Reset clears local demo state but not shared server communications. It is a prototype store, not a medical record.
+- Region areas without a deep flow include inner ear and immune, which use fixed simulated values. The immune panel only reacts through the cross-link; there is no saliva strip or viral-reactivation flag yet. The bones panel offers a self-reported workout log but no bone-density assessment.
 - The vision check is a three-question self-report summed into a 0 to 9 score. It is a demo instrument, not a validated vision test.
-- The pantry is a fixed simulated list. Taking a step does not yet use up kit or pantry stock (planned for step 7).
-- Only one crew member, no accounts. The buddy is a simulated crewmate and no alert is actually sent anywhere.
+- The pantry and kit are fixed simulated lists; marking a step done consumes the relevant kit and eating a meal consumes pantry stock.
+- Six fictional crew profiles have separate simulated check-ins, decisions, pending attachments and medication entries. Anyone using the same browser can switch profiles and see those health records. The optional crew server uses separate access codes and stores shared messages and targeted notices; it lacks built-in HTTPS, encryption at rest, background notifications and medical-grade security. Decision-card alert tiers are still simulated and do not send notices automatically. Medication entries are not prescriptions, reminders or a real medical record.
+- Heart rate in the profile vitals comes from simulated profile history and check-ins; the displayed SpO₂ is a fixed fictional example. No live heart-rate or oxygen sensor is connected.
+- The mission risk guide is educational and cannot detect exposure, replace mission-specific procedures or validate an emergency response. Its highlighted considerations are not ranked by measured mission risk.
+- In-app reminders use the simulation clock and are not background or time-sensitive notifications. Measurement examples use public Earth-based references and are not flight-approved procedures; the emergency page cannot send an emergency alert.
 - Kit, pantry and crew-time tallies are saved with the rest of the state and reset when the scenario changes or on "Reset demo".
 - The dot plot pairs readings by position. Check-ins appended on one indicator shift its pairing against the others.
-- No camera or image input yet.
+- Photos and scans can be attached from files; no live camera or ultrasound device is connected.
 
 ## 9. AI-use disclosure (for the README)
 
@@ -151,10 +163,10 @@ Handwriting was read from a photo, so check this against the sheet. Each note ha
 | Six daily indicators: blood pressure, heart rate, blood sugar, body temperature, daily sleep hours, mood | Done. |
 | Buddy system: low level, "top up" alert; chronic low, alert paired buddy or closest person; critical, alert everyone; otherwise "good job, staying healthy" | Done in step 7: three alert tiers on each decision card and the ledger, and the all-clear message reads "Good job, staying healthy". "Chronic" is approximated by act level, since we do not track how long a reading stays low. |
 | Display on a clickable human figure that zooms in on the affected area | Done in step 7. |
-| Input by text (mood, readings), mouse clicks, camera images (jpg, jpeg, raw, png) | Text and clicks done. Image attach not built (stretch, only if time allows). It would be stored locally and not analysed. |
+| Input by text (mood, readings), mouse clicks, camera images (jpg, jpeg, raw, png) | Text and clicks done. File image attachment is stored locally and is not analysed; no live camera or ultrasound device is connected. |
 | Dot plot chart (plot one thing against another) | Done in step 7, framed as "under investigation, not causation". |
 | Daily stream in a non-demanding way | Partly: one-tap mood check-in, scenario player standing in for device feeds. |
-| SSH, VM web app, 2FA, local storage | Not in the product. The app is static and client-only by design. Local storage is planned for persistence in step 8. SSH, VM and 2FA go in the README as a note on how a real deployment would sit behind crew-network access. |
+| SSH, VM web app, 2FA, local storage | Not in the product. The app is static and client-only by design. Local storage is used for browser-only persistence. SSH, VM and 2FA go in the README as a note on how a real deployment would sit behind crew-network access. |
 
 ### New idea from the team (Saturday, after step 9): on-board prediction and equipment failure
 
@@ -174,6 +186,20 @@ Figures to check at the source: Moon distance 238,855 miles is about 1.3 s one w
 
 | When (Dublin) | Step | What changed |
 | --- | --- | --- |
+| Sat | Responsive navigation | Moved scenario controls to Mission settings, preserved the old route, separated phone-menu state from desktop sidebar collapse, and adapted content layouts to available workspace width. Checked main pages at multiple viewport sizes. |
+| Sat | Workouts and navigation | Replaced the fixed exercise example with per-profile workout entries, mission-day progress and browser-local history. The two-session target is illustrative and bone health is not assessed. Added check-in URL aliases, stopped unknown fragments from resetting the page and refreshed the offline cache version. |
+| Sat | Measurement and emergency support | Added sourced general measurement guides, per-profile in-app check-in reminders, a high-level emergency page and contextual bone and muscle visualization. All remain prototype content; no clinical approval, actual emergency notification or live bone assessment is claimed. |
+| Sat | Challenge audit | Compared the product with the local-event publication of the full challenge, corrected the resource list and simulation claims, linked the listed NASA hazard and risk framework in the app, and labelled the AI-generated body illustrations. The official challenge page could not be fetched. |
+| Sat | Mission risk guide | Added environment-specific educational health considerations, prevention, high-level response planning and links to NASA sources. No clinical protocol or validated risk ranking is implied. |
+| Sat | Profile vitals and communications | Added an illustrative animated heart trace and clearly simulated per-profile vitals. Added an optional crew server for shared messages and targeted notices; the decision-card alerts remain simulated. |
+| Sat | Crew workspace | Added six fictional profiles with separate health records, local crew messages, targeted or crew-wide simulated condition notices and profile-specific medication entries. The shared browser has no accounts or actual messaging; old state migrates to Alex. |
+| Sat | Expanded research data | Added 11 metabolic, blood-count and immune/cardiovascular lab measures; three separate historical ISS telemetry series; and published sleep/heart-rate summary context, with reproducible source checks. No individual sleep or wearable heart-rate dataset is loaded. |
+| Sat | Historical research data | Added a separate NASA Inspiration4 glucose view using the exact 28 transformed OSD-575 results, with provenance, source hash and a reproducible extraction. Mission decisions and scenario data remain simulated. |
+| Sat | Resources page | Reorganised the simulated equipment, medical kit, pantry and crew-time views with an at-a-glance status summary; stock and device behaviour are unchanged. |
+| Sat | Decision page | Reorganised decision cards into a reading and verdict summary, timing panel, holding steps and decision log. Thresholds, actions and simulated communication are unchanged. |
+| Sat | Focused pages | Split the overview, decisions, body scan, mission settings, trends and hazards, ledger, resources, and scenario player into navigable views. The overview shows every active reading regardless of the selected hazard filter. |
+| Sat | Navigation | Added sidebar navigation, prioritised the decision card, compacted mission settings and added a female body illustration. The prototype still contains one simulated crew member. |
+| Sat | Redesign | Reorganised the dashboard around the body scan and decision card, introduced a new visual system and AI-generated illustrative human figure, preserved interactive region selection and added the figure to the offline cache. |
 | Sat | 1 | Scaffold, verdict engine, seeded generator, mission clock, tests |
 | Sat | 2 | Body scan home, region cards, environment bar, cabin strip |
 | Sat | 3 | Decision card, live countdown, scenario 1 |

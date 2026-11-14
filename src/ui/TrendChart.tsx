@@ -81,32 +81,32 @@ export function TrendChart({
       >
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data} margin={{ top: 8, right: 12, bottom: 0, left: -12 }}>
-            <CartesianGrid stroke="#334155" strokeDasharray="3 3" />
-            <XAxis dataKey="day" stroke="#94a3b8" fontSize={11} type="number" domain={["dataMin", "dataMax"]} />
+            <CartesianGrid stroke="#315047" strokeDasharray="3 3" />
+            <XAxis dataKey="day" stroke="#a8c4b8" fontSize={11} type="number" domain={["dataMin", "dataMax"]} />
             <YAxis
               domain={domain}
-              stroke="#94a3b8"
+              stroke="#a8c4b8"
               fontSize={11}
               tickFormatter={(v: number) => v.toFixed(decimals > 1 ? 1 : decimals)}
               allowDecimals={decimals > 0}
             />
             <Tooltip
-              contentStyle={{ background: "#0f172a", border: "1px solid #475569" }}
+              contentStyle={{ background: "#10251f", border: "1px solid #426457" }}
               formatter={(v, name) => [
                 `${Number(v).toFixed(decimals)} ${unit}`,
                 name === "proj" ? "Projection" : name === "lo" ? "Projection low" : name === "hi" ? "Projection high" : label,
               ]}
               labelFormatter={(d) => (Number(d) > values.length ? `${Number(d) - values.length} ahead` : `Reading ${d}`)}
             />
-            <ReferenceArea y1={lo} y2={hi} fill="#38bdf8" fillOpacity={0.12} />
-            <ReferenceLine y={baseline.mean} stroke="#38bdf8" strokeDasharray="4 4" />
+            <ReferenceArea y1={lo} y2={hi} fill="#79c9a9" fillOpacity={0.12} />
+            <ReferenceLine y={baseline.mean} stroke="#79c9a9" strokeDasharray="4 4" />
             {refLines.map((r) => (
               <ReferenceLine
                 key={r.label}
                 y={r.y}
-                stroke="#a78bfa"
+                stroke="#b6c996"
                 strokeDasharray="2 4"
-                label={{ value: r.label, fill: "#c4b5fd", fontSize: 10, position: r.position ?? "insideTopLeft" }}
+                label={{ value: r.label, fill: "#d1debb", fontSize: 10, position: r.position ?? "insideTopLeft" }}
               />
             ))}
             <Line

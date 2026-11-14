@@ -1,7 +1,7 @@
 // Decision Window service worker: makes the app load and run with the network off.
 // On install it reads the built index.html and caches every file the page uses.
-// There are no runtime network calls in the app itself, so the cache is all it needs.
-const CACHE = "decision-window-v2";
+// Crew communications use the network and are never cached.
+const CACHE = "decision-window-v9";
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -10,7 +10,7 @@ self.addEventListener("install", (event) => {
       const res = await fetch("./", { cache: "reload" });
       const html = await res.clone().text();
       await cache.put("./", res);
-      const urls = new Set(["./manifest.webmanifest", "./icon.svg"]);
+      const urls = new Set(["./manifest.webmanifest", "./icon.svg", "./body-model.png", "./body-model-female.png"]);
       for (const m of html.matchAll(/(?:src|href)="([^"]+)"/g)) {
         const u = m[1];
         if (u.startsWith("/") || u.startsWith("./")) urls.add(u);
@@ -37,7 +37,7 @@ self.addEventListener("fetch", (event) => {
   const req = event.request;
   if (req.method !== "GET") return;
   const url = new URL(req.url);
-  if (url.origin !== self.location.origin) return;
+  if (url.origin !== self.location.origin || url.pathname.startsWith("/api/")) return;
 
   // Pages: try the network for fresh code, fall back to the cached copy.
   if (req.mode === "navigate") {

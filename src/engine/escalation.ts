@@ -18,21 +18,21 @@ export interface Escalation {
   text: string;
 }
 
-export function escalation(card: Pick<DecisionCard, "verdict" | "status">): Escalation {
+export function escalation(card: Pick<DecisionCard, "verdict" | "status">, buddyName = BUDDY_NAME): Escalation {
   if (card.verdict === "crew_decides") {
     return {
       tier: "all",
       icon: "📣",
-      word: "All crew alerted",
-      text: "All crew are alerted, because Earth cannot reply in time.",
+      word: "All-crew alert tier",
+      text: "In this demo, all crew would be alerted because Earth cannot reply in time. No alert is sent.",
     };
   }
   if (card.status === "act") {
     return {
       tier: "buddy",
       icon: "🤝",
-      word: "Buddy alerted",
-      text: `${BUDDY_NAME} (your buddy, simulated) is alerted, as well as the medical team.`,
+      word: "Buddy alert tier",
+      text: `In this demo, ${buddyName} and the medical team would be alerted. No alert is sent.`,
     };
   }
   return {

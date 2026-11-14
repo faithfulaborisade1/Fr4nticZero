@@ -17,7 +17,7 @@ export interface LedgerEntry {
   verdict: Verdict;
   status: Exclude<Status, "ok">;
   crewChoice: string;
-  /** Who was alerted when this was logged (buddy-system tiers). */
+  /** Simulated alert tier recorded when this was logged; no notification is sent. */
   alert: AlertTier;
   /** Photos or scans sent with the entry. Not analysed. Arrive with the entry. */
   attachments: Attachment[];
