@@ -20,8 +20,16 @@ export const RULES: Rule[] = [
     actionWindowMin: 30,
     holdingSteps: [
       { text: "Sit or lie down and rest for 5 minutes.", crewMinutes: 5 },
-      { text: "Re-measure blood pressure on the other arm.", crewMinutes: 3 },
-      { text: "Drink a glass of water.", crewMinutes: 2 },
+      {
+        text: "Re-measure blood pressure on the other arm.",
+        crewMinutes: 3,
+        uses: [{ item: "bp_cuff_cover", qty: 1 }],
+      },
+      {
+        text: "Drink a glass of water.",
+        crewMinutes: 2,
+        uses: [{ item: "water_pouch", qty: 1 }],
+      },
       { text: "Log symptoms and notify the medical team.", crewMinutes: 5 },
     ],
     explanation:
@@ -58,7 +66,11 @@ export const RULES: Rule[] = [
     test: deviationTest({ watchSd: 2, actSd: 3, direction: "high" }),
     actionWindowMin: 45,
     holdingSteps: [
-      { text: "Re-test blood sugar with a fresh strip.", crewMinutes: 3 },
+      {
+        text: "Re-test blood sugar with a fresh strip.",
+        crewMinutes: 3,
+        uses: [{ item: "glucose_strip", qty: 1 }],
+      },
       { text: "Log the last meal and activity.", crewMinutes: 3 },
       { text: "Notify the medical team.", crewMinutes: 3 },
     ],
@@ -78,8 +90,16 @@ export const RULES: Rule[] = [
     test: deviationTest({ watchSd: 2, actSd: 3, direction: "high" }),
     actionWindowMin: 60,
     holdingSteps: [
-      { text: "Re-measure body temperature.", crewMinutes: 2 },
-      { text: "Rest and hydrate.", crewMinutes: 5 },
+      {
+        text: "Re-measure body temperature.",
+        crewMinutes: 2,
+        uses: [{ item: "thermo_cover", qty: 1 }],
+      },
+      {
+        text: "Rest and hydrate.",
+        crewMinutes: 5,
+        uses: [{ item: "water_pouch", qty: 1 }],
+      },
       { text: "Check cabin temperature and notify the medical team.", crewMinutes: 3 },
     ],
     explanation:

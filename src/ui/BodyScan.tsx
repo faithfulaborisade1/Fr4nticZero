@@ -1,4 +1,5 @@
-import type { KeyboardEvent, ReactNode } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
+import { regionInHazard, type HazardFilter } from "../data/hazards";
 import { getRegionMeta, type RegionId } from "../data/regions";
 import type { Status } from "../engine/types";
 import type { RegionSummary } from "../state/regions";
@@ -8,17 +9,86 @@ interface Props {
   summaries: Record<RegionId, RegionSummary>;
   selected: RegionId | null;
   highlighted: RegionId | null;
+  filter: HazardFilter;
   onSelect: (id: RegionId) => void;
 }
 
-/** Original flat astronaut figure. Each clickable shape is a body region. */
-export function BodyScan({ summaries, selected, highlighted, onSelect }: Props) {
+type Box = [number, number, number, number];
+const FULL: Box = [0, 0, 240, 480];
+
+// Zoom targets as centre x, centre y and width. Height is twice the width so the
+// figure keeps its 1:2 shape and the layout does not jump.
+const ZOOM: Partial<Record<RegionId, [number, number, number]>> = {
+  head: [120, 62, 130],
+  eyes: [120, 62, 100],
+  ear: [76, 66, 100],
+  heart: [130, 150, 120],
+  immune: [100, 150, 110],
+  stomach: [120, 206, 110],
+  skin: [120, 180, 170],
+  bones: [120, 330, 150],
+};
+
+const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
+
+function boxFor(id: RegionId | null): Box {
+  const z = id ? ZOOM[id] : undefined;
+  if (!z) return FULL;
+  const [cx, cy, w] = z;
+  const h = w * 2;
+  return [clamp(cx - w / 2, 0, 240 - w), clamp(cy - h / 2, 0, 480 - h), w, h];
+}
+
+/** Original flat astronaut figure. Each clickable shape is a body region. Selecting one zooms in. */
+export function BodyScan({ summaries, selected, highlighted, filter, onSelect }: Props) {
   const outline = STATUS_STYLE[summaries.radiation.status].hex;
+
+  const [zoomedOut, setZoomedOut] = useState(false);
+  const [vb, setVb] = useState<Box>(FULL);
+  const vbRef = useRef<Box>(FULL);
+
+  // Choosing a different region zooms in again.
+  useEffect(() => setZoomedOut(false), [selected]);
+
+  const zoomable = !!selected && !!ZOOM[selected];
+  const zoomed = zoomable && !zoomedOut;
+
+  useEffect(() => {
+    const target = zoomed ? boxFor(selected) : FULL;
+    const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) {
+      vbRef.current = target;
+      setVb(target);
+      return;
+    }
+    const from = vbRef.current;
+    const t0 = performance.now();
+    let raf = 0;
+    const step = (t: number) => {
+      const k = Math.min(1, (t - t0) / 350);
+      const e = 1 - (1 - k) ** 3;
+      const next = from.map((f, i) => f + (target[i] - f) * e) as Box;
+      vbRef.current = next;
+      setVb(next);
+      if (k < 1) raf = requestAnimationFrame(step);
+    };
+    raf = requestAnimationFrame(step);
+    // If frames are throttled (background tab), still land on the final view.
+    const settle = setTimeout(() => {
+      vbRef.current = target;
+      setVb(target);
+    }, 450);
+    return () => {
+      cancelAnimationFrame(raf);
+      clearTimeout(settle);
+    };
+  }, [zoomed, selected]);
 
   function region(id: RegionId, shape: (p: ShapeProps) => ReactNode) {
     const status: Status = summaries[id].status;
     const hex = STATUS_STYLE[status].hex;
     const active = selected === id || highlighted === id;
+    const inFilter = regionInHazard(id, filter);
     const label = `${getRegionMeta(id).label}: ${STATUS_STYLE[status].word}. ${summaries[id].headline}`;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Enter" || e.key === " ") {
@@ -34,6 +104,7 @@ export function BodyScan({ summaries, selected, highlighted, onSelect }: Props) 
         onClick={() => onSelect(id)}
         onKeyDown={onKey}
         className="cursor-pointer outline-none focus-visible:[&>*]:stroke-white"
+        style={{ opacity: inFilter ? 1 : 0.2, transition: "opacity 200ms" }}
       >
         {shape({
           fill: hex,
@@ -46,9 +117,10 @@ export function BodyScan({ summaries, selected, highlighted, onSelect }: Props) 
   }
 
   return (
+    <div className="mx-auto w-full max-w-[300px]">
     <svg
-      viewBox="0 0 240 480"
-      className="mx-auto h-auto w-full max-w-[300px]"
+      viewBox={vb.map((n) => n.toFixed(2)).join(" ")}
+      className="h-auto w-full"
       role="group"
       aria-label="Astronaut body scan. Whole-figure outline shows radiation dose status."
     >
@@ -109,6 +181,18 @@ export function BodyScan({ summaries, selected, highlighted, onSelect }: Props) 
         <text x="120" y="209">Stomach</text>
       </g>
     </svg>
+    {zoomable && (
+      <div className="mt-1 text-center">
+        <button
+          type="button"
+          onClick={() => setZoomedOut((z) => !z)}
+          className="min-h-11 rounded-lg border border-slate-600 px-3 text-sm hover:bg-slate-800"
+        >
+          {zoomedOut ? "Zoom in on " + getRegionMeta(selected!).label : "Show whole body"}
+        </button>
+      </div>
+    )}
+    </div>
   );
 }
 

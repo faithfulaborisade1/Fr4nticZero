@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { generateHistory } from "./data/generator";
+import { regionInHazard, type HazardFilter } from "./data/hazards";
 import { REGIONS, type RegionId } from "./data/regions";
 import { DEFAULT_SCENARIO, getScenario } from "./data/scenarios";
 import { evaluateCrosslinks } from "./engine/crosslinks";
 import { MARS_DELAY_MAX_SEC, makeEnvironment } from "./engine/environments";
-import type { Environment } from "./engine/types";
+import { ALL_CLEAR_TEXT } from "./engine/escalation";
+import type { Environment, Step } from "./engine/types";
 import { buildCards } from "./state/cards";
 import {
   createClock,
@@ -29,15 +31,19 @@ import {
   type LedgerEntry,
 } from "./state/ledger";
 import { buildSummaries } from "./state/regions";
+import { eatMeal, initialSupplies, stepKey, takeStep } from "./state/supplies";
 import { BodyScan } from "./ui/BodyScan";
 import { CabinStrip } from "./ui/CabinStrip";
 import type { CheckInValue } from "./ui/CheckIn";
+import { CompareChart } from "./ui/CompareChart";
 import { DecisionCardView } from "./ui/DecisionCard";
 import { EnvironmentBar } from "./ui/EnvironmentBar";
+import { HazardTabs } from "./ui/HazardTabs";
 import { Ledger } from "./ui/Ledger";
 import { RegionCard } from "./ui/RegionCard";
 import { RegionDetail } from "./ui/RegionDetail";
 import { ScenarioBar } from "./ui/ScenarioBar";
+import { SuppliesPanel } from "./ui/SuppliesPanel";
 
 const HISTORY_DAYS = 30;
 // Start paused, one mission minute per real second.
@@ -54,6 +60,8 @@ export default function App() {
   const [ledger, setLedger] = useState<LedgerEntry[]>([]);
   const [checkIns, setCheckIns] = useState<CheckInEntry[]>([]);
   const [dismissed, setDismissed] = useState<Record<string, boolean>>({});
+  const [supplies, setSupplies] = useState(initialSupplies);
+  const [hazard, setHazard] = useState<HazardFilter>("all");
 
   const [envId, setEnvId] = useState<Environment["id"]>("station");
   const [delaySec, setDelaySec] = useState(MARS_DELAY_MAX_SEC);
@@ -68,7 +76,13 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (selected) detailRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    if (!selected) return;
+    // Let the figure zoom in first, then bring the details into view.
+    const t = setTimeout(
+      () => detailRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" }),
+      450,
+    );
+    return () => clearTimeout(t);
   }, [selected]);
 
   const day = missionDay(clock);
@@ -98,8 +112,11 @@ export default function App() {
   const now = nowISO(clock);
   const nudges = links.nudges.filter((n) => !dismissed[n.id]);
 
-  const left = REGIONS.filter((r) => r.side === "left");
-  const right = REGIONS.filter((r) => r.side === "right");
+  const shownEntries = entries.filter((e) => hazard === "all" || e.rule.hazard === hazard);
+  const showCabin = hazard === "all" || hazard === "environment";
+
+  const left = REGIONS.filter((r) => r.side === "left" && regionInHazard(r.id, hazard));
+  const right = REGIONS.filter((r) => r.side === "right" && regionInHazard(r.id, hazard));
 
   const card = (r: (typeof REGIONS)[number]) => (
     <RegionCard
@@ -118,6 +135,11 @@ export default function App() {
     setLedger([]);
     setCheckIns([]);
     setDismissed({});
+    setSupplies(initialSupplies());
+  }
+
+  function takeCardStep(cardId: string, index: number, step: Step) {
+    setSupplies((s) => takeStep(s, stepKey(cardId, index), step, day));
   }
 
   function logChoice(entry: (typeof entries)[number], choice: string) {
@@ -167,20 +189,23 @@ export default function App() {
         <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-300">
           Whose call is this, and by when?
         </h2>
-        {entries.length === 0 ? (
+        {shownEntries.length === 0 ? (
           <p className="rounded-xl border border-emerald-500/50 bg-emerald-500/10 p-4 text-sm">
-            ✓ No flagged readings. Everything is near your own baseline.
+            ✓ {entries.length === 0 ? ALL_CLEAR_TEXT : "No flagged readings for this hazard."}
           </p>
         ) : (
-          entries.map((e) => (
+          shownEntries.map((e) => (
             <DecisionCardView
               key={e.card.id}
               entry={e}
               clock={clock}
               nowISO={now}
+              day={day}
               blackout={blackout}
+              supplies={supplies}
               choice={ledger.find((l) => l.id === e.card.id)?.crewChoice}
               onChoose={(c) => logChoice(e, c)}
+              onTakeStep={(i, step) => takeCardStep(e.card.id, i, step)}
             />
           ))
         )}
@@ -204,6 +229,8 @@ export default function App() {
 
       <Ledger entries={ledger} clock={clock} nowISO={now} onReview={surgeonReview} />
 
+      <HazardTabs value={hazard} onChange={setHazard} />
+
       <main className="grid gap-4 lg:grid-cols-[1fr_auto_1fr] lg:items-center lg:gap-12">
         <div className="order-2 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:order-1 lg:grid-cols-1">
           {left.map(card)}
@@ -213,6 +240,7 @@ export default function App() {
             summaries={summaries}
             selected={selected}
             highlighted={hovered}
+            filter={hazard}
             onSelect={setSelected}
           />
         </div>
@@ -228,14 +256,24 @@ export default function App() {
             summary={summaries[selected]}
             history={history}
             links={links}
+            pantry={supplies.pantry}
             dismissedNudges={dismissed}
             onDismissNudge={(id) => setDismissed((p) => ({ ...p, [id]: true }))}
             onCheckIn={logCheckIn}
+            onEat={(id) => setSupplies((s) => eatMeal(s, id))}
           />
         )}
       </div>
 
-      <CabinStrip co2MmHg={history.co2[history.co2.length - 1]} />
+      {showCabin && <CabinStrip co2MmHg={history.co2[history.co2.length - 1]} />}
+
+      <CompareChart history={history} />
+
+      <SuppliesPanel
+        supplies={supplies}
+        day={day}
+        onEat={(id) => setSupplies((s) => eatMeal(s, id))}
+      />
 
       <ScenarioBar
         scenarioId={scenarioId}

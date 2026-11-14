@@ -19,6 +19,12 @@ const VERDICT_WORD: Record<Verdict, string> = {
   monitor: "Monitor",
 };
 
+const ALERT_WORD = {
+  self: "🙋 Self top-up",
+  buddy: "🤝 Buddy alerted",
+  all: "📣 All crew alerted",
+} as const;
+
 const ENV_LABEL = { station: "Station", moon: "Moon surface", mars: "Mars transit" } as const;
 
 function fmt(n: number): string {
@@ -137,6 +143,9 @@ function LedgerRow({
 
       <div className="mt-1 text-sm">
         Crew choice: <strong>{e.crewChoice}</strong>
+        <span className="ml-2 text-slate-300">
+          · {ALERT_WORD[e.alert]}
+        </span>
       </div>
       <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-400">
         <span>

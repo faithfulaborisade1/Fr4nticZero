@@ -5,7 +5,8 @@ import {
   SANS_SOURCE,
   SLEEP_SOURCE,
 } from "../data/indicators";
-import { suggestMeals } from "../data/pantry";
+import { REGION_HAZARDS } from "../data/hazards";
+import { suggestMeals, type PantryItem } from "../data/pantry";
 import { getRegionMeta, type RegionId } from "../data/regions";
 import { B_VITAMIN_NOTE, type Crosslinks } from "../engine/crosslinks";
 import { rulesForIndicator } from "../engine/rules";
@@ -83,9 +84,11 @@ interface Props {
   summary: RegionSummary;
   history: History;
   links: Crosslinks;
+  pantry: PantryItem[];
   dismissedNudges: Record<string, boolean>;
   onDismissNudge: (id: string) => void;
   onCheckIn: (values: CheckInValue[]) => void;
+  onEat: (id: string) => void;
 }
 
 export function RegionDetail({
@@ -93,16 +96,18 @@ export function RegionDetail({
   summary,
   history,
   links,
+  pantry,
   dismissedNudges,
   onDismissNudge,
   onCheckIn,
+  onEat,
 }: Props) {
   const meta = getRegionMeta(regionId);
   const indicators = REGION_INDICATORS[regionId] ?? [];
   const form = FORMS[regionId];
   const regionNudges =
     regionId === "head" ? links.nudges.filter((n) => !dismissedNudges[n.id]) : [];
-  const suggestions = regionId === "stomach" && links.menuFatigue ? suggestMeals() : [];
+  const suggestions = regionId === "stomach" && links.menuFatigue ? suggestMeals(pantry) : [];
   const showBVitamin = regionId === "eyes" && summary.status !== "ok" && links.bBelowPlan;
 
   return (
@@ -116,7 +121,7 @@ export function RegionDetail({
         </h2>
         <StatusBadge status={summary.status} />
         <span className="rounded border border-slate-500 px-1.5 py-0.5 text-xs capitalize">
-          Hazard: {meta.hazard}
+          Hazard: {REGION_HAZARDS[regionId].join(", ")}
         </span>
         <SimulatedBadge />
       </div>
@@ -155,8 +160,20 @@ export function RegionDetail({
           🍽 Try something you have not eaten recently from the pantry:
           <ul className="mt-1 list-disc pl-5">
             {suggestions.map((p) => (
-              <li key={p.id}>
-                {p.name} <span className="text-slate-400">({p.qty} left, last eaten {p.daysSinceEaten} days ago)</span>
+              <li key={p.id} className="flex flex-wrap items-center gap-x-3">
+                <span>
+                  {p.name}{" "}
+                  <span className="text-slate-400">
+                    ({p.qty} left, last eaten {p.daysSinceEaten} days ago)
+                  </span>
+                </span>
+                <button
+                  type="button"
+                  onClick={() => onEat(p.id)}
+                  className="min-h-11 rounded-lg border border-slate-400 px-3 text-xs hover:bg-white hover:text-slate-900"
+                >
+                  Ate one
+                </button>
               </li>
             ))}
           </ul>

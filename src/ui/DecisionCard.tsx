@@ -1,7 +1,10 @@
 import { indicatorLabel } from "../data/indicators";
+import { kitName } from "../data/kit";
+import { escalation } from "../engine/escalation";
+import type { Step, Verdict } from "../engine/types";
 import type { CardEntry } from "../state/cards";
 import { missionTimeLabel, type ClockState } from "../state/clock";
-import type { Verdict } from "../engine/types";
+import { missingItem, minutesToday, stepKey, type Supplies } from "../state/supplies";
 import { DemoBadge, StatusBadge } from "./Badge";
 
 const VERDICT_STYLE: Record<
@@ -44,18 +47,24 @@ interface Props {
   entry: CardEntry;
   clock: ClockState;
   nowISO: string;
+  day: number;
   blackout: boolean;
+  supplies: Supplies;
   choice?: string;
   onChoose: (choice: string) => void;
+  onTakeStep: (index: number, step: Step) => void;
 }
 
 export function DecisionCardView({
   entry,
   clock,
   nowISO,
+  day,
   blackout,
+  supplies,
   choice,
   onChoose,
+  onTakeStep,
 }: Props) {
   const { card, rule, baseline } = entry;
   const v = VERDICT_STYLE[card.verdict];
@@ -65,6 +74,7 @@ export function DecisionCardView({
     ? (new Date(card.deadlineISO).getTime() - new Date(nowISO).getTime()) / 60_000
     : null;
   const crewMinutes = rule.holdingSteps.reduce((a, s) => a + s.crewMinutes, 0);
+  const alert = escalation(card);
 
   let why: string;
   if (card.verdict === "monitor") {
@@ -108,8 +118,8 @@ export function DecisionCardView({
       </div>
 
       <p className="mt-2 text-sm">
-        <strong>{indicatorLabel(rule.indicator)}</strong>{" "}
-        {fmt(card.value)} · your baseline {fmt(baseline.mean)} ± {fmt(baseline.sd)}
+        <strong>{indicatorLabel(rule.indicator)}</strong> {fmt(card.value)} · your baseline{" "}
+        {fmt(baseline.mean)} ± {fmt(baseline.sd)}
       </p>
       <p className="mt-1 text-sm text-slate-200">{rule.explanation}</p>
 
@@ -137,18 +147,48 @@ export function DecisionCardView({
         )}
       </div>
 
+      <p className="mt-3 flex flex-wrap items-center gap-2 text-sm">
+        <span aria-hidden="true">{alert.icon}</span>
+        <strong>{alert.word}:</strong> {alert.text} <DemoBadge label="Demo rule" />
+      </p>
+
       <div className="mt-3">
         <h4 className="text-sm font-semibold">Do this now</h4>
-        <ol className="mt-1 list-decimal space-y-1 pl-5 text-sm">
-          {rule.holdingSteps.map((s) => (
-            <li key={s.text}>
-              {s.text}{" "}
-              <span className="text-slate-400">({s.crewMinutes} min)</span>
-            </li>
-          ))}
+        <ol className="mt-1 space-y-2 text-sm">
+          {rule.holdingSteps.map((s, i) => {
+            const key = stepKey(card.id, i);
+            const done = !!supplies.done[key];
+            const missing = missingItem(supplies, s);
+            return (
+              <li key={s.text} className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                <span>
+                  {i + 1}. {s.text}{" "}
+                  <span className="text-slate-400">
+                    ({s.crewMinutes} min
+                    {s.uses?.map((u) => `, uses ${u.qty} × ${kitName(u.item)}`).join("")})
+                  </span>
+                </span>
+                {done ? (
+                  <span className="text-emerald-300" role="status">
+                    ✓ Done
+                  </span>
+                ) : missing ? (
+                  <span className="text-red-300">⚠ Out of {kitName(missing)}</span>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => onTakeStep(i, s)}
+                    className="min-h-11 rounded-lg border border-slate-400 px-3 text-sm hover:bg-white hover:text-slate-900"
+                  >
+                    Mark done
+                  </button>
+                )}
+              </li>
+            );
+          })}
         </ol>
         <div className="mt-1 text-xs text-slate-400">
-          Crew time: about {crewMinutes} min
+          Crew time: about {crewMinutes} min · {minutesToday(supplies, day)} min taken today
         </div>
       </div>
 
@@ -171,15 +211,33 @@ export function DecisionCardView({
         )}
       </div>
 
+      <details className="mt-3 text-sm">
+        <summary className="cursor-pointer font-semibold">How this is measured</summary>
+        <dl className="mt-2 grid gap-2 sm:grid-cols-2">
+          <div>
+            <dt className="text-slate-300">On board</dt>
+            <dd>{rule.measuredInSpace}</dd>
+          </div>
+          <div>
+            <dt className="text-slate-300">Needs Earth</dt>
+            <dd>{rule.needsEarth}</dd>
+          </div>
+        </dl>
+      </details>
+
       <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-slate-400">
         <span>Threshold:</span>
-        {rule.source === "DEMO" ? <DemoBadge /> : (
+        {rule.source === "DEMO" ? (
+          <DemoBadge />
+        ) : (
           <a className="underline" href={rule.source.url} target="_blank" rel="noreferrer">
             {rule.source.title}
           </a>
         )}
         <span>Window:</span>
-        {rule.windowSource === "DEMO" ? <DemoBadge /> : (
+        {rule.windowSource === "DEMO" ? (
+          <DemoBadge />
+        ) : (
           <a className="underline" href={rule.windowSource.url} target="_blank" rel="noreferrer">
             {rule.windowSource.title}
           </a>

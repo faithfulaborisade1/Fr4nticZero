@@ -10,8 +10,9 @@ NASA Space Apps 2026 entry. Static offline web app (Vite, React, TypeScript, Tai
 - a source or a published figure (sections 2 and 3)
 - a scenario or cross-link (sections 5 and 6)
 - a design decision, limitation or disclosure item (sections 7 to 9)
+- the team's own notes and their status (section 10)
 
-Also bump the "Last updated" line and add a row to the changelog (section 10). Never mark a source as confirmed unless you opened the link and checked the number.
+Also bump the "Last updated" line and add a row to the changelog (section 11). Never mark a source as confirmed unless you opened the link and checked the number.
 
 ## Honesty rules
 

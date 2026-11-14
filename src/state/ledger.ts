@@ -1,3 +1,4 @@
+import { escalation, type AlertTier } from "../engine/escalation";
 import type { DecisionCard, Environment, Rule, Status, Verdict } from "../engine/types";
 
 /**
@@ -15,6 +16,8 @@ export interface LedgerEntry {
   verdict: Verdict;
   status: Exclude<Status, "ok">;
   crewChoice: string;
+  /** Who was alerted when this was logged (buddy-system tiers). */
+  alert: AlertTier;
   envId: Environment["id"];
   oneWayDelaySec: number;
   loggedAtISO: string;
@@ -50,6 +53,7 @@ export function createEntry(
     verdict: card.verdict,
     status: card.status,
     crewChoice,
+    alert: escalation(card).tier,
     envId: env.id,
     oneWayDelaySec: env.oneWayDelaySec,
     loggedAtISO: nowISO,

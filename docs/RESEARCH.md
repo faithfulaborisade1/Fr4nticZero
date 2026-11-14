@@ -2,7 +2,7 @@
 
 Living document. Updated whenever a rule, threshold, source, scenario, cross-link or design decision changes (see `CLAUDE.md`). The README is built from this file.
 
-Last updated: Saturday 14 Nov 2026, end of build step 6.
+Last updated: Saturday 14 Nov 2026, end of build step 7.
 
 ## 1. What we are building
 
@@ -68,6 +68,11 @@ Anything below shows a "Demo parameter" badge in the app. None is clinical guida
 | Cross-link thresholds | Last 3 values beyond 1 sd of the earlier baseline | `crosslinks.ts` |
 | Menu-fatigue window | 5 days (demo compression of "two weeks") | `crosslinks.ts` `MENU_WINDOW` |
 | Simulated dose before day 1 | 20 mSv | `data/regions.ts` |
+| Buddy alert tiers | Watch: self top-up. Act: buddy and medical team. Crew decides now: all crew | `engine/escalation.ts` |
+| Kit quantities and low-stock levels | Cuff covers 8, glucose strips 20, probe covers 15, water pouches 24 | `data/kit.ts` |
+| Pantry stock and days since eaten | Fixed simulated list; menu suggestions use 14 days or more | `data/pantry.ts` |
+| Step crew minutes | 2 to 5 min per holding step | `engine/rules.ts` |
+| Correlation wording bands | Strong from 0.7, moderate from 0.4, weak from 0.2 (description only) | `engine/stats.ts` |
 
 Honest limits: no action window has a published source. The README frames them as parameters a flight surgeon would set. Sleep has a sourced reference (8.5 h vs about 6 h) but its flag threshold is still a demo value.
 
@@ -98,7 +103,11 @@ All crew data is simulated (one crew member, 30 days, seeded generator, seed 202
 - **Status is never colour alone.** Each status has a colour, a symbol and a word.
 - **Wording.** "Flag", "re-check", "notify the medical team". Never "diagnose", "treat" or "predict". No drug doses, no calorie targets.
 - **Ledger.** An entry is stored when the crew chooses an action. It queues for one one-way delay, a surgeon review travels back with another, and a blackout holds both. State is in memory for now.
-- **Figure.** Original flat SVG, not copied or traced from any agency artwork.
+- **Figure.** Original flat SVG, not copied or traced from any agency artwork. Tapping a region zooms the figure in on it (turned off for users who prefer reduced motion), with a "Show whole body" button.
+- **Hazard tabs.** Five tabs plus "All hazards" filter the same data: region cards, figure regions (others dim), decision cards and the cabin strip. Each tab shows the published figure and its source link. Stomach and immune each belong to two hazards, as in the build spec.
+- **Buddy system (team notes).** Every decision card says who is alerted. Watch: you top up and re-check. Act: a simulated buddy (Sam) and the medical team. Crew decides now: all crew, because Earth cannot reply in time. The tier is stored on the ledger entry. These tiers are a demo rule.
+- **Supplies and crew time.** Each holding step shows its minutes and the kit items it uses. "Mark done" uses the stock and adds to the day's crew-time tally, and is blocked when the item is out. The pantry suggestions in Nutrition have an "Ate one" button that uses stock.
+- **Dot plot.** A scatter of one indicator against another, one dot per day, with the last five days highlighted and a correlation figure. The wording says "relationship in this data" and "under investigation", never that one thing causes the other.
 
 ## 8. Limitations to state in the README
 
@@ -108,13 +117,33 @@ All crew data is simulated (one crew member, 30 days, seeded generator, seed 202
 - Region areas without a deep flow (inner ear, immune, bones and muscles) use fixed simulated values. The immune panel only reacts through the cross-link; there is no saliva strip or viral-reactivation flag yet.
 - The vision check is a three-question self-report summed into a 0 to 9 score. It is a demo instrument, not a validated vision test.
 - The pantry is a fixed simulated list. Taking a step does not yet use up kit or pantry stock (planned for step 7).
-- Only one crew member, no accounts.
+- Only one crew member, no accounts. The buddy is a simulated crewmate and no alert is actually sent anywhere.
+- Kit, pantry and crew-time tallies are in memory and reset on reload or scenario change.
+- The dot plot pairs readings by position. Check-ins appended on one indicator shift its pairing against the others.
+- No camera or image input yet.
 
 ## 9. AI-use disclosure (for the README)
 
 An AI coding agent (Claude Code) wrote most of the code from a build spec (`HANDOFF.md`) that was itself drafted with AI assistance before the hackathon. The human team directs scope, reviews output, runs the demo and submits. Confirm the exact wording against the 2026 submission and judging guides.
 
-## 10. Changelog
+## 10. Team notes (handwritten sheet 1, transcribed by the build agent)
+
+Handwriting was read from a photo, so check this against the sheet. Each note has a status in the build.
+
+| Team note | Status |
+| --- | --- |
+| Five hazards: space radiation, isolation and confinement, altered gravity, distance from Earth, hostile closed environments | Done. These are our five hazard tags. |
+| Health problems: immune changes, bone density loss, cardiovascular event, behavioural health, inadequate nutrition | Covered by Immune, Bones and muscles, Heart, Head, Stomach. Bones is still fixed simulated data. |
+| Gather info, identify health indicators, evaluate and act on status | Done: check-ins, six indicators, decision card. |
+| Six daily indicators: blood pressure, heart rate, blood sugar, body temperature, daily sleep hours, mood | Done. |
+| Buddy system: low level, "top up" alert; chronic low, alert paired buddy or closest person; critical, alert everyone; otherwise "good job, staying healthy" | Done in step 7: three alert tiers on each decision card and the ledger, and the all-clear message reads "Good job, staying healthy". "Chronic" is approximated by act level, since we do not track how long a reading stays low. |
+| Display on a clickable human figure that zooms in on the affected area | Done in step 7. |
+| Input by text (mood, readings), mouse clicks, camera images (jpg, jpeg, raw, png) | Text and clicks done. Image attach not built (stretch, only if time allows). It would be stored locally and not analysed. |
+| Dot plot chart (plot one thing against another) | Done in step 7, framed as "under investigation, not causation". |
+| Daily stream in a non-demanding way | Partly: one-tap mood check-in, scenario player standing in for device feeds. |
+| SSH, VM web app, 2FA, local storage | Not in the product. The app is static and client-only by design. Local storage is planned for persistence in step 8. SSH, VM and 2FA go in the README as a note on how a real deployment would sit behind crew-network access. |
+
+## 11. Changelog
 
 | When (Dublin) | Step | What changed |
 | --- | --- | --- |
@@ -123,4 +152,5 @@ An AI coding agent (Claude Code) wrote most of the code from a build spec (`HAND
 | Sat | 3 | Decision card, live countdown, scenario 1 |
 | Sat | 4 | Region detail with trend charts, Heart and Head check-ins, cross-links, scenario 2 |
 | Sat | 5 | Decision ledger, blackout hold, surgeon review |
+| Sat | 7 | Hazard tabs with published figures and source links, "How this is measured" on each decision card, buddy alert tiers, take-step costs with kit and pantry stock and a crew-time tally, figure zoom, dot plot compare view, tests that every rule source is a link or marked DEMO. Team notes status updated. |
 | Sat | 6 | Eyes deep flow (weekly vision check, CO2 cross-link, B-vitamin note), Nutrition panel (daily log, weekly meal survey, menu-fatigue flag, pantry suggestions), radiation gauge, scenario 3 plus the extra menu-fatigue scenario. Added this research doc. |
