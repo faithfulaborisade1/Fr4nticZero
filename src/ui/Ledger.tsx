@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { indicatorLabel } from "../data/indicators";
 import { getRule } from "../engine/rules";
+import { formatSize } from "../state/attachments";
 import type { Verdict } from "../engine/types";
 import { missionTimeLabel, type ClockState } from "../state/clock";
 import {
@@ -147,6 +148,31 @@ function LedgerRow({
           · {ALERT_WORD[e.alert]}
         </span>
       </div>
+      {e.attachments && e.attachments.length > 0 && (
+        <div className="mt-2">
+          <ul className="flex flex-wrap gap-2">
+            {e.attachments.map((a, i) => (
+              <li key={`${a.name}-${i}`} className="flex items-center gap-2 rounded-lg border border-slate-700 p-1.5">
+                {a.preview ? (
+                  <img src={a.preview} alt={`${a.source === "ultrasound" ? "Ultrasound scan" : "Photo"} ${a.name}`} className="h-14 w-14 rounded object-cover" />
+                ) : (
+                  <span className="flex h-14 w-14 items-center justify-center rounded bg-slate-800 text-[10px] text-slate-300">
+                    No preview
+                  </span>
+                )}
+                <span className="text-xs">
+                  {a.name}
+                  <br />
+                  {a.source === "ultrasound" ? "Ultrasound" : "Camera"} · {formatSize(a.sizeBytes)}
+                </span>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-1 text-xs text-slate-400">
+            Sent with this entry for Earth to review. Not analysed here.
+          </p>
+        </div>
+      )}
       <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-400">
         <span>
           Logged {missionTimeLabel(clock, e.loggedAtISO)} · {ENV_LABEL[e.envId]},{" "}

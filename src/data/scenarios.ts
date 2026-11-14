@@ -63,6 +63,18 @@ export const SCENARIOS: Scenario[] = [
     },
   },
   {
+    id: "bp_drift",
+    name: "4. Slow blood pressure drift (trend projection)",
+    blurb:
+      "Blood pressure creeps up by about a point a day. From day 24 press Next day: the on-board trend projection warns days ahead that it is heading for your flag level. The daily rule check stays quiet, because its baseline drifts along with the readings.",
+    startDay: 23,
+    apply: (h) => {
+      const out = withTail(h, "bp_systolic", [119, 120, 120, 121, 122, 123, 123, 124, 125, 126, 126, 127]);
+      // Keep mood steady so the story stays about blood pressure.
+      return withTail(out, "mood", [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4]);
+    },
+  },
+  {
     id: "menu_fatigue",
     name: "Extra: Menu fatigue",
     blurb:

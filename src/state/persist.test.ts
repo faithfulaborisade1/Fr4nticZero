@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { ALL_WORKING } from "../data/devices";
 import { initialSupplies } from "./supplies";
 import { STORAGE_KEY, clearSaved, loadSaved, parseSaved, saveState, type SavedState } from "./persist";
 
@@ -15,6 +16,12 @@ const sample: SavedState = {
   checkIns: [{ indicator: "bp_systolic", value: 150, atISO: "2026-12-08T08:00:00.000Z" }],
   dismissed: { mood_down_3: true },
   supplies: initialSupplies(),
+  devices: { ...ALL_WORKING, bp_cuff: false },
+  pending: {
+    "bp_systolic_high@x": [
+      { name: "a.jpg", source: "camera", mime: "image/jpeg", sizeBytes: 10, preview: null },
+    ],
+  },
 };
 
 function fakeStorage() {
@@ -47,6 +54,22 @@ describe("persistence", () => {
     expect(parseSaved(JSON.stringify({ ...sample, elapsedMin: -5 }))).toBeNull();
     expect(parseSaved(JSON.stringify({ ...sample, ledger: "x" }))).toBeNull();
     expect(parseSaved(JSON.stringify({ ...sample, supplies: { kit: {} } }))).toBeNull();
+  });
+
+  it("reads saves from before devices and images existed", () => {
+    const { devices: _d, pending: _p, ...old } = sample;
+    void _d;
+    void _p;
+    const withOldLedger = { ...old, ledger: [{ id: "x" }] };
+    const loaded = parseSaved(JSON.stringify(withOldLedger))!;
+    expect(loaded.devices).toEqual(ALL_WORKING);
+    expect(loaded.pending).toEqual({});
+    expect((loaded.ledger[0] as { attachments: unknown[] }).attachments).toEqual([]);
+  });
+
+  it("rejects malformed devices or pending data", () => {
+    expect(parseSaved(JSON.stringify({ ...sample, devices: "x" }))).toBeNull();
+    expect(parseSaved(JSON.stringify({ ...sample, pending: [] }))).toBeNull();
   });
 
   it("clears what it saved", () => {

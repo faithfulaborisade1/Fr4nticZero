@@ -1,6 +1,9 @@
+import type { DeviceState } from "../data/devices";
+import { ALL_WORKING } from "../data/devices";
 import type { HazardFilter } from "../data/hazards";
 import { SCENARIOS } from "../data/scenarios";
 import type { Environment } from "../engine/types";
+import type { Attachment } from "./attachments";
 import type { CheckInEntry } from "./history";
 import type { LedgerEntry } from "./ledger";
 import type { Supplies } from "./supplies";
@@ -23,6 +26,10 @@ export interface SavedState {
   checkIns: CheckInEntry[];
   dismissed: Record<string, boolean>;
   supplies: Supplies;
+  /** Which equipment is working (true) or has failed (false). */
+  devices: DeviceState;
+  /** Images chosen on a decision card but not yet logged, by card id. */
+  pending: Record<string, Attachment[]>;
 }
 
 export const STORAGE_KEY = "decision-window-v1";
@@ -50,7 +57,17 @@ export function parseSaved(text: string | null): SavedState | null {
     if (!isObj(s) || !isObj(s.kit) || !Array.isArray(s.pantry) || !isObj(s.minutesByDay) || !isObj(s.done)) {
       return null;
     }
-    return d as unknown as SavedState;
+    // Older saves do not have these two fields.
+    if (d.devices !== undefined && !isObj(d.devices)) return null;
+    if (d.pending !== undefined && !isObj(d.pending)) return null;
+    const saved = d as unknown as SavedState;
+    return {
+      ...saved,
+      devices: { ...ALL_WORKING, ...((d.devices as DeviceState | undefined) ?? {}) },
+      pending: (d.pending as Record<string, Attachment[]> | undefined) ?? {},
+      // Ledger entries saved before image attach have no attachments.
+      ledger: saved.ledger.map((e) => ({ ...e, attachments: e.attachments ?? [] })),
+    };
   } catch {
     return null;
   }

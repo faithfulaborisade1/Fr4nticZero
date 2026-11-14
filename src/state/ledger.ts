@@ -1,4 +1,5 @@
 import { escalation, type AlertTier } from "../engine/escalation";
+import type { Attachment } from "./attachments";
 import type { DecisionCard, Environment, Rule, Status, Verdict } from "../engine/types";
 
 /**
@@ -18,6 +19,8 @@ export interface LedgerEntry {
   crewChoice: string;
   /** Who was alerted when this was logged (buddy-system tiers). */
   alert: AlertTier;
+  /** Photos or scans sent with the entry. Not analysed. Arrive with the entry. */
+  attachments: Attachment[];
   envId: Environment["id"];
   oneWayDelaySec: number;
   loggedAtISO: string;
@@ -44,6 +47,7 @@ export function createEntry(
   crewChoice: string,
   env: Environment,
   nowISO: string,
+  attachments: Attachment[] = [],
 ): LedgerEntry {
   return {
     id: card.id,
@@ -54,6 +58,7 @@ export function createEntry(
     status: card.status,
     crewChoice,
     alert: escalation(card).tier,
+    attachments,
     envId: env.id,
     oneWayDelaySec: env.oneWayDelaySec,
     loggedAtISO: nowISO,

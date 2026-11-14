@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { ALL_WORKING, type DeviceState } from "./data/devices";
 import { generateHistory } from "./data/generator";
 import { regionInHazard, type HazardFilter } from "./data/hazards";
 import { REGIONS, type RegionId } from "./data/regions";
@@ -7,6 +8,7 @@ import { evaluateCrosslinks } from "./engine/crosslinks";
 import { MARS_DELAY_MAX_SEC, makeEnvironment } from "./engine/environments";
 import { ALL_CLEAR_TEXT } from "./engine/escalation";
 import type { Environment, Step } from "./engine/types";
+import { toAttachment, validateImage, type Attachment } from "./state/attachments";
 import { buildCards } from "./state/cards";
 import {
   createClock,
@@ -32,12 +34,14 @@ import {
 } from "./state/ledger";
 import { clearSaved, loadSaved, saveState, type SavedState } from "./state/persist";
 import { buildSummaries } from "./state/regions";
+import { buildTrends } from "./state/trends";
 import { eatMeal, initialSupplies, stepKey, takeStep } from "./state/supplies";
 import { BodyScan } from "./ui/BodyScan";
 import { CabinStrip } from "./ui/CabinStrip";
 import type { CheckInValue } from "./ui/CheckIn";
 import { CompareChart } from "./ui/CompareChart";
 import { DecisionCardView } from "./ui/DecisionCard";
+import { EquipmentPanel } from "./ui/EquipmentPanel";
 import { EnvironmentBar } from "./ui/EnvironmentBar";
 import { HazardTabs } from "./ui/HazardTabs";
 import { Ledger } from "./ui/Ledger";
@@ -45,6 +49,7 @@ import { RegionCard } from "./ui/RegionCard";
 import { RegionDetail } from "./ui/RegionDetail";
 import { ScenarioBar } from "./ui/ScenarioBar";
 import { SuppliesPanel } from "./ui/SuppliesPanel";
+import { TrendWatch } from "./ui/TrendWatch";
 
 const HISTORY_DAYS = 30;
 // Start paused, one mission minute per real second.
@@ -69,6 +74,8 @@ export default function App() {
   const [dismissed, setDismissed] = useState<Record<string, boolean>>(SAVED?.dismissed ?? {});
   const [supplies, setSupplies] = useState(() => SAVED?.supplies ?? initialSupplies());
   const [hazard, setHazard] = useState<HazardFilter>(SAVED?.hazard ?? "all");
+  const [devices, setDevices] = useState<DeviceState>(SAVED?.devices ?? ALL_WORKING);
+  const [pending, setPending] = useState<Record<string, Attachment[]>>(SAVED?.pending ?? {});
 
   const [envId, setEnvId] = useState<Environment["id"]>(SAVED?.envId ?? "station");
   const [delaySec, setDelaySec] = useState(SAVED?.delaySec ?? MARS_DELAY_MAX_SEC);
@@ -98,6 +105,8 @@ export default function App() {
     checkIns,
     dismissed,
     supplies,
+    devices,
+    pending,
   };
   useEffect(() => {
     const save = () => {
@@ -141,6 +150,7 @@ export default function App() {
 
   const links = useMemo(() => evaluateCrosslinks(history), [history]);
   const summaries = useMemo(() => buildSummaries(history, links), [history, links]);
+  const trends = useMemo(() => buildTrends(history), [history]);
 
   const env = makeEnvironment(envId, delaySec, blackout);
   const entries = useMemo(
@@ -182,6 +192,8 @@ export default function App() {
     setCheckIns([]);
     setDismissed({});
     setSupplies(initialSupplies());
+    setDevices(ALL_WORKING);
+    setPending({});
   }
 
   /** Back to the opening state of the demo: scenario 1 on Station, nothing logged. */
@@ -192,6 +204,8 @@ export default function App() {
     setDelaySec(MARS_DELAY_MAX_SEC);
     setBlackout(false);
     setHazard("all");
+    setDevices(ALL_WORKING);
+    setPending({});
     setSelected(null);
     setClock(INITIAL_CLOCK);
   }
@@ -201,7 +215,15 @@ export default function App() {
   }
 
   function logChoice(entry: (typeof entries)[number], choice: string) {
-    setLedger((l) => addEntry(l, createEntry(entry.card, entry.rule, choice, env, nowISO(clock))));
+    const files = pending[entry.card.id] ?? [];
+    setLedger((l) =>
+      addEntry(l, createEntry(entry.card, entry.rule, choice, env, nowISO(clock), files)),
+    );
+    setPending((p) => {
+      const { [entry.card.id]: _sent, ...rest } = p;
+      void _sent;
+      return rest;
+    });
     // Start the mission clock so the entry can be seen crossing the link.
     setClock((c) => (c.playing ? c : play(c)));
   }
@@ -215,6 +237,23 @@ export default function App() {
 
   function surgeonReview(id: string, review: "concur" | "overrule") {
     setLedger((l) => reviewEntry(l, id, review, env, nowISO(clock)));
+  }
+
+  /** Returns an error message, or null if the file was attached. */
+  async function attachImage(
+    cardId: string,
+    file: File,
+    source: Attachment["source"],
+  ): Promise<string | null> {
+    const error = validateImage(file, pending[cardId]?.length ?? 0);
+    if (error) return error;
+    const att = await toAttachment(file, source);
+    setPending((p) => ({ ...p, [cardId]: [...(p[cardId] ?? []), att] }));
+    return null;
+  }
+
+  function removeImage(cardId: string, index: number) {
+    setPending((p) => ({ ...p, [cardId]: (p[cardId] ?? []).filter((_, i) => i !== index) }));
   }
 
   function logCheckIn(values: CheckInValue[]) {
@@ -261,9 +300,13 @@ export default function App() {
               day={day}
               blackout={blackout}
               supplies={supplies}
+              devices={devices}
+              attachments={pending[e.card.id] ?? []}
               choice={ledger.find((l) => l.id === e.card.id)?.crewChoice}
               onChoose={(c) => logChoice(e, c)}
               onTakeStep={(i, step) => takeCardStep(e.card.id, i, step)}
+              onAttach={(file, source) => attachImage(e.card.id, file, source)}
+              onRemoveAttachment={(i) => removeImage(e.card.id, i)}
             />
           ))
         )}
@@ -284,6 +327,8 @@ export default function App() {
           </div>
         ))}
       </section>
+
+      <TrendWatch trends={trends} carded={new Set(entries.map((e) => e.rule.indicator))} />
 
       <Ledger entries={ledger} clock={clock} nowISO={now} onReview={surgeonReview} />
 
@@ -315,6 +360,7 @@ export default function App() {
             history={history}
             links={links}
             pantry={supplies.pantry}
+            devices={devices}
             dismissedNudges={dismissed}
             onDismissNudge={(id) => setDismissed((p) => ({ ...p, [id]: true }))}
             onCheckIn={logCheckIn}
@@ -323,9 +369,17 @@ export default function App() {
         )}
       </div>
 
-      {showCabin && <CabinStrip co2MmHg={history.co2[history.co2.length - 1]} />}
+      {showCabin && <CabinStrip
+          co2MmHg={history.co2[history.co2.length - 1]}
+          co2SensorDown={devices.co2_sensor === false}
+        />}
 
       <CompareChart history={history} />
+
+      <EquipmentPanel
+        state={devices}
+        onToggle={(id) => setDevices((d) => ({ ...d, [id]: d[id] === false }))}
+      />
 
       <SuppliesPanel
         supplies={supplies}

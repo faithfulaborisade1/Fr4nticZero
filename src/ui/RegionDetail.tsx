@@ -1,3 +1,4 @@
+import { DEVICES, failedDeviceFor, isDown, type DeviceState } from "../data/devices";
 import type { History } from "../data/generator";
 import {
   INDICATOR_META,
@@ -9,7 +10,9 @@ import { REGION_HAZARDS } from "../data/hazards";
 import { suggestMeals, type PantryItem } from "../data/pantry";
 import { getRegionMeta, type RegionId } from "../data/regions";
 import { B_VITAMIN_NOTE, type Crosslinks } from "../engine/crosslinks";
+import { describeProjection } from "../engine/projection";
 import { rulesForIndicator } from "../engine/rules";
+import { buildTrends } from "../state/trends";
 import {
   cumulativeDoseMsv,
   indicatorStatus,
@@ -85,6 +88,7 @@ interface Props {
   history: History;
   links: Crosslinks;
   pantry: PantryItem[];
+  devices: DeviceState;
   dismissedNudges: Record<string, boolean>;
   onDismissNudge: (id: string) => void;
   onCheckIn: (values: CheckInValue[]) => void;
@@ -97,6 +101,7 @@ export function RegionDetail({
   history,
   links,
   pantry,
+  devices,
   dismissedNudges,
   onDismissNudge,
   onCheckIn,
@@ -105,6 +110,18 @@ export function RegionDetail({
   const meta = getRegionMeta(regionId);
   const indicators = REGION_INDICATORS[regionId] ?? [];
   const form = FORMS[regionId];
+  const trends = buildTrends(history);
+
+  // Devices that have failed and feed this region, and the entry fields they block.
+  const feeding = new Set([...indicators, ...(form?.fields.map((f) => f.indicator) ?? [])]);
+  const downDevices = DEVICES.filter(
+    (d) => isDown(devices, d.id) && d.indicators.some((i) => feeding.has(i)),
+  );
+  const blocked: Record<string, string> = {};
+  for (const f of form?.fields ?? []) {
+    const d = failedDeviceFor(devices, f.indicator);
+    if (d) blocked[f.indicator] = `${d.name} is down. Use the fallback above.`;
+  }
   const regionNudges =
     regionId === "head" ? links.nudges.filter((n) => !dismissedNudges[n.id]) : [];
   const suggestions = regionId === "stomach" && links.menuFatigue ? suggestMeals(pantry) : [];
@@ -132,6 +149,17 @@ export function RegionDetail({
           ▲ {summary.note}
         </p>
       )}
+
+      {downDevices.map((d) => (
+        <p
+          key={d.id}
+          role="alert"
+          className="mt-2 rounded-lg border border-red-400/80 bg-red-400/10 p-2 text-sm"
+        >
+          ⚠ <strong>{d.name} has failed.</strong> Readings below may be out of date. Fallback:{" "}
+          {d.fallback}
+        </p>
+      ))}
 
       {regionId === "eyes" && (
         <p className="mt-2 text-xs text-slate-400">
@@ -215,6 +243,11 @@ export function RegionDetail({
             const hasRule = rulesForIndicator(id).length > 0;
             const status = indicatorStatus(history, id);
             const last = values[values.length - 1];
+            const projection = trends.find((t) => t.indicator === id)?.projection;
+            const flagLine: RefLine[] =
+              projection && projection.kind !== "insufficient"
+                ? [{ y: projection.level, label: "Flag level (demo)", position: "insideBottomRight" }]
+                : [];
             return (
               <div key={id} className="rounded-lg border border-slate-700 p-3">
                 <div className="flex items-center justify-between gap-2">
@@ -230,8 +263,16 @@ export function RegionDetail({
                   values={values}
                   decimals={m.decimals}
                   statusHex={hasRule ? STATUS_STYLE[status].hex : "#94a3b8"}
-                  refLines={REF_LINES[id]}
+                  refLines={[...(REF_LINES[id] ?? []), ...flagLine]}
+                  projection={projection}
                 />
+                {projection && projection.kind !== "insufficient" && (
+                  <p className="mt-1 text-sm">
+                    <span aria-hidden="true">⏱ </span>
+                    {describeProjection(projection, m.label, m.unit, m.decimals)}{" "}
+                    <DemoBadge label="Demo parameters" />
+                  </p>
+                )}
                 {id === "sleep" && (
                   <p className="mt-1 text-xs text-slate-400">
                     Source:{" "}
@@ -251,6 +292,7 @@ export function RegionDetail({
           <CheckIn
             title={form.title}
             fields={form.fields}
+            blocked={blocked}
             onSubmit={(values) => onCheckIn(form.compose ? form.compose(values) : values)}
           />
         </div>

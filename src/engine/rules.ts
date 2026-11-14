@@ -17,6 +17,7 @@ export const RULES: Rule[] = [
     region: "heart",
     hazard: "gravity",
     test: deviationTest({ watchSd: 2, actSd: 3, direction: "high" }),
+    flag: { direction: "high", sd: 2 },
     actionWindowMin: 30,
     holdingSteps: [
       { text: "Sit or lie down and rest for 5 minutes.", crewMinutes: 5 },
@@ -24,6 +25,7 @@ export const RULES: Rule[] = [
         text: "Re-measure blood pressure on the other arm.",
         crewMinutes: 3,
         uses: [{ item: "bp_cuff_cover", qty: 1 }],
+        device: "bp_cuff",
       },
       {
         text: "Drink a glass of water.",
@@ -45,6 +47,7 @@ export const RULES: Rule[] = [
     region: "heart",
     hazard: "gravity",
     test: deviationTest({ watchSd: 2, actSd: 3, direction: "high" }),
+    flag: { direction: "high", sd: 2 },
     actionWindowMin: 20,
     holdingSteps: [
       { text: "Stop activity and rest.", crewMinutes: 5 },
@@ -64,12 +67,14 @@ export const RULES: Rule[] = [
     region: "heart",
     hazard: "gravity",
     test: deviationTest({ watchSd: 2, actSd: 3, direction: "high" }),
+    flag: { direction: "high", sd: 2 },
     actionWindowMin: 45,
     holdingSteps: [
       {
         text: "Re-test blood sugar with a fresh strip.",
         crewMinutes: 3,
         uses: [{ item: "glucose_strip", qty: 1 }],
+        device: "glucose_meter",
       },
       { text: "Log the last meal and activity.", crewMinutes: 3 },
       { text: "Notify the medical team.", crewMinutes: 3 },
@@ -88,12 +93,14 @@ export const RULES: Rule[] = [
     region: "skin",
     hazard: "environment",
     test: deviationTest({ watchSd: 2, actSd: 3, direction: "high" }),
+    flag: { direction: "high", sd: 2 },
     actionWindowMin: 60,
     holdingSteps: [
       {
         text: "Re-measure body temperature.",
         crewMinutes: 2,
         uses: [{ item: "thermo_cover", qty: 1 }],
+        device: "thermometer",
       },
       {
         text: "Rest and hydrate.",
@@ -115,6 +122,7 @@ export const RULES: Rule[] = [
     region: "head",
     hazard: "isolation",
     test: deviationTest({ watchSd: 1.5, actSd: 3, direction: "low" }),
+    flag: { direction: "low", sd: 1.5 },
     actionWindowMin: null,
     holdingSteps: [
       { text: "Keep a regular sleep window tonight.", crewMinutes: 0 },
@@ -134,6 +142,7 @@ export const RULES: Rule[] = [
     region: "head",
     hazard: "isolation",
     test: deviationTest({ watchSd: 1.5, actSd: 3, direction: "low" }),
+    flag: { direction: "low", sd: 1.5 },
     actionWindowMin: null,
     holdingSteps: [
       { text: "Call home or a crewmate.", crewMinutes: 15 },
@@ -171,7 +180,7 @@ RULES.push({
   holdingSteps: [
     { text: "Repeat the near-vision check and write down the result.", crewMinutes: 5 },
     { text: "Log headaches and head fullness.", crewMinutes: 3 },
-    { text: "Check the cabin CO2 reading and ventilation.", crewMinutes: 5 },
+    { text: "Check the cabin CO2 reading and ventilation.", crewMinutes: 5, device: "co2_sensor" },
     { text: "Log B-vitamin intake against plan and top up if below plan.", crewMinutes: 3 },
     { text: "Notify the medical team and re-check in 24 hours.", crewMinutes: 5 },
   ],

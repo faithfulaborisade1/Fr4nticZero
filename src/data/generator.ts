@@ -54,6 +54,19 @@ function roundTo(v: number, places: number): number {
   return Math.round(v * f) / f;
 }
 
+/**
+ * Re-order values low, high, next low, next high ... so they keep the same spread but have
+ * no net trend. Used on the final week so a chance upward run in random data does not start
+ * the demo with a trend warning. Scenarios add real trends on purpose.
+ */
+export function zigzag(values: number[]): number[] {
+  const s = [...values].sort((a, b) => a - b);
+  const n = s.length;
+  return s.map((_, i) => (i % 2 === 0 ? s[Math.floor(i / 2)] : s[n - 1 - Math.floor(i / 2)]));
+}
+
+const CALM_WINDOW = 7;
+
 export function generateHistory(seed = 2026, days = 30): History {
   const rand = mulberry32(seed);
   const out: History = {};
@@ -63,6 +76,9 @@ export function generateHistory(seed = 2026, days = 30): History {
       const raw = spec.mean + gaussian(rand) * spec.sd;
       const clamped = Math.min(spec.max, Math.max(spec.min, raw));
       series.push(roundTo(clamped, spec.round));
+    }
+    if (series.length >= CALM_WINDOW) {
+      series.splice(-CALM_WINDOW, CALM_WINDOW, ...zigzag(series.slice(-CALM_WINDOW)));
     }
     out[spec.id] = series;
   }

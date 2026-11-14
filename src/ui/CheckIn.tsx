@@ -17,10 +17,12 @@ interface Props {
   title: string;
   fields: CheckInField[];
   onSubmit: (values: CheckInValue[]) => void;
+  /** Indicators that cannot be entered right now, with the reason (for example a failed device). */
+  blocked?: Record<string, string>;
 }
 
 /** Keyboard or tap entry for a region's daily readings. Empty fields are skipped. */
-export function CheckIn({ title, fields, onSubmit }: Props) {
+export function CheckIn({ title, fields, onSubmit, blocked = {} }: Props) {
   const [raw, setRaw] = useState<Record<string, string>>({});
   const [msg, setMsg] = useState<string>("");
 
@@ -29,6 +31,7 @@ export function CheckIn({ title, fields, onSubmit }: Props) {
     const values: CheckInValue[] = [];
     for (const f of fields) {
       const text = raw[f.indicator];
+      if (blocked[f.indicator]) continue;
       if (text === undefined || text === "") continue;
       const m = INDICATOR_META[f.indicator];
       const n = Number(text);
@@ -81,6 +84,7 @@ export function CheckIn({ title, fields, onSubmit }: Props) {
               </fieldset>
             );
           }
+          const why = blocked[f.indicator];
           return (
             <label key={f.indicator} className="block text-sm">
               {m.label} ({m.unit})
@@ -90,10 +94,12 @@ export function CheckIn({ title, fields, onSubmit }: Props) {
                 min={m.min}
                 max={m.max}
                 step={m.step}
-                value={value}
+                value={why ? "" : value}
+                disabled={!!why}
                 onChange={(e) => setRaw((p) => ({ ...p, [f.indicator]: e.target.value }))}
-                className="mt-1 block h-11 w-full rounded-lg border border-slate-600 bg-slate-900 px-3"
+                className="mt-1 block h-11 w-full rounded-lg border border-slate-600 bg-slate-900 px-3 disabled:opacity-50"
               />
+              {why && <span className="mt-1 block text-xs text-red-300">⚠ {why}</span>}
             </label>
           );
         })}

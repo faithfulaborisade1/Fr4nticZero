@@ -1,5 +1,8 @@
+import { useState } from "react";
+import { getDevice, failedDeviceFor, isDown, type DeviceState } from "../data/devices";
 import { indicatorLabel } from "../data/indicators";
 import { kitName } from "../data/kit";
+import { ACCEPT, formatSize, MAX_ATTACHMENTS, type Attachment } from "../state/attachments";
 import { escalation } from "../engine/escalation";
 import type { Step, Verdict } from "../engine/types";
 import type { CardEntry } from "../state/cards";
@@ -50,9 +53,14 @@ interface Props {
   day: number;
   blackout: boolean;
   supplies: Supplies;
+  devices: DeviceState;
+  /** Images chosen for this card and not yet logged. */
+  attachments: Attachment[];
   choice?: string;
   onChoose: (choice: string) => void;
   onTakeStep: (index: number, step: Step) => void;
+  onAttach: (file: File, source: Attachment["source"]) => Promise<string | null>;
+  onRemoveAttachment: (index: number) => void;
 }
 
 export function DecisionCardView({
@@ -62,10 +70,19 @@ export function DecisionCardView({
   day,
   blackout,
   supplies,
+  devices,
+  attachments,
   choice,
   onChoose,
   onTakeStep,
+  onAttach,
+  onRemoveAttachment,
 }: Props) {
+  const [source, setSource] = useState<Attachment["source"]>("camera");
+  const [attachMsg, setAttachMsg] = useState("");
+  const ultrasoundDown = isDown(devices, "ultrasound");
+  const activeSource = ultrasoundDown ? "camera" : source;
+  const failed = failedDeviceFor(devices, entry.rule.indicator);
   const { card, rule, baseline } = entry;
   const v = VERDICT_STYLE[card.verdict];
   const window = rule.actionWindowMin;
@@ -123,6 +140,13 @@ export function DecisionCardView({
       </p>
       <p className="mt-1 text-sm text-slate-200">{rule.explanation}</p>
 
+      {failed && (
+        <p role="alert" className="mt-2 rounded-lg border border-red-400/80 bg-red-400/10 p-2 text-sm">
+          ⚠ <strong>{failed.name} has failed</strong>, so this reading may be out of date.
+          Fallback: {failed.fallback}
+        </p>
+      )}
+
       <div className="mt-3 rounded-lg bg-slate-950/50 p-3 text-sm">
         <div className="font-semibold">{why}</div>
         <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-slate-300">
@@ -159,6 +183,8 @@ export function DecisionCardView({
             const key = stepKey(card.id, i);
             const done = !!supplies.done[key];
             const missing = missingItem(supplies, s);
+            const stepDevice = s.device ? getDevice(s.device) : undefined;
+            const deviceDown = !!s.device && isDown(devices, s.device);
             return (
               <li key={s.text} className="flex flex-wrap items-center gap-x-3 gap-y-1">
                 <span>
@@ -171,6 +197,10 @@ export function DecisionCardView({
                 {done ? (
                   <span className="text-emerald-300" role="status">
                     ✓ Done
+                  </span>
+                ) : deviceDown ? (
+                  <span className="text-red-300">
+                    ⚠ {stepDevice?.name} is down. Fallback: {stepDevice?.fallback}
                   </span>
                 ) : missing ? (
                   <span className="text-red-300">⚠ Out of {kitName(missing)}</span>
@@ -191,6 +221,87 @@ export function DecisionCardView({
           Crew time: about {crewMinutes} min · {minutesToday(supplies, day)} min taken today
         </div>
       </div>
+
+      {!choice && (
+        <div className="mt-3 rounded-lg border border-slate-600 bg-slate-950/40 p-3 text-sm">
+          <h4 className="font-semibold">Attach an image (optional)</h4>
+          <p className="mt-1 text-xs text-slate-300">
+            A photo or scan travels to Earth with your logged choice, after the same delay. It is
+            kept on this device and is <strong>not analysed here</strong>. Earth reviews it.
+          </p>
+          {ultrasoundDown && (
+            <p className="mt-1 text-xs text-red-300">
+              ⚠ Ultrasound has failed, so only camera photos can be attached.
+            </p>
+          )}
+          <div className="mt-2 flex flex-wrap items-center gap-2">
+            <label className="flex items-center gap-2">
+              Source
+              <select
+                className="min-h-11 rounded-lg border border-slate-600 bg-slate-900 px-3"
+                value={activeSource}
+                onChange={(e) => setSource(e.target.value as Attachment["source"])}
+              >
+                <option value="camera">Camera photo</option>
+                <option value="ultrasound" disabled={ultrasoundDown}>
+                  Ultrasound scan{ultrasoundDown ? " (device down)" : ""}
+                </option>
+              </select>
+            </label>
+            <label className="flex min-h-11 cursor-pointer items-center rounded-lg border border-white/70 px-4 font-medium hover:bg-white hover:text-slate-900">
+              Choose file
+              <input
+                type="file"
+                accept={ACCEPT}
+                className="sr-only"
+                disabled={attachments.length >= MAX_ATTACHMENTS}
+                onChange={async (e) => {
+                  const file = e.target.files?.[0];
+                  e.target.value = "";
+                  if (!file) return;
+                  setAttachMsg((await onAttach(file, activeSource)) ?? "");
+                }}
+              />
+            </label>
+            <span className="text-xs text-slate-400">
+              JPG, PNG, WebP or camera RAW, up to {MAX_ATTACHMENTS} images
+            </span>
+          </div>
+          {attachMsg && (
+            <p role="status" className="mt-1 text-xs text-red-300">
+              {attachMsg}
+            </p>
+          )}
+          {attachments.length > 0 && (
+            <ul className="mt-2 flex flex-wrap gap-3">
+              {attachments.map((a, i) => (
+                <li key={`${a.name}-${i}`} className="flex items-center gap-2 rounded-lg border border-slate-700 p-2">
+                  {a.preview ? (
+                    <img src={a.preview} alt={`Preview of ${a.name}`} className="h-14 w-14 rounded object-cover" />
+                  ) : (
+                    <span className="flex h-14 w-14 items-center justify-center rounded bg-slate-800 text-[10px] text-slate-300">
+                      No preview
+                    </span>
+                  )}
+                  <span className="text-xs">
+                    {a.name}
+                    <br />
+                    {a.source === "ultrasound" ? "Ultrasound" : "Camera"} · {formatSize(a.sizeBytes)}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => onRemoveAttachment(i)}
+                    aria-label={`Remove ${a.name}`}
+                    className="min-h-11 rounded-lg border border-slate-500 px-3 text-xs hover:bg-slate-800"
+                  >
+                    Remove
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
 
       <div className="mt-3 flex flex-wrap items-center gap-2">
         {choice ? (

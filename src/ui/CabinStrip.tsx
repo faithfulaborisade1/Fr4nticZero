@@ -3,11 +3,23 @@ import { SIMULATED_CABIN } from "../data/regions";
 import { DemoBadge, SimulatedBadge, StatusBadge } from "./Badge";
 import { STATUS_STYLE } from "./status";
 
-export function CabinStrip({ co2MmHg }: { co2MmHg: number }) {
+export function CabinStrip({
+  co2MmHg,
+  co2SensorDown = false,
+}: {
+  co2MmHg: number;
+  co2SensorDown?: boolean;
+}) {
   const c = SIMULATED_CABIN;
-  const co2 = co2Status(co2MmHg);
+  // If the sensor has failed we do not know the real level, so treat it as a watch, not as "ok".
+  const co2 = co2SensorDown ? ("watch" as const) : co2Status(co2MmHg);
   const tiles = [
-    { label: "CO2", value: `${co2MmHg.toFixed(1)} mmHg`, status: co2, demo: false },
+    {
+      label: "CO2",
+      value: co2SensorDown ? "Sensor failed" : `${co2MmHg.toFixed(1)} mmHg`,
+      status: co2,
+      demo: false,
+    },
     { label: "Temperature", value: `${c.tempC} °C`, status: "ok" as const, demo: true },
     { label: "Pressure", value: `${c.pressureKPa} kPa`, status: "ok" as const, demo: true },
     { label: "Noise", value: `${c.noiseDb} dB`, status: "ok" as const, demo: true },
@@ -37,7 +49,11 @@ export function CabinStrip({ co2MmHg }: { co2MmHg: number }) {
               </div>
               <div className="mt-1 text-lg font-semibold">{t.value}</div>
               <div className="mt-1 text-xs text-slate-400">
-                {t.label === "CO2" ? (
+                {t.label === "CO2" && co2SensorDown ? (
+                  <span>
+                    Last good reading {co2MmHg.toFixed(1)} mmHg. Check ventilation by hand.
+                  </span>
+                ) : t.label === "CO2" ? (
                   <a className="underline" href={CO2_SOURCE.url} target="_blank" rel="noreferrer">
                     Source: NASA CO2 on the ISS
                   </a>

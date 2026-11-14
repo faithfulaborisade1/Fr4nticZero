@@ -61,7 +61,7 @@ Every objective has a visible feature. (The objectives below come from the team'
 | Explain what can be measured in space and what needs Earth | "How this is measured" panel on every region and every decision card |
 | Show how spaceflight hazards affect indicators | Hazard tags, five hazard tabs with published figures, and a dot plot of one indicator against another |
 | Identify when the crew or flight surgeons should pay attention | The verdict, the buddy alert tiers and the decision ledger with surgeon review |
-| Suggest actions that prevent a critical condition | Holding steps, with their crew-time and supply cost |
+| Suggest actions that prevent a critical condition | Holding steps with their crew-time and supply cost, and an on-board trend watch that projects a slow drift days ahead |
 | An interactive human figure with clickable parts | The body scan: tap a region and it zooms in |
 
 Optional considerations also covered: several environments (Station, Moon surface, Mars transit with a delay slider and a blackout toggle), dynamic charts, colour coding that is always paired with a symbol and a word, plain language, and a check-in routine.
@@ -75,6 +75,9 @@ Optional considerations also covered: several environments (Station, Moon surfac
 - **Decision ledger:** every logged choice queues for one one-way delay, then delivers. A flight surgeon view can concur or overrule, and the review travels back. A blackout holds both.
 - **Hazard tabs:** Radiation, Isolation, Distance, Gravity and Environment filter the figure, cards and decisions.
 - **Supplies and crew time:** each step shows its minutes and the kit items it uses. Marking it done uses stock and adds to the day's crew-time tally.
+- **On-board trend watch:** a straight-line projection of the last 7 readings that says when an indicator would reach its flag level if the trend continued. It also draws as a dashed line on the trend charts. It runs on the device with no Earth link, and is worded as a projection, never a prediction.
+- **Equipment status:** mark the blood pressure cuff, glucose meter, thermometer, cabin CO2 sensor or ultrasound as failed. Steps that need it are blocked, the entry field is disabled, the card shows a fallback, and a failed CO2 sensor is treated as a watch rather than "ok".
+- **Image attach (store and forward):** attach up to three photos or ultrasound scans (JPG, PNG, WebP or camera RAW) to a decision. They travel with the ledger entry after the same delay, so Earth sees them when the entry is delivered. They are not analysed.
 - **Dot plot:** one indicator against another, with the correlation described as a pattern in the data, never a cause.
 - **Scenario player:** a mission clock (play, pause, next day, speed) and the scenarios below.
 
@@ -85,19 +88,23 @@ Optional considerations also covered: several environments (Station, Moon surfac
 | 1. Blood pressure spike | Station: consult Earth. Mars: crew decides. The headline demo. |
 | 2. Bad week | Mood and sleep fall over five days. A nudge appears, and the Immune area is flagged (under investigation). |
 | 3. Vision change with high cabin CO2 | The Eyes go amber sooner because of the CO2, then red. The verdict stays consult Earth even at Mars distance, because vision changes build over weeks. |
+| 4. Slow blood pressure drift | Blood pressure creeps up about a point a day. The trend watch warns days ahead ("in about 4 days", then "in about 2") while the daily rule check stays quiet. |
 | Extra: Menu fatigue | Meal ratings and intake fall. Nutrition is flagged and suggests meals not eaten recently. |
 
 ## Honesty and limitations
 
 This is a prototype built in a weekend. Please read it that way.
 
-- **Not a medical device.** It gives decision support wording only: "flag", "re-check", "notify the medical team". It never diagnoses, treats or predicts. There are no drug doses and no calorie targets.
+- **Not a medical device.** It gives decision support wording only: "flag", "re-check", "notify the medical team". It never diagnoses or treats, and there are no drug doses or calorie targets. The only forward-looking feature is the trend projection, which extends a straight line through the last 7 readings, says so, and carries a Demo badge. **No machine-learning model is used**: with simulated data a trained model could not be honestly validated.
 - **All crew data is simulated.** One crew member, a seeded generator, a fixed pantry and kit. No real person's data is used or collected.
 - **Action windows and most thresholds are demo parameters.** No published source gives an action window in minutes. They carry a visible **Demo parameter** badge wherever they drive the screen, and are framed as values a flight surgeon would set. Readings are judged against the crew member's own last 14 days, because we have no clinical authority to set population thresholds.
 - **Published figures anchor the gauges only** (radiation limits, CO2 bands, the sleep gap, communication delays). They are listed below with their sources.
 - **Cross-links between hazards are labelled "under investigation".** They are flags, not findings.
 - **The vision check is a demo instrument.** It is a three-question self-report summed into a 0 to 9 score, not a validated vision test.
 - **The buddy is a simulated crewmate.** No alert is sent anywhere.
+- **The projection and the daily check can disagree.** The daily rule check judges a reading against the last 14 days, which move with the readings, so a slow drift can slip past it. The projection uses the baseline from before its window and is meant to catch that, but that is also a demo choice and it can raise false alarms.
+- **Equipment failure is simulated.** The device list and fallback wording are demo content, not clinical guidance, and a failed device is a switch you set, not something detected.
+- **Images are not analysed.** Only a small preview is kept, in your browser, and nothing is uploaded. Camera RAW files are accepted but show no preview. The ultrasound option is a label on an image you choose, not a connection to a real device.
 - **No real dataset is loaded.** We did not use NASA's Open Science Data Repository in this version.
 - **Offline needs one online visit first** to cache the app. External source links open only online.
 - **Not tested with a screen reader or on a physical phone.** Layout and contrast were checked with scripts at 375 px wide.
@@ -139,9 +146,9 @@ Vite, React, TypeScript, Tailwind CSS, Recharts and Vitest. No backend. State is
 
 ```
 src/
-  engine/   verdict, baseline, rules, cross-links, buddy tiers, hazard bands (pure, unit-tested)
-  data/     seeded generator, scenarios, regions, hazards, kit, pantry
-  state/    mission clock, ledger, supplies, history, saved state
+  engine/   verdict, baseline, rules, cross-links, buddy tiers, trend projection, hazard bands (pure, unit-tested)
+  data/     seeded generator, scenarios, regions, hazards, kit, pantry, devices
+  state/    mission clock, ledger, supplies, history, trends, image attachments, saved state
   ui/       body scan, decision card, ledger, charts, forms
 public/     service worker, manifest, icon
 docs/       research and decisions log

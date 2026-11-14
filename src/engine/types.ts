@@ -16,6 +16,8 @@ export interface Step {
   text: string;
   crewMinutes: number;
   uses?: { item: string; qty: number }[];
+  /** Device this step needs. If it has failed the step is blocked and a fallback is shown. */
+  device?: string;
 }
 
 /** Personal baseline: mean and standard deviation of the crew member's own recent readings. */
@@ -51,6 +53,8 @@ export interface Rule {
   windowSource: Source | "DEMO";
   /** Minutes until re-check when the verdict is "monitor". */
   recheckMin?: number;
+  /** Which way is bad and how far from your usual counts as the flag level. Used by the trend projection. DEMO. */
+  flag?: { direction: "high" | "low"; sd: number };
 }
 
 export interface Environment {

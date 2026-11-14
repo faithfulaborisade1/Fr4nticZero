@@ -2,7 +2,7 @@
 
 Living document. Updated whenever a rule, threshold, source, scenario, cross-link or design decision changes (see `CLAUDE.md`). The README is built from this file.
 
-Last updated: Saturday 14 Nov 2026, end of build step 9 (README).
+Last updated: Saturday 14 Nov 2026, after step 10 (trend projection, equipment status, image attach).
 
 ## 1. What we are building
 
@@ -71,6 +71,10 @@ Anything below shows a "Demo parameter" badge in the app. None is clinical guida
 | Cross-link thresholds | Last 3 values beyond 1 sd of the earlier baseline | `crosslinks.ts` |
 | Menu-fatigue window | 5 days (demo compression of "two weeks") | `crosslinks.ts` `MENU_WINDOW` |
 | Simulated dose before day 1 | 20 mSv | `data/regions.ts` |
+| Trend projection settings | Fit on the last 7 readings; flag level is your usual plus 2 sd (1.5 sd for sleep and mood); a trend counts only if clear (slope over 2 standard errors and at least 0.15 sd per day); horizon 14 days; 5 days drawn ahead | `engine/projection.ts`, `engine/rules.ts` |
+| Trend watch window | Shows trends reaching the flag level within 7 days | `state/trends.ts` |
+| Device list and fallback wording | Five devices with short fallback text | `data/devices.ts` |
+| Image limits | Up to 3 per decision, 15 MB each, 320 px preview | `state/attachments.ts` |
 | Buddy alert tiers | Watch: self top-up. Act: buddy and medical team. Crew decides now: all crew | `engine/escalation.ts` |
 | Kit quantities and low-stock levels | Cuff covers 8, glucose strips 20, probe covers 15, water pouches 24 | `data/kit.ts` |
 | Pantry stock and days since eaten | Fixed simulated list; menu suggestions use 14 days or more | `data/pantry.ts` |
@@ -112,6 +116,10 @@ All crew data is simulated (one crew member, 30 days, seeded generator, seed 202
 - **Supplies and crew time.** Each holding step shows its minutes and the kit items it uses. "Mark done" uses the stock and adds to the day's crew-time tally, and is blocked when the item is out. The pantry suggestions in Nutrition have an "Ate one" button that uses stock.
 - **Offline.** The app makes no network calls of its own. A small service worker caches the built files on first load, so the app opens and runs with the network off. Checked by serving the production build, letting the worker cache it, stopping the server and reloading: the app rendered and the Station-to-Mars verdict flip still worked. Needs one online visit first. External source links only open when online.
 - **Accessibility checks (step 8).** At 375 px wide there was no horizontal scroll on the home screen, any region detail, the surgeon ledger view or a hazard tab, and the only control under 40 px was the blackout checkbox (its label is a full-size target). A script that compared text and background colours found no text below WCAG AA (4.5:1, or 3:1 for large text) across about 300 text elements in two states. In-figure labels have a dark outline. Smooth scrolling and the figure zoom respect reduced-motion settings. Not tested with a screen reader.
+- **Trend projection.** A straight line is fitted to the last 7 readings and extended, with an approximate 95% band, to say roughly when a reading would reach its flag level if the trend continued. The flag level uses the baseline from before the 7 readings so a slow drift cannot hide in it. It is a projection, not a prediction, and no machine-learning model is used: with simulated data any model would be trained and tested on data we made up. The final week of generated data is re-ordered so chance runs in random numbers do not start the demo with a warning.
+- **Known quirk found while building the projection.** The daily rule check judges a reading against the 14 readings before it, so a slow rise drags its own baseline up and can stay "ok" while the projection (stable baseline) says the reading is already past the flag level. Scenario 4 shows this on purpose. The two can disagree, and the README says so.
+- **Equipment failure.** A device panel marks equipment as failed. The cuff, glucose meter and thermometer block their re-measure steps and disable the matching entry field. The cabin CO2 sensor turns the CO2 tile into a watch (we do not know the level) and shows the last good reading. The ultrasound option for attached images is disabled. Each shows a fallback in holding-step wording.
+- **Image attach (store and forward).** Up to three photos or scans per decision, chosen before logging. They are saved on the ledger entry and reach the flight surgeon view only after the entry is delivered. Only a 320 px JPEG preview is kept in local storage; camera RAW files are accepted without a preview. Nothing is uploaded or analysed.
 - **Dot plot.** A scatter of one indicator against another, one dot per day, with the last five days highlighted and a correlation figure. The wording says "relationship in this data" and "under investigation", never that one thing causes the other.
 
 ## 8. Limitations to state in the README
@@ -148,6 +156,20 @@ Handwriting was read from a photo, so check this against the sheet. Each note ha
 | Daily stream in a non-demanding way | Partly: one-tap mood check-in, scenario player standing in for device feeds. |
 | SSH, VM web app, 2FA, local storage | Not in the product. The app is static and client-only by design. Local storage is planned for persistence in step 8. SSH, VM and 2FA go in the README as a note on how a real deployment would sit behind crew-network access. |
 
+### New idea from the team (Saturday, after step 9): on-board prediction and equipment failure
+
+The idea: crews heading to Mars cannot wait about 22 minutes each way, so they need fast, on-board tools that work from live data. The team suggested a machine-learning trend model to predict things like high blood pressure, and asked about equipment failure, pre-planned food, and tools for a medical event (ultrasound, drug formulations, preservation). Status: **partly built in step 10** (see the table).
+
+| Part of the idea | Fit with the build | Proposal |
+| --- | --- | --- |
+| Predict high blood pressure or other basics from live data | Fits the "Earth-independent" pitch. A trained ML model is a validity risk: our data is simulated, so any model would be trained and tested on data we made up, and the build spec cut ML from the decision path. | **Built:** a transparent **trend projection** (least-squares line through the last 7 readings with an approximate 95% band) that says "if this continues, it reaches the flag level in about N days". Runs on the device. Worded as a projection, never a prediction or diagnosis. No ML model. |
+| Equipment failure | We already track kit stock. A failed or missing device is not modelled. | **Built:** a **device status** panel (cuff, glucose meter, thermometer, cabin CO2 sensor, ultrasound). A failed device blocks the steps and entry fields that need it, and the card and region show a fallback. A failed CO2 sensor counts as a watch. |
+| Pre-planned food | Pantry and menu fatigue exist. No view of how long food lasts. | **Not built.** A **supplies runway** (days of food and key kit left against days to the destination) remains a possible addition. |
+| Ultrasound and tools in a medical event | Real-time guidance from Earth is impossible at 22 min, which supports the pitch. Our rule is no treatment instructions. | **Built (images only):** attach up to three photos or scans to a decision. They travel with the ledger entry after the one-way delay (store and forward) and are not analysed. "What each tool can tell you" text is **not built**. |
+| Drug formulations and preservation | Needs published stability data we do not have. | Deferred. Not built. |
+
+Figures to check at the source: Moon distance 238,855 miles is about 1.3 s one way for light, while the app uses 3 to 14 s from the NASA comms-delay review. Find out what the review's range includes (relay and processing) before the README leans on it. Mars distance ranges from tens of millions to roughly 250 million miles, which is why the delay runs from a few minutes to 22.
+
 ## 11. Changelog
 
 | When (Dublin) | Step | What changed |
@@ -157,6 +179,7 @@ Handwriting was read from a photo, so check this against the sheet. Each note ha
 | Sat | 3 | Decision card, live countdown, scenario 1 |
 | Sat | 4 | Region detail with trend charts, Heart and Head check-ins, cross-links, scenario 2 |
 | Sat | 5 | Decision ledger, blackout hold, surgeon review |
+| Sat | 10 | Added from the team's new idea: on-board trend projection (chart overlay, trend watch, scenario 4), equipment status panel with blocked steps and fallbacks, and image attach through the ledger. Generator's final week de-trended. README, project notes and this document updated. Not built: supplies runway, per-tool "what it can tell you" text, drug stability. |
 | Sat | 9 | README written from this document: pitch first, objective-to-feature map, scenarios, honesty and limitations, sources, resources, beyond-space paragraph, AI-use disclosure, references. No real dataset is loaded and the README says so. |
 | Sat | 8 | Local-storage persistence and "Reset demo", offline service worker with manifest and icon (verified with the server stopped), mobile layout audit at 375 px, contrast audit, reduced-motion handling, wording fixes. Fixed a bug where a ticking clock would have blocked saving. |
 | Sat | 7 | Hazard tabs with published figures and source links, "How this is measured" on each decision card, buddy alert tiers, take-step costs with kit and pantry stock and a crew-time tally, figure zoom, dot plot compare view, tests that every rule source is a link or marked DEMO. Team notes status updated. |
