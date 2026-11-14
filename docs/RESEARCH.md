@@ -2,7 +2,7 @@
 
 Living document. Updated whenever a rule, threshold, source, scenario, cross-link or design decision changes (see `CLAUDE.md`). The README is built from this file.
 
-Last updated: Saturday 14 Nov 2026, after moving scenario controls into mission settings and improving responsive navigation.
+Last updated: Saturday 14 Nov 2026, after the enterprise UI pass (official challenge text read, rover, routine, body-region function text).
 
 ## 1. What we are building
 
@@ -60,6 +60,8 @@ Anything below shows a "Demo parameter" badge in the app. None is clinical guida
 | Parameter | Value | Where |
 | --- | --- | --- |
 | Ground response allowance | 15 min | `verdict.ts` `GROUND_RESPONSE_MIN` |
+| Rover kit | Blood pressure cuff, thermometer and cabin CO2 sensor carried; glucose meter and ultrasound at base | `data/devices.ts` `ROVER_KIT` |
+| Routine points | 10 per check-in, 20 for a workout, 1 per crew minute of holding steps; streak counts days with all six check-ins | `state/routine.ts` |
 | Blood pressure window / threshold | 30 min; watch at 2 sd, act at 3 sd above own baseline | `rules.ts` `bp_systolic_high` |
 | Heart rate window | 20 min; same sd bands | `hr_high` |
 | Blood sugar window | 45 min; same sd bands | `glucose_high` |
@@ -186,6 +188,7 @@ Figures to check at the source: Moon distance 238,855 miles is about 1.3 s one w
 
 | When (Dublin) | Step | What changed |
 | --- | --- | --- |
+| Sat | Enterprise UI pass | Read the official challenge page and its Resources tab. New design layer: neutral palette, original logo mark, grouped sidebar with icons, collapse and phone drawer, a sticky mission context bar (environment, delay, link, clock, notices, crew switcher, Emergency) and a KPI-led overview. Added a lunar rover environment that carries only part of the kit, a daily routine ring with streak and points (engagement only), and "What it does" and "Why we check it" text for every body region. Checked all 15 pages at 375 px and 768 px for overflow, and contrast on the main pages. |
 | Sat | Responsive navigation | Moved scenario controls to Mission settings, preserved the old route, separated phone-menu state from desktop sidebar collapse, and adapted content layouts to available workspace width. Checked main pages at multiple viewport sizes. |
 | Sat | Workouts and navigation | Replaced the fixed exercise example with per-profile workout entries, mission-day progress and browser-local history. The two-session target is illustrative and bone health is not assessed. Added check-in URL aliases, stopped unknown fragments from resetting the page and refreshed the offline cache version. |
 | Sat | Measurement and emergency support | Added sourced general measurement guides, per-profile in-app check-in reminders, a high-level emergency page and contextual bone and muscle visualization. All remain prototype content; no clinical approval, actual emergency notification or live bone assessment is claimed. |

@@ -1,17 +1,18 @@
 # Challenge coverage audit
 
-Reviewed 14 November 2026 against [HackAthlone's local-event copy of the challenge](https://hackathlone.com/challenges/health-monitoring-software). The [official challenge page](https://www.spaceappschallenge.org/2026/challenges/health-monitoring-software/) returned a server error when checked; confirm against it and the current official submission guide before submitting.
+Reviewed 14 November 2026 against the [official challenge page](https://www.spaceappschallenge.org/2026/challenges/health-monitoring-software/) and its Resources tab, which were readable in a browser on the second attempt. Confirm the current official submission guide before submitting.
 
 | Challenge objective or consideration | Current coverage | Remaining limitation |
 | --- | --- | --- |
+| Clickable figure showing each part's function and status | Each body region opens "What it does", "Why we check it in space", its status and trends. | Function text is plain-language education, not a clinical reference. |
 | Visual health assessment | Body map, personal baselines, status badges, graphs and decision cards for simulated crew. A per-profile workout log is available in the bones view. | Some body regions show fixed example status rather than a full assessment; workouts do not assess bone health. |
 | Gather indicators | Users enter blood pressure, heart rate, blood sugar, temperature, sleep and mood; check-ins update the local selected profile. Images may be attached to simulated decisions. | No connected medical sensors, no automated image analysis, and the displayed oxygen percentage is only an example. |
 | Act and improve health | Cards show a verdict, simulated action window and short checklist; the mission risk guide describes preparation. A persistent emergency link explains how to seek crew and ground support. | **Partial:** not validated treatment instructions or an emergency medical protocol. The emergency page does not send an alert. Thresholds and timings are demo parameters; no clinical or flight approval. |
 | Explain measurements and hazards | Body-system and decision details describe measurement context and NASA hazards; check-in forms offer linked measurement guides. | The guides use general Earth-based references, not approved flight procedures. Hardware availability varies by mission. |
 | Show when crew or ground should pay attention | Decision cards and ledger model urgency, delay and a flight-surgeon review. | Surgeon review and automatic buddy escalation are simulated. Shared crew notices work separately and are sent manually; there are no emergency or background notifications. |
-| Different environments, optional | Station, Moon surface and Mars transit change the communication model and mission-risk guide. | No rover-specific profile. Switching environments does not model all physical differences. |
+| Different environments, optional | Space station, Moon surface base, lunar rover and Mars transit change the communication model and mission-risk guide. On the rover only part of the medical kit is carried. | Switching environments does not model all physical differences (gravity level, suit work). |
 | Periodic prompts, optional | The daily check-ins page and overview show in-app reminders for six manually logged indicators using the simulated mission day, per profile. | No background notifications or real-world schedule; the simulated clock may be paused. |
-| Gamification, optional | Users can mark steps complete and see resource/time use. | No points, streaks, rewards or full gamification system. |
+| Gamification, optional | Daily routine ring (six check-ins and a workout), a streak of full check-in days and points for logging habits; steps can be marked complete with resource and time use. | Light only: no rewards, levels or team leaderboard. Points are engagement, never a health score. |
 | Dynamic charts and meaningful colour, optional | Trends, projections and body-system status combine colours with text and symbols. | The projection uses simulated readings and demonstration parameters; it is not a clinically validated prediction. |
 | Plain explanations, optional | Explanations appear in decision cards, region details and the mission-risk guide. | More detailed measurement instructions and clinician review would improve the product. |
 

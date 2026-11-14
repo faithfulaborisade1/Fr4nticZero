@@ -64,7 +64,7 @@ This is a prototype for test data on a trusted network: the service has no built
 
 ## How it maps to the challenge
 
-The table maps the challenge to the current prototype. The official challenge page was unavailable during the 14 November audit; the comparison uses the [HackAthlone local event's published challenge text](https://hackathlone.com/challenges/health-monitoring-software), with the [official challenge page](https://www.spaceappschallenge.org/2026/challenges/health-monitoring-software/) as the final authority. See [the challenge audit](docs/CHALLENGE_AUDIT.md) for gaps and submission checks.
+The table maps the [official challenge page](https://www.spaceappschallenge.org/2026/challenges/health-monitoring-software/) (read on 14 November 2026) to the current prototype. See [the challenge audit](docs/CHALLENGE_AUDIT.md) for gaps and submission checks.
 
 | Challenge objective | Where it is in the app |
 | --- | --- |
@@ -77,9 +77,10 @@ The table maps the challenge to the current prototype. The official challenge pa
 | Show how spaceflight hazards affect indicators | Hazard tags, five hazard tabs with published figures, and a dot plot of one indicator against another |
 | Identify when the crew or flight surgeons should pay attention | The verdict, the buddy alert tiers and the decision ledger with surgeon review |
 | Suggest actions that prevent a critical condition | Holding steps with their crew-time and supply cost, and an on-board trend watch that projects a slow drift days ahead |
-| An interactive human figure with clickable parts | The body scan: tap a region and it zooms in |
+| An interactive human figure with clickable parts that shows each part's function and health status | The body scan: tap a region and it zooms in, then shows what that part does, why it is checked in space, and its status against the crew member's own baseline |
+| Which measurements can be done in space, and why an exam is needed | "Why we check it in space" and "How this is measured" (on board / needs Earth) on every region |
 
-Optional considerations addressed include several environments (Station, Moon surface, Mars transit with a delay slider and a blackout toggle), dynamic charts, colour coding paired with a symbol and a word, plain-language explanations, and an in-app daily routine. There are no background reminders or gamification system.
+Optional considerations addressed include several environments (space station, Moon surface base, a lunar rover that carries only part of the medical kit, and Mars transit with a delay slider and a blackout toggle), dynamic charts, colour coding paired with a symbol and a word, plain-language explanations, an in-app daily routine with reminders, and light gamification: a daily routine ring, a streak of full check-in days and points for logging habits (points are engagement only, not a health score). There are no background notifications.
 
 ### What is in the app
 
@@ -92,7 +93,10 @@ Optional considerations addressed include several environments (Station, Moon su
 - **Daily check-ins and measurement guides:** six in-app reminders track manual entries for the selected profile within the simulated mission day. Public measurement guidance is linked on the check-in forms; it is general Earth-based reference information, not flight-approved instructions. The reminders do not send notifications when the app is closed.
 - **Emergency access:** a persistent link brings up high-level steps to alert the crew and use approved mission procedures and communication. The link does not send an alert, and the page is not a clinical emergency checklist.
 - **Bones and muscles:** log workout type and duration for each selected profile; the current mission-day count updates the example two-session progress display. Entries are saved in this browser and are not synced between devices. The target is illustrative, and neither workouts nor the display assess bone density or determine clinical status.
-- **Distance from Earth:** environment selector, one-way delay, blackout toggle and the Earth reply time.
+- **Mission context bar:** always visible at the top: environment, one-way delay and Earth reply time, link status (or blackout), the simulated mission clock with play and pause, crew notices, the crew profile switcher and an Emergency button.
+- **Distance from Earth:** environment selector (station, Moon surface, lunar rover, Mars transit), one-way delay, blackout toggle and the Earth reply time.
+- **Lunar rover:** uses the lunar relay delay, but only the blood pressure cuff, thermometer and CO2 sensor travel with the crew. The glucose meter and ultrasound are shown as at base, steps that need them are blocked, and the card gives an at-base fallback.
+- **Daily routine (light gamification):** a progress ring for six check-ins and a workout, a streak of full check-in days and points for logging habits, on the overview and the check-ins page.
 - **Closed environment strip:** cabin CO2, temperature, pressure and noise.
 - **Decision cards:** verdict, the reason in one line, countdown, who is alerted, holding steps, source and demo badges.
 - **Decision ledger:** every logged choice queues for one one-way delay, then delivers. A flight surgeon view can concur or overrule, and the review travels back. A blackout holds both.
