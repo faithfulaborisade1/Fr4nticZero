@@ -1,4 +1,5 @@
 import { DEVICES, deviceIssue, failedDeviceFor, isDown, type DeviceState } from "../data/devices";
+import { IndicatorIcon, RegionIcon } from "./identity";
 import type { Environment } from "../engine/types";
 import type { History } from "../data/generator";
 import {
@@ -149,8 +150,8 @@ export function RegionDetail({
       className="region-detail rounded-xl border border-slate-700 bg-slate-900/70 p-4"
     >
       <div className="flex flex-wrap items-center gap-2">
-        <h2 className="text-lg font-semibold">
-          {meta.icon} {meta.label}
+        <h2 className="dw-id-title text-lg font-semibold">
+          <RegionIcon id={regionId} size={34} /> {meta.label}
         </h2>
         {summary.statusAvailable === false ? <span className="bones-unassessed">Not assessed</span> : <StatusBadge status={summary.status} />}
         <span className="rounded border border-slate-500 px-1.5 py-0.5 text-xs capitalize">
@@ -278,7 +279,7 @@ export function RegionDetail({
             return (
               <div key={id} className="rounded-lg border border-slate-700 p-3">
                 <div className="flex items-center justify-between gap-2">
-                  <h3 className="text-sm font-semibold">{m.label}</h3>
+                  <h3 className="dw-id-title text-sm font-semibold"><IndicatorIcon id={id} size={28} />{m.label}</h3>
                   <span className="text-sm">
                     <strong>{last.toFixed(m.decimals)}</strong> {m.unit}{" "}
                     {hasRule && <StatusBadge status={status} />}

@@ -1,3 +1,4 @@
+import { RegionIcon } from "./identity";
 import {
   ArrowRight,
   Flame,
@@ -214,7 +215,7 @@ export function OverviewPage({
                   <span className={`dw-status dw-status-${s.status}`}>
                     <span aria-hidden="true">{STATUS_STYLE[s.status].symbol}</span> {STATUS_STYLE[s.status].word}
                   </span>
-                  <span className="ov-sys-name">{r.label}</span>
+                  <span className="ov-sys-name"><RegionIcon id={r.id} size={22} className="ov-sys-icon" />{r.label}</span>
                   <span className="ov-sys-val">{s.headline}</span>
                 </li>
               );

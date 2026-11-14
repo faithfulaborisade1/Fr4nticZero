@@ -1,4 +1,6 @@
 import { CO2_SOURCE, co2Status } from "../engine/bands";
+import { IndicatorIcon } from "./identity";
+const CABIN_ID: Record<string, string> = { CO2: "co2", Temperature: "temp", Pressure: "pressure", Noise: "noise" };
 import { SIMULATED_CABIN } from "../data/regions";
 import { DemoBadge, SimulatedBadge, StatusBadge } from "./Badge";
 import { STATUS_STYLE } from "./status";
@@ -44,7 +46,7 @@ export function CabinStrip({
               className={`rounded-lg border-l-4 border-y border-r p-3 ${s.border} ${s.bg}`}
             >
               <div className="flex items-center justify-between gap-2 text-sm">
-                <span className="font-medium">{t.label}</span>
+                <span className="dw-id-title font-medium"><IndicatorIcon id={CABIN_ID[t.label] ?? "co2"} size={26} />{t.label}</span>
                 <StatusBadge status={t.status} />
               </div>
               <div className="mt-1 text-lg font-semibold">{t.value}</div>

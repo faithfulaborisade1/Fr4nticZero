@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { IndicatorIcon } from "./identity";
 import { deviceIssue, getDevice, failedDeviceFor, isDown, type DeviceState } from "../data/devices";
 import type { Environment } from "../engine/types";
 import { indicatorLabel } from "../data/indicators";
@@ -106,7 +107,7 @@ export function DecisionCardView({
       <div className="case-topline"><span><span className="case-pulse" /> ACTIVE READING</span><div><StatusBadge status={card.status} /><span className="case-hazard">{rule.hazard} hazard</span></div></div>
       <div className="case-layout">
         <div className="case-main">
-          <div className="case-reading"><span className="case-kicker">FLAGGED INDICATOR</span><h3>{indicatorLabel(rule.indicator)}</h3><div className="case-reading-values"><strong>{fmt(card.value)}</strong><span>Your baseline <b>{fmt(baseline.mean)} ± {fmt(baseline.sd)}</b></span></div><p>{rule.explanation}</p></div>
+          <div className="case-reading"><span className="case-kicker">FLAGGED INDICATOR</span><h3 className="dw-id-title"><IndicatorIcon id={rule.indicator} size={34} />{indicatorLabel(rule.indicator)}</h3><div className="case-reading-values"><strong>{fmt(card.value)}</strong><span>Your baseline <b>{fmt(baseline.mean)} ± {fmt(baseline.sd)}</b></span></div><p>{rule.explanation}</p></div>
           {failed && <p role="alert" className="case-device-warning">⚠ <strong>{deviceIssue(failed, envId).title}</strong>, so this reading may be out of date. Fallback: {deviceIssue(failed, envId).fallback}</p>}
           <div className="case-verdict"><div className="verdict-symbol" aria-hidden="true">{card.verdict === "crew_decides" ? "!" : card.verdict === "consult_earth" ? "↗" : "◉"}</div><div><span className="case-kicker">{v.label}</span><h4>{v.word}</h4><p>{why}</p></div></div>
         </div>

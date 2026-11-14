@@ -1519,3 +1519,50 @@ select option {
   visibility: visible;
   transform: none;
 }
+
+
+/* ---------- Indicator and body-system identity ---------- */
+.dw-id-icon {
+  --id-color: #94a3b8;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  border-radius: 9px;
+  color: var(--id-color);
+  background: color-mix(in srgb, var(--id-color) 14%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--id-color) 28%, transparent);
+}
+.dw-id-title {
+  display: flex !important;
+  align-items: center;
+  gap: 9px;
+}
+legend.dw-id-title {
+  margin-bottom: 2px;
+}
+.region-row .dw-id-icon {
+  margin-right: 2px;
+}
+.region-row:hover .dw-id-icon,
+.region-row.is-selected .dw-id-icon {
+  background: color-mix(in srgb, var(--id-color) 24%, transparent);
+}
+.region-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.ov-sys-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ov-sys-icon {
+  border-radius: 6px;
+}
+
+section[aria-label$="details"] > div:first-child h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

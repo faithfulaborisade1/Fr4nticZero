@@ -1,4 +1,6 @@
 import { deviceIssue, failedDeviceFor, type DeviceState } from "../data/devices";
+import { RegionIcon } from "./identity";
+const GROUP_REGION: Record<string, string> = { "heart-check": "heart", "temperature-check": "skin", "wellbeing-check": "head" };
 import type { Environment } from "../engine/types";
 import { INDICATOR_META } from "../data/indicators";
 import type { ClockState } from "../state/clock";
@@ -22,7 +24,7 @@ export function CheckInsPage({ name, clock, entries, devices, envId, onCheckIn }
     <div className="checkins-forms">{GROUPS.map((group) => {
       const blocked: Record<string, string> = {};
       for (const field of group.fields) { const device = failedDeviceFor(devices, field.indicator); if (device) blocked[field.indicator] = `${deviceIssue(device, envId).title}. ${deviceIssue(device, envId).fallback}`; }
-      return <section className="checkin-group" id={group.id} key={group.id}><div><h3>{group.title}</h3><p>{group.description}</p></div><CheckIn title="Enter reading" fields={group.fields} blocked={blocked} onSubmit={onCheckIn} /></section>;
+      return <section className="checkin-group" id={group.id} key={group.id}><div><h3 className="dw-id-title"><RegionIcon id={GROUP_REGION[group.id] ?? "heart"} size={30} />{group.title}</h3><p>{group.description}</p></div><CheckIn title="Enter reading" fields={group.fields} blocked={blocked} onSubmit={onCheckIn} /></section>;
     })}</div>
   </div>;
 }

@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from "react";
+import { IndicatorIcon } from "./identity";
 import { INDICATOR_META } from "../data/indicators";
 import { MeasurementGuide } from "./MeasurementGuide";
 
@@ -61,7 +62,8 @@ export function CheckIn({ title, fields, onSubmit, blocked = {} }: Props) {
           if (f.kind === "scale") {
             return (
               <fieldset key={f.indicator} className="min-w-0">
-                <legend className="text-sm">
+                <legend className="dw-id-title text-sm">
+                  <IndicatorIcon id={f.indicator} size={24} />
                   {m.label} ({m.min} to {m.max})
                 </legend>
                 <div className="mt-1 flex gap-1">
@@ -88,7 +90,10 @@ export function CheckIn({ title, fields, onSubmit, blocked = {} }: Props) {
           const why = blocked[f.indicator];
           return (
             <label key={f.indicator} className="block text-sm">
-              {m.label} ({m.unit})
+              <span className="dw-id-title">
+                <IndicatorIcon id={f.indicator} size={24} />
+                {m.label} ({m.unit})
+              </span>
               <input
                 type="number"
                 inputMode="decimal"
