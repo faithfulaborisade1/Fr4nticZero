@@ -30,6 +30,7 @@ import {
   reviewEntry,
   type LedgerEntry,
 } from "./state/ledger";
+import { clearSaved, loadSaved, saveState, type SavedState } from "./state/persist";
 import { buildSummaries } from "./state/regions";
 import { eatMeal, initialSupplies, stepKey, takeStep } from "./state/supplies";
 import { BodyScan } from "./ui/BodyScan";
@@ -52,20 +53,26 @@ const INITIAL_CLOCK = jumpToDay(
   getScenario(DEFAULT_SCENARIO).startDay,
 );
 
+// Restore what the crew did before a reload. The clock always comes back paused.
+const SAVED = loadSaved();
+const START_CLOCK = SAVED
+  ? { ...INITIAL_CLOCK, elapsedMin: SAVED.elapsedMin, speed: SAVED.speed }
+  : INITIAL_CLOCK;
+
 export default function App() {
   const baseHistory = useMemo(() => generateHistory(2026, HISTORY_DAYS), []);
 
-  const [clock, setClock] = useState(INITIAL_CLOCK);
-  const [scenarioId, setScenarioId] = useState(DEFAULT_SCENARIO);
-  const [ledger, setLedger] = useState<LedgerEntry[]>([]);
-  const [checkIns, setCheckIns] = useState<CheckInEntry[]>([]);
-  const [dismissed, setDismissed] = useState<Record<string, boolean>>({});
-  const [supplies, setSupplies] = useState(initialSupplies);
-  const [hazard, setHazard] = useState<HazardFilter>("all");
+  const [clock, setClock] = useState(START_CLOCK);
+  const [scenarioId, setScenarioId] = useState(SAVED?.scenarioId ?? DEFAULT_SCENARIO);
+  const [ledger, setLedger] = useState<LedgerEntry[]>(SAVED?.ledger ?? []);
+  const [checkIns, setCheckIns] = useState<CheckInEntry[]>(SAVED?.checkIns ?? []);
+  const [dismissed, setDismissed] = useState<Record<string, boolean>>(SAVED?.dismissed ?? {});
+  const [supplies, setSupplies] = useState(() => SAVED?.supplies ?? initialSupplies());
+  const [hazard, setHazard] = useState<HazardFilter>(SAVED?.hazard ?? "all");
 
-  const [envId, setEnvId] = useState<Environment["id"]>("station");
-  const [delaySec, setDelaySec] = useState(MARS_DELAY_MAX_SEC);
-  const [blackout, setBlackout] = useState(false);
+  const [envId, setEnvId] = useState<Environment["id"]>(SAVED?.envId ?? "station");
+  const [delaySec, setDelaySec] = useState(SAVED?.delaySec ?? MARS_DELAY_MAX_SEC);
+  const [blackout, setBlackout] = useState(SAVED?.blackout ?? false);
   const [selected, setSelected] = useState<RegionId | null>(null);
   const [hovered, setHovered] = useState<RegionId | null>(null);
   const detailRef = useRef<HTMLDivElement>(null);
@@ -75,12 +82,51 @@ export default function App() {
     return () => clearInterval(id);
   }, []);
 
+  // Keep the latest state in a ref and save it every second, and again when the page is
+  // hidden or closed. (A debounce would never fire while the mission clock is ticking.)
+  const latestRef = useRef<SavedState | null>(null);
+  latestRef.current = {
+    v: 1,
+    scenarioId,
+    elapsedMin: clock.elapsedMin,
+    speed: clock.speed,
+    envId,
+    delaySec,
+    blackout,
+    hazard,
+    ledger,
+    checkIns,
+    dismissed,
+    supplies,
+  };
+  useEffect(() => {
+    const save = () => {
+      if (latestRef.current) saveState(latestRef.current);
+    };
+    const id = setInterval(save, 1000);
+    const onHide = () => {
+      if (document.visibilityState === "hidden") save();
+    };
+    window.addEventListener("pagehide", save);
+    document.addEventListener("visibilitychange", onHide);
+    return () => {
+      clearInterval(id);
+      window.removeEventListener("pagehide", save);
+      document.removeEventListener("visibilitychange", onHide);
+    };
+  }, []);
+
   useEffect(() => {
     if (!selected) return;
     // Let the figure zoom in first, then bring the details into view.
+    const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
     const t = setTimeout(
-      () => detailRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" }),
-      450,
+      () =>
+        detailRef.current?.scrollIntoView({
+          behavior: reduce ? "auto" : "smooth",
+          block: "nearest",
+        }),
+      reduce ? 0 : 450,
     );
     return () => clearTimeout(t);
   }, [selected]);
@@ -136,6 +182,18 @@ export default function App() {
     setCheckIns([]);
     setDismissed({});
     setSupplies(initialSupplies());
+  }
+
+  /** Back to the opening state of the demo: scenario 1 on Station, nothing logged. */
+  function resetDemo() {
+    clearSaved();
+    chooseScenario(DEFAULT_SCENARIO);
+    setEnvId("station");
+    setDelaySec(MARS_DELAY_MAX_SEC);
+    setBlackout(false);
+    setHazard("all");
+    setSelected(null);
+    setClock(INITIAL_CLOCK);
   }
 
   function takeCardStep(cardId: string, index: number, step: Step) {
@@ -282,6 +340,7 @@ export default function App() {
         onTogglePlay={() => setClock((c) => (c.playing ? pause(c) : play(c)))}
         onNextDay={() => setClock((c) => jumpToDay(c, missionDay(c) + 1))}
         onSpeed={(s) => setClock((c) => ({ ...c, speed: s }))}
+        onReset={resetDemo}
       />
 
       <footer className="mt-auto pt-4 text-xs text-slate-400">

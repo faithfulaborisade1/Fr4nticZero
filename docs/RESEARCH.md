@@ -2,7 +2,7 @@
 
 Living document. Updated whenever a rule, threshold, source, scenario, cross-link or design decision changes (see `CLAUDE.md`). The README is built from this file.
 
-Last updated: Saturday 14 Nov 2026, end of build step 7.
+Last updated: Saturday 14 Nov 2026, end of build step 8.
 
 ## 1. What we are building
 
@@ -107,18 +107,20 @@ All crew data is simulated (one crew member, 30 days, seeded generator, seed 202
 - **Hazard tabs.** Five tabs plus "All hazards" filter the same data: region cards, figure regions (others dim), decision cards and the cabin strip. Each tab shows the published figure and its source link. Stomach and immune each belong to two hazards, as in the build spec.
 - **Buddy system (team notes).** Every decision card says who is alerted. Watch: you top up and re-check. Act: a simulated buddy (Sam) and the medical team. Crew decides now: all crew, because Earth cannot reply in time. The tier is stored on the ledger entry. These tiers are a demo rule.
 - **Supplies and crew time.** Each holding step shows its minutes and the kit items it uses. "Mark done" uses the stock and adds to the day's crew-time tally, and is blocked when the item is out. The pantry suggestions in Nutrition have an "Ate one" button that uses stock.
+- **Offline.** The app makes no network calls of its own. A small service worker caches the built files on first load, so the app opens and runs with the network off. Checked by serving the production build, letting the worker cache it, stopping the server and reloading: the app rendered and the Station-to-Mars verdict flip still worked. Needs one online visit first. External source links only open when online.
+- **Accessibility checks (step 8).** At 375 px wide there was no horizontal scroll on the home screen, any region detail, the surgeon ledger view or a hazard tab, and the only control under 40 px was the blackout checkbox (its label is a full-size target). A script that compared text and background colours found no text below WCAG AA (4.5:1, or 3:1 for large text) across about 300 text elements in two states. In-figure labels have a dark outline. Smooth scrolling and the figure zoom respect reduced-motion settings. Not tested with a screen reader.
 - **Dot plot.** A scatter of one indicator against another, one dot per day, with the last five days highlighted and a correlation figure. The wording says "relationship in this data" and "under investigation", never that one thing causes the other.
 
 ## 8. Limitations to state in the README
 
 - Prototype, not a medical device. All crew data is simulated.
 - Action windows and most thresholds are demo parameters.
-- Ledger and check-ins are not persisted across reloads yet.
+- State is saved in this browser only (local storage) and restored on reload, with the clock coming back paused. A "Reset demo" button clears it. It is a prototype store, not a medical record, and nothing leaves the device.
 - Region areas without a deep flow (inner ear, immune, bones and muscles) use fixed simulated values. The immune panel only reacts through the cross-link; there is no saliva strip or viral-reactivation flag yet.
 - The vision check is a three-question self-report summed into a 0 to 9 score. It is a demo instrument, not a validated vision test.
 - The pantry is a fixed simulated list. Taking a step does not yet use up kit or pantry stock (planned for step 7).
 - Only one crew member, no accounts. The buddy is a simulated crewmate and no alert is actually sent anywhere.
-- Kit, pantry and crew-time tallies are in memory and reset on reload or scenario change.
+- Kit, pantry and crew-time tallies are saved with the rest of the state and reset when the scenario changes or on "Reset demo".
 - The dot plot pairs readings by position. Check-ins appended on one indicator shift its pairing against the others.
 - No camera or image input yet.
 
@@ -152,5 +154,6 @@ Handwriting was read from a photo, so check this against the sheet. Each note ha
 | Sat | 3 | Decision card, live countdown, scenario 1 |
 | Sat | 4 | Region detail with trend charts, Heart and Head check-ins, cross-links, scenario 2 |
 | Sat | 5 | Decision ledger, blackout hold, surgeon review |
+| Sat | 8 | Local-storage persistence and "Reset demo", offline service worker with manifest and icon (verified with the server stopped), mobile layout audit at 375 px, contrast audit, reduced-motion handling, wording fixes. Fixed a bug where a ticking clock would have blocked saving. |
 | Sat | 7 | Hazard tabs with published figures and source links, "How this is measured" on each decision card, buddy alert tiers, take-step costs with kit and pantry stock and a crew-time tally, figure zoom, dot plot compare view, tests that every rule source is a link or marked DEMO. Team notes status updated. |
 | Sat | 6 | Eyes deep flow (weekly vision check, CO2 cross-link, B-vitamin note), Nutrition panel (daily log, weekly meal survey, menu-fatigue flag, pantry suggestions), radiation gauge, scenario 3 plus the extra menu-fatigue scenario. Added this research doc. |

@@ -9,6 +9,7 @@ interface Props {
   onTogglePlay: () => void;
   onNextDay: () => void;
   onSpeed: (minPerSec: number) => void;
+  onReset: () => void;
 }
 
 const SPEEDS = [
@@ -25,6 +26,7 @@ export function ScenarioBar({
   onTogglePlay,
   onNextDay,
   onSpeed,
+  onReset,
 }: Props) {
   const scenario = getScenario(scenarioId);
   return (
@@ -82,6 +84,13 @@ export function ScenarioBar({
         <span className="text-sm text-slate-300">
           Mission day {missionDay(clock) + 1}
         </span>
+        <button
+          type="button"
+          onClick={onReset}
+          className="min-h-11 rounded-lg border border-slate-600 px-4 text-sm font-medium hover:bg-slate-800"
+        >
+          ↺ Reset demo
+        </button>
       </div>
       <p className="mt-2 text-sm text-slate-300">{scenario.blurb}</p>
     </section>

@@ -176,7 +176,16 @@ export function BodyScan({ summaries, selected, highlighted, filter, onSelect }:
       ))}
 
       {/* Region labels inside the figure for quick reading */}
-      <g fontSize="9" fill="#e8ecf5" textAnchor="middle" pointerEvents="none">
+      <g
+        fontSize="9"
+        fill="#e8ecf5"
+        stroke="#0b1020"
+        strokeWidth="2.5"
+        paintOrder="stroke"
+        strokeLinejoin="round"
+        textAnchor="middle"
+        pointerEvents="none"
+      >
         <text x="120" y="66">Eyes</text>
         <text x="120" y="209">Stomach</text>
       </g>

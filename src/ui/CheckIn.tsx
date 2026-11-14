@@ -44,7 +44,7 @@ export function CheckIn({ title, fields, onSubmit }: Props) {
     }
     onSubmit(values);
     setRaw({});
-    setMsg(`Logged ${values.length} reading${values.length > 1 ? "s" : ""}.`);
+    setMsg("Check-in logged.");
   }
 
   return (
