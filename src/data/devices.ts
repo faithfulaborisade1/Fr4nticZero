@@ -68,3 +68,26 @@ export function failedDeviceFor(state: DeviceState, indicator: string): Device |
   const d = deviceForIndicator(indicator);
   return d && isDown(state, d.id) ? d : undefined;
 }
+
+/** Devices a lunar rover crew carries. The rest stay at the base habitat. Demo content. */
+export const ROVER_KIT = ["bp_cuff", "thermometer", "co2_sensor"];
+
+export function carriedOn(envId: string | undefined, id: string): boolean {
+  return envId !== "rover" || ROVER_KIT.includes(id);
+}
+
+/** Working state after accounting for what the current environment carries. */
+export function effectiveDevices(state: DeviceState, envId: string | undefined): DeviceState {
+  return Object.fromEntries(DEVICES.map((d) => [d.id, state[d.id] !== false && carriedOn(envId, d.id)]));
+}
+
+export const AT_BASE_FALLBACK =
+  "Not carried on the rover. Note symptoms, tell the crew, and re-measure when you are back at base.";
+
+/** How to describe an unavailable device: failed, or left at base on a rover traverse. */
+export function deviceIssue(device: Device, envId: string | undefined): { title: string; fallback: string; reason: "failed" | "at_base" } {
+  if (!carriedOn(envId, device.id)) {
+    return { title: `${device.name} is at base, not on the rover`, fallback: AT_BASE_FALLBACK, reason: "at_base" };
+  }
+  return { title: `${device.name} has failed`, fallback: device.fallback, reason: "failed" };
+}

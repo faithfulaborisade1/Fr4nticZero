@@ -66,5 +66,6 @@ const distance: MissionRisk = {
 export const MISSION_RISKS: Record<Environment["id"], MissionRiskProfile> = {
   station: { label: "Space station", focus: "Living in microgravity and maintaining a safe closed habitat are ongoing considerations in low Earth orbit.", risks: [gravity, cabin, isolation, radiation] },
   moon: { label: "Moon surface", focus: "Surface activity adds lunar dust and gravity transitions to the challenges of a deep-space environment.", risks: [dust, radiation, gravity, cabin] },
+  rover: { label: "Lunar rover traverse", focus: "Away from the base habitat with only a small carried kit: dust, suit and cabin confinement, radiation on the traverse, and a longer trip back to base care.", risks: [dust, radiation, cabin, distance] },
   mars: { label: "Mars transit", focus: "A long transit combines radiation exposure, confinement, microgravity and delayed support from Earth.", risks: [radiation, distance, isolation, gravity, cabin] },
 };

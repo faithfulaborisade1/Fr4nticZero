@@ -19,6 +19,13 @@ export function makeEnvironment(
         oneWayDelaySec: clamp(oneWayDelaySec ?? 8, ...MOON_DELAY_RANGE_SEC),
         blackout,
       };
+    case "rover":
+      // A lunar rover talks to Earth through the same relays as the surface base.
+      return {
+        id,
+        oneWayDelaySec: clamp(oneWayDelaySec ?? 8, ...MOON_DELAY_RANGE_SEC),
+        blackout,
+      };
     case "mars":
       return {
         id,

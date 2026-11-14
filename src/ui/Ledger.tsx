@@ -26,7 +26,7 @@ const ALERT_WORD = {
   all: "📣 All-crew alert tier (simulated)",
 } as const;
 
-const ENV_LABEL = { station: "Station", moon: "Moon surface", mars: "Mars transit" } as const;
+const ENV_LABEL = { station: "Station", moon: "Moon surface", rover: "Lunar rover", mars: "Mars transit" } as const;
 
 function fmt(n: number): string {
   return Number.isInteger(n) ? String(n) : n.toFixed(1);

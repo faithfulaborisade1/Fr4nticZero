@@ -1,4 +1,5 @@
-import { DEVICES, failedDeviceFor, isDown, type DeviceState } from "../data/devices";
+import { DEVICES, deviceIssue, failedDeviceFor, isDown, type DeviceState } from "../data/devices";
+import type { Environment } from "../engine/types";
 import type { History } from "../data/generator";
 import {
   INDICATOR_META,
@@ -92,6 +93,7 @@ interface Props {
   links: Crosslinks;
   pantry: PantryItem[];
   devices: DeviceState;
+  envId?: Environment["id"];
   dismissedNudges: Record<string, boolean>;
   onDismissNudge: (id: string) => void;
   onCheckIn: (values: CheckInValue[]) => void;
@@ -110,6 +112,7 @@ export function RegionDetail({
   links,
   pantry,
   devices,
+  envId,
   dismissedNudges,
   onDismissNudge,
   onCheckIn,
@@ -133,7 +136,7 @@ export function RegionDetail({
   const blocked: Record<string, string> = {};
   for (const f of form?.fields ?? []) {
     const d = failedDeviceFor(devices, f.indicator);
-    if (d) blocked[f.indicator] = `${d.name} is down. Use the fallback above.`;
+    if (d) blocked[f.indicator] = `${deviceIssue(d, envId).title}. Use the fallback above.`;
   }
   const regionNudges =
     regionId === "head" ? links.nudges.filter((n) => !dismissedNudges[n.id]) : [];
@@ -156,6 +159,16 @@ export function RegionDetail({
         <SimulatedBadge />
       </div>
       <p className="mt-2 text-sm">{meta.explanation}</p>
+      <div className="region-about">
+        <div>
+          <h3>What it does</h3>
+          <p>{meta.bodyFunction}</p>
+        </div>
+        <div>
+          <h3>Why we check it in space</h3>
+          <p>{meta.whyCheck}</p>
+        </div>
+      </div>
       {regionId === "bones" && <BonesAndMuscles key={crewName} name={crewName} workouts={workouts} clock={clock} onAdd={onAddWorkout} onRemove={onRemoveWorkout} />}
 
       {summary.note && (
@@ -170,8 +183,8 @@ export function RegionDetail({
           role="alert"
           className="mt-2 rounded-lg border border-red-400/80 bg-red-400/10 p-2 text-sm"
         >
-          ⚠ <strong>{d.name} has failed.</strong> Readings below may be out of date. Fallback:{" "}
-          {d.fallback}
+          ⚠ <strong>{deviceIssue(d, envId).title}.</strong> Readings below may be out of date. Fallback:{" "}
+          {deviceIssue(d, envId).fallback}
         </p>
       ))}
 

@@ -58,7 +58,7 @@ export interface Rule {
 }
 
 export interface Environment {
-  id: "station" | "moon" | "mars";
+  id: "station" | "moon" | "rover" | "mars";
   oneWayDelaySec: number;
   blackout: boolean;
 }

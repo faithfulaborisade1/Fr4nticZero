@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { getDevice, failedDeviceFor, isDown, type DeviceState } from "../data/devices";
+import { deviceIssue, getDevice, failedDeviceFor, isDown, type DeviceState } from "../data/devices";
+import type { Environment } from "../engine/types";
 import { indicatorLabel } from "../data/indicators";
 import { kitName } from "../data/kit";
 import { ACCEPT, formatSize, MAX_ATTACHMENTS, type Attachment } from "../state/attachments";
@@ -37,6 +38,7 @@ interface Props {
   blackout: boolean;
   supplies: Supplies;
   devices: DeviceState;
+  envId?: Environment["id"];
   /** Images chosen for this card and not yet logged. */
   attachments: Attachment[];
   choice?: string;
@@ -55,6 +57,7 @@ export function DecisionCardView({
   blackout,
   supplies,
   devices,
+  envId,
   attachments,
   choice,
   onChoose,
@@ -104,7 +107,7 @@ export function DecisionCardView({
       <div className="case-layout">
         <div className="case-main">
           <div className="case-reading"><span className="case-kicker">FLAGGED INDICATOR</span><h3>{indicatorLabel(rule.indicator)}</h3><div className="case-reading-values"><strong>{fmt(card.value)}</strong><span>Your baseline <b>{fmt(baseline.mean)} ± {fmt(baseline.sd)}</b></span></div><p>{rule.explanation}</p></div>
-          {failed && <p role="alert" className="case-device-warning">⚠ <strong>{failed.name} has failed</strong>, so this reading may be out of date. Fallback: {failed.fallback}</p>}
+          {failed && <p role="alert" className="case-device-warning">⚠ <strong>{deviceIssue(failed, envId).title}</strong>, so this reading may be out of date. Fallback: {deviceIssue(failed, envId).fallback}</p>}
           <div className="case-verdict"><div className="verdict-symbol" aria-hidden="true">{card.verdict === "crew_decides" ? "!" : card.verdict === "consult_earth" ? "↗" : "◉"}</div><div><span className="case-kicker">{v.label}</span><h4>{v.word}</h4><p>{why}</p></div></div>
         </div>
         <aside className="case-timing" aria-label="Decision timing">
@@ -123,7 +126,7 @@ export function DecisionCardView({
             const missing = missingItem(supplies, s);
             const stepDevice = s.device ? getDevice(s.device) : undefined;
             const deviceDown = !!s.device && isDown(devices, s.device);
-            return <li key={s.text} className="step-row"><span className={`step-number ${done ? "step-complete" : ""}`} aria-hidden="true">{done ? "✓" : String(i + 1).padStart(2, "0")}</span><div className="step-copy"><strong>{s.text}</strong><small>{s.crewMinutes} min{s.uses?.map((u) => ` · ${u.qty} × ${kitName(u.item)}`).join("")}</small>{deviceDown && !done && <span className="step-warning">⚠ {stepDevice?.name} is down. Fallback: {stepDevice?.fallback}</span>}{!deviceDown && missing && !done && <span className="step-warning">⚠ Out of {kitName(missing)}</span>}</div>{done ? <span className="step-done" role="status">Done</span> : !deviceDown && !missing ? <button type="button" onClick={() => onTakeStep(i, s)} className="step-button">Mark done</button> : null}</li>;
+            return <li key={s.text} className="step-row"><span className={`step-number ${done ? "step-complete" : ""}`} aria-hidden="true">{done ? "✓" : String(i + 1).padStart(2, "0")}</span><div className="step-copy"><strong>{s.text}</strong><small>{s.crewMinutes} min{s.uses?.map((u) => ` · ${u.qty} × ${kitName(u.item)}`).join("")}</small>{deviceDown && !done && <span className="step-warning">⚠ {stepDevice ? deviceIssue(stepDevice, envId).title : "Device unavailable"}. Fallback: {stepDevice ? deviceIssue(stepDevice, envId).fallback : ""}</span>}{!deviceDown && missing && !done && <span className="step-warning">⚠ Out of {kitName(missing)}</span>}</div>{done ? <span className="step-done" role="status">Done</span> : !deviceDown && !missing ? <button type="button" onClick={() => onTakeStep(i, s)} className="step-button">Mark done</button> : null}</li>;
           })}</ol>
           <p className="case-footnote">{minutesToday(supplies, day)} min of health steps taken today</p>
         </section>
@@ -138,7 +141,7 @@ export function DecisionCardView({
           </p>
           {ultrasoundDown && (
             <p className="mt-1 text-xs text-red-300">
-              ⚠ Ultrasound has failed, so only camera photos can be attached.
+              ⚠ {envId === "rover" ? "The ultrasound stays at base on a rover traverse" : "Ultrasound has failed"}, so only camera photos can be attached.
             </p>
           )}
           <div className="mt-2 flex flex-wrap items-center gap-2">

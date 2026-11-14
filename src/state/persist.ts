@@ -37,7 +37,7 @@ export interface SavedState {
 
 export const STORAGE_KEY = "decision-window-v1";
 
-const ENVS = ["station", "moon", "mars"];
+const ENVS = ["station", "moon", "rover", "mars"];
 const HAZARDS = ["all", "radiation", "isolation", "distance", "gravity", "environment"];
 
 const isObj = (x: unknown): x is Record<string, unknown> =>

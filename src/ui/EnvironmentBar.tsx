@@ -20,6 +20,7 @@ interface Props {
 const ENVS: { id: Environment["id"]; label: string }[] = [
   { id: "station", label: "Station" },
   { id: "moon", label: "Moon surface" },
+  { id: "rover", label: "Lunar rover" },
   { id: "mars", label: "Mars transit" },
 ];
 
@@ -74,7 +75,7 @@ export function EnvironmentBar({
         <div className="mt-4">
           <label className="flex items-center gap-3 text-sm">
             <span className="w-28 shrink-0">One-way delay</span>
-            {env.id === "moon" ? (
+            {env.id === "moon" || env.id === "rover" ? (
               <input
                 type="range"
                 className="h-8 w-full"

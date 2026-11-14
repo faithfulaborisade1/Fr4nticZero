@@ -2,7 +2,7 @@ import { MISSION_RISKS } from "../data/missionRisks";
 import type { Environment } from "../engine/types";
 
 const missions: { id: Environment["id"]; label: string }[] = [
-  { id: "station", label: "Space station" }, { id: "moon", label: "Moon surface" }, { id: "mars", label: "Mars transit" },
+  { id: "station", label: "Space station" }, { id: "moon", label: "Moon surface" }, { id: "rover", label: "Lunar rover" }, { id: "mars", label: "Mars transit" },
 ];
 
 export function MissionRisks({ mission, onMissionChange }: { mission: Environment["id"]; onMissionChange: (id: Environment["id"]) => void }) {

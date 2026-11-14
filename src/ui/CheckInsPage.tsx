@@ -1,4 +1,5 @@
-import { failedDeviceFor, type DeviceState } from "../data/devices";
+import { deviceIssue, failedDeviceFor, type DeviceState } from "../data/devices";
+import type { Environment } from "../engine/types";
 import { INDICATOR_META } from "../data/indicators";
 import type { ClockState } from "../state/clock";
 import type { CheckInEntry } from "../state/history";
@@ -11,7 +12,7 @@ const GROUPS: { id: string; title: string; description: string; fields: CheckInF
   { id: "wellbeing-check", title: "Sleep and mood", description: "A short personal wellbeing check-in.", fields: [{ indicator: "sleep", kind: "number" }, { indicator: "mood", kind: "scale", hint: "1 = low, 5 = great" }] },
 ];
 
-export function CheckInsPage({ name, clock, entries, devices, onCheckIn }: { name: string; clock: ClockState; entries: CheckInEntry[]; devices: DeviceState; onCheckIn: (values: CheckInValue[]) => void }) {
+export function CheckInsPage({ name, clock, entries, devices, envId, onCheckIn }: { name: string; clock: ClockState; entries: CheckInEntry[]; devices: DeviceState; envId?: Environment["id"]; onCheckIn: (values: CheckInValue[]) => void }) {
   const done = completedToday(entries, clock);
   const due = DAILY_INDICATORS.length - done.size;
   return <div className="checkins-page">
@@ -20,7 +21,7 @@ export function CheckInsPage({ name, clock, entries, devices, onCheckIn }: { nam
     <div className="checkins-section-title"><div><span className="eyebrow">MEASURE &amp; RECORD</span><h3>Log a check-in</h3></div><span>Enter one or more values in each form</span></div>
     <div className="checkins-forms">{GROUPS.map((group) => {
       const blocked: Record<string, string> = {};
-      for (const field of group.fields) { const device = failedDeviceFor(devices, field.indicator); if (device) blocked[field.indicator] = `${device.name} is marked down. ${device.fallback}`; }
+      for (const field of group.fields) { const device = failedDeviceFor(devices, field.indicator); if (device) blocked[field.indicator] = `${deviceIssue(device, envId).title}. ${deviceIssue(device, envId).fallback}`; }
       return <section className="checkin-group" id={group.id} key={group.id}><div><h3>{group.title}</h3><p>{group.description}</p></div><CheckIn title="Enter reading" fields={group.fields} blocked={blocked} onSubmit={onCheckIn} /></section>;
     })}</div>
   </div>;
