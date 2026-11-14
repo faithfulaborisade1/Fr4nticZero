@@ -3,11 +3,11 @@ import { SIMULATED_CABIN } from "../data/regions";
 import { DemoBadge, SimulatedBadge, StatusBadge } from "./Badge";
 import { STATUS_STYLE } from "./status";
 
-export function CabinStrip() {
+export function CabinStrip({ co2MmHg }: { co2MmHg: number }) {
   const c = SIMULATED_CABIN;
-  const co2 = co2Status(c.co2MmHg);
+  const co2 = co2Status(co2MmHg);
   const tiles = [
-    { label: "CO2", value: `${c.co2MmHg} mmHg`, status: co2, demo: false },
+    { label: "CO2", value: `${co2MmHg.toFixed(1)} mmHg`, status: co2, demo: false },
     { label: "Temperature", value: `${c.tempC} °C`, status: "ok" as const, demo: true },
     { label: "Pressure", value: `${c.pressureKPa} kPa`, status: "ok" as const, demo: true },
     { label: "Noise", value: `${c.noiseDb} dB`, status: "ok" as const, demo: true },

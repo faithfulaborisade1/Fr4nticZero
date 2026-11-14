@@ -227,7 +227,7 @@ export default function App() {
             regionId={selected}
             summary={summaries[selected]}
             history={history}
-            nudges={links.nudges}
+            links={links}
             dismissedNudges={dismissed}
             onDismissNudge={(id) => setDismissed((p) => ({ ...p, [id]: true }))}
             onCheckIn={logCheckIn}
@@ -235,7 +235,7 @@ export default function App() {
         )}
       </div>
 
-      <CabinStrip />
+      <CabinStrip co2MmHg={history.co2[history.co2.length - 1]} />
 
       <ScenarioBar
         scenarioId={scenarioId}

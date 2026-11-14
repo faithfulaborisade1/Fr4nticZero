@@ -53,7 +53,7 @@ export function TrendChart({ label, unit, values, decimals, statusHex, refLines 
               stroke="#94a3b8"
               fontSize={11}
               tickFormatter={(v: number) => v.toFixed(decimals > 1 ? 1 : decimals)}
-              allowDecimals
+              allowDecimals={decimals > 0}
             />
             <Tooltip
               contentStyle={{ background: "#0f172a", border: "1px solid #475569" }}

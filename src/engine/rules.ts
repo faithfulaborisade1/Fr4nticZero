@@ -1,3 +1,4 @@
+import { co2Status } from "./bands";
 import { deviationTest } from "./baseline";
 import type { Rule } from "./types";
 
@@ -127,6 +128,41 @@ export const RULES: Rule[] = [
     recheckMin: 60 * 24,
   },
 ];
+
+/** Cross-link: when cabin CO2 is above the symptom level, a smaller vision change already counts. Under investigation. */
+export function cabinCo2High(recent: Record<string, number[]>): boolean {
+  const s = recent.co2;
+  return s !== undefined && s.length > 0 && co2Status(s[s.length - 1]) !== "ok";
+}
+
+RULES.push({
+  id: "eyes_vision_change",
+  indicator: "eyes_score",
+  region: "eyes",
+  hazard: "gravity",
+  // Absolute score on the weekly questionnaire (0 to 9). Demo thresholds, not clinical.
+  test: (value, _baseline, ctx) => {
+    if (value >= 4) return "act";
+    if (value >= (cabinCo2High(ctx.recent) ? 1 : 2)) return "watch";
+    return "ok";
+  },
+  // Vision changes develop over weeks, so there is time to ask Earth even at Mars distance. Demo value: 3 days.
+  actionWindowMin: 3 * 24 * 60,
+  holdingSteps: [
+    { text: "Repeat the near-vision check and write down the result.", crewMinutes: 5 },
+    { text: "Log headaches and head fullness.", crewMinutes: 3 },
+    { text: "Check the cabin CO2 reading and ventilation.", crewMinutes: 5 },
+    { text: "Log B-vitamin intake against plan and top up if below plan.", crewMinutes: 3 },
+    { text: "Notify the medical team and re-check in 24 hours.", crewMinutes: 5 },
+  ],
+  explanation:
+    "Your vision check score is up. Fluid shifts in microgravity can change vision over weeks, and about 70% of long-duration crew show signs.",
+  measuredInSpace: "Vision self-check, headaches, head fullness, blood pressure and cabin CO2.",
+  needsEarth: "Spinal fluid sampling and detailed eye imaging.",
+  source: "DEMO",
+  windowSource: "DEMO",
+  recheckMin: 24 * 60,
+});
 
 export function getRule(id: string): Rule | undefined {
   return RULES.find((r) => r.id === id);

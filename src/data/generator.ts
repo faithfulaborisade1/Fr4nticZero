@@ -37,6 +37,14 @@ export const INDICATORS: IndicatorSpec[] = [
   // Extra series. Keep these last so the six required series stay identical for a given seed.
   { id: "dose_daily", mean: 0.6, sd: 0.08, min: 0.2, max: 5, round: 2 },
   { id: "stress", mean: 2.2, sd: 0.6, min: 1, max: 5, round: 0 },
+  // Eyes: weekly vision questionnaire total (0 to 9), plus cabin CO2 in mmHg.
+  { id: "eyes_score", mean: 0.2, sd: 0.4, min: 0, max: 9, round: 0 },
+  { id: "co2", mean: 2.0, sd: 0.1, min: 0.5, max: 8, round: 2 },
+  // Nutrition: meals eaten of 3, B-vitamin intake of 4 (B2, B6, B9, B12), body mass kg, meal rating 1 to 5.
+  { id: "meals_eaten", mean: 2.9, sd: 0.3, min: 0, max: 3, round: 0 },
+  { id: "b_vitamin_count", mean: 3.95, sd: 0.2, min: 0, max: 4, round: 0 },
+  { id: "body_mass", mean: 78.2, sd: 0.25, min: 40, max: 150, round: 1 },
+  { id: "meal_rating", mean: 3.9, sd: 0.35, min: 1, max: 5, round: 1 },
 ];
 
 export type History = Record<string, number[]>;

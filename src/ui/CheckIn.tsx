@@ -57,9 +57,11 @@ export function CheckIn({ title, fields, onSubmit }: Props) {
           if (f.kind === "scale") {
             return (
               <fieldset key={f.indicator} className="min-w-0">
-                <legend className="text-sm">{m.label} (1 to 5)</legend>
+                <legend className="text-sm">
+                  {m.label} ({m.min} to {m.max})
+                </legend>
                 <div className="mt-1 flex gap-1">
-                  {[1, 2, 3, 4, 5].map((n) => (
+                  {Array.from({ length: m.max - m.min + 1 }, (_, i) => m.min + i).map((n) => (
                     <button
                       key={n}
                       type="button"

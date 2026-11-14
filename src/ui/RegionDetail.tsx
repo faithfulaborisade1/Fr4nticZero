@@ -2,17 +2,49 @@ import type { History } from "../data/generator";
 import {
   INDICATOR_META,
   REGION_INDICATORS,
+  SANS_SOURCE,
   SLEEP_SOURCE,
 } from "../data/indicators";
+import { suggestMeals } from "../data/pantry";
 import { getRegionMeta, type RegionId } from "../data/regions";
-import type { Nudge } from "../engine/crosslinks";
-import { indicatorStatus, type RegionSummary } from "../state/regions";
+import { B_VITAMIN_NOTE, type Crosslinks } from "../engine/crosslinks";
+import { rulesForIndicator } from "../engine/rules";
+import {
+  cumulativeDoseMsv,
+  indicatorStatus,
+  latest,
+  type RegionSummary,
+} from "../state/regions";
 import { DemoBadge, SimulatedBadge, StatusBadge } from "./Badge";
 import { CheckIn, type CheckInField, type CheckInValue } from "./CheckIn";
+import { MealSurvey } from "./MealSurvey";
+import { NutritionLog } from "./NutritionLog";
+import { RadiationGauge } from "./RadiationGauge";
 import { STATUS_STYLE } from "./status";
 import { TrendChart, type RefLine } from "./TrendChart";
 
-const FORMS: Partial<Record<RegionId, { title: string; fields: CheckInField[] }>> = {
+const FORMS: Partial<
+  Record<
+    RegionId,
+    {
+      title: string;
+      fields: CheckInField[];
+      /** Turn the entered values into the readings to store. */
+      compose?: (values: CheckInValue[]) => CheckInValue[];
+    }
+  >
+> = {
+  eyes: {
+    title: "Vision check (weekly, or when something changes)",
+    fields: [
+      { indicator: "eyes_vision", kind: "scale", hint: "0 none, 1 slight, 2 noticeable, 3 marked" },
+      { indicator: "eyes_headache", kind: "scale", hint: "0 none, 3 most days" },
+      { indicator: "eyes_fullness", kind: "scale", hint: "0 none, 3 strong pressure" },
+    ],
+    compose: (values) => [
+      { indicator: "eyes_score", value: values.reduce((a, v) => a + v.value, 0) },
+    ],
+  },
   heart: {
     title: "Heart check-in (daily)",
     fields: [
@@ -36,6 +68,10 @@ const FORMS: Partial<Record<RegionId, { title: string; fields: CheckInField[] }>
 };
 
 const REF_LINES: Record<string, RefLine[]> = {
+  co2: [
+    { y: 2.3, label: "Symptoms reported from 2.3" },
+    { y: 3.0, label: "Headaches above about 3.0" },
+  ],
   sleep: [
     { y: 8.5, label: "Scheduled 8.5 h" },
     { y: 6, label: "Typical on ISS: about 6 h" },
@@ -46,7 +82,7 @@ interface Props {
   regionId: RegionId;
   summary: RegionSummary;
   history: History;
-  nudges: Nudge[];
+  links: Crosslinks;
   dismissedNudges: Record<string, boolean>;
   onDismissNudge: (id: string) => void;
   onCheckIn: (values: CheckInValue[]) => void;
@@ -56,7 +92,7 @@ export function RegionDetail({
   regionId,
   summary,
   history,
-  nudges,
+  links,
   dismissedNudges,
   onDismissNudge,
   onCheckIn,
@@ -64,7 +100,10 @@ export function RegionDetail({
   const meta = getRegionMeta(regionId);
   const indicators = REGION_INDICATORS[regionId] ?? [];
   const form = FORMS[regionId];
-  const regionNudges = regionId === "head" ? nudges.filter((n) => !dismissedNudges[n.id]) : [];
+  const regionNudges =
+    regionId === "head" ? links.nudges.filter((n) => !dismissedNudges[n.id]) : [];
+  const suggestions = regionId === "stomach" && links.menuFatigue ? suggestMeals() : [];
+  const showBVitamin = regionId === "eyes" && summary.status !== "ok" && links.bBelowPlan;
 
   return (
     <section
@@ -89,6 +128,51 @@ export function RegionDetail({
         </p>
       )}
 
+      {regionId === "eyes" && (
+        <p className="mt-2 text-xs text-slate-400">
+          About 70% of long-duration crew show signs of vision change. Source:{" "}
+          <a className="underline" href={SANS_SOURCE.url} target="_blank" rel="noreferrer">
+            {SANS_SOURCE.title}
+          </a>
+        </p>
+      )}
+
+      {regionId === "eyes" && (
+        <p className="mt-2 text-sm">
+          B-vitamin intake today:{" "}
+          <strong>{latest(history, "b_vitamin_count")} of 4</strong>{" "}
+          <span className="text-slate-400">(logged beside your vision checks)</span>
+        </p>
+      )}
+      {showBVitamin && (
+        <p className="mt-2 rounded-lg border border-amber-400/60 bg-amber-400/10 p-2 text-sm">
+          ▲ {B_VITAMIN_NOTE}
+        </p>
+      )}
+
+      {suggestions.length > 0 && (
+        <div className="mt-2 rounded-lg border border-sky-400/60 bg-sky-400/10 p-2 text-sm">
+          🍽 Try something you have not eaten recently from the pantry:
+          <ul className="mt-1 list-disc pl-5">
+            {suggestions.map((p) => (
+              <li key={p.id}>
+                {p.name} <span className="text-slate-400">({p.qty} left, last eaten {p.daysSinceEaten} days ago)</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {regionId === "radiation" && (
+        <div className="mt-4">
+          <RadiationGauge
+            cumulativeMsv={cumulativeDoseMsv(history)}
+            dailyMsv={latest(history, "dose_daily")}
+            status={summary.status}
+          />
+        </div>
+      )}
+
       {regionNudges.map((n) => (
         <div
           key={n.id}
@@ -111,6 +195,7 @@ export function RegionDetail({
             const m = INDICATOR_META[id];
             const values = history[id] ?? [];
             if (values.length < 2) return null;
+            const hasRule = rulesForIndicator(id).length > 0;
             const status = indicatorStatus(history, id);
             const last = values[values.length - 1];
             return (
@@ -119,7 +204,7 @@ export function RegionDetail({
                   <h3 className="text-sm font-semibold">{m.label}</h3>
                   <span className="text-sm">
                     <strong>{last.toFixed(m.decimals)}</strong> {m.unit}{" "}
-                    <StatusBadge status={status} />
+                    {hasRule && <StatusBadge status={status} />}
                   </span>
                 </div>
                 <TrendChart
@@ -127,7 +212,7 @@ export function RegionDetail({
                   unit={m.unit}
                   values={values}
                   decimals={m.decimals}
-                  statusHex={STATUS_STYLE[status].hex}
+                  statusHex={hasRule ? STATUS_STYLE[status].hex : "#94a3b8"}
                   refLines={REF_LINES[id]}
                 />
                 {id === "sleep" && (
@@ -146,7 +231,18 @@ export function RegionDetail({
 
       {form && (
         <div className="mt-4">
-          <CheckIn title={form.title} fields={form.fields} onSubmit={onCheckIn} />
+          <CheckIn
+            title={form.title}
+            fields={form.fields}
+            onSubmit={(values) => onCheckIn(form.compose ? form.compose(values) : values)}
+          />
+        </div>
+      )}
+
+      {regionId === "stomach" && (
+        <div className="mt-4 grid gap-4 md:grid-cols-2">
+          <NutritionLog onSubmit={onCheckIn} />
+          <MealSurvey onSubmit={(r) => onCheckIn([{ indicator: "meal_rating", value: r }])} />
         </div>
       )}
 

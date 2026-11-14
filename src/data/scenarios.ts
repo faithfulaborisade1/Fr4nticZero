@@ -48,6 +48,33 @@ export const SCENARIOS: Scenario[] = [
       return out;
     },
   },
+  {
+    id: "vision_co2",
+    name: "3. Vision change with high cabin CO2",
+    blurb:
+      "Cabin CO2 creeps up while the weekly vision check changes. From day 25 press Next day: the Eyes go amber sooner because of the CO2, then red. Even at Mars distance the verdict stays consult Earth, because vision changes unfold over weeks.",
+    startDay: 24,
+    apply: (h) => {
+      let out = withTail(h, "co2", [2.4, 2.6, 2.8, 3.1, 3.3]);
+      out = withTail(out, "eyes_score", [1, 2, 2, 4, 5]);
+      // Keep mood steady so the story stays about vision and CO2.
+      out = withTail(out, "mood", [4, 4, 4, 4, 4]);
+      return out;
+    },
+  },
+  {
+    id: "menu_fatigue",
+    name: "Extra: Menu fatigue",
+    blurb:
+      "Meal ratings fall and meals eaten drop over five days. The Nutrition area flags possible menu fatigue and suggests meals not eaten recently.",
+    startDay: 24,
+    apply: (h) => {
+      let out = withTail(h, "meal_rating", [3.4, 3.1, 2.8, 2.6, 2.4]);
+      out = withTail(out, "meals_eaten", [2, 2, 1, 1, 1]);
+      out = withTail(out, "b_vitamin_count", [4, 3, 3, 2, 2]);
+      return out;
+    },
+  },
 ];
 
 export const DEFAULT_SCENARIO = "bp_spike";

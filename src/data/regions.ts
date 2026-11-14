@@ -141,18 +141,16 @@ export function getRegionMeta(id: RegionId): RegionMeta {
 
 /** Simulated values for areas that have no rule yet. All data here is simulated. */
 export const STATIC_READINGS = {
-  eyes: { status: "ok", headline: "Vision check: no change", detail: "Weekly check, 3 days ago" },
   ear: { status: "ok", headline: "Balance check: steady", detail: "Weekly check, 2 days ago" },
   immune: { status: "ok", headline: "Cortisol: in range", detail: "Viral flag: none" },
-  stomach: { status: "ok", headline: "Meals 3 of 3 · 78.2 kg", detail: "B-vitamin intake on plan" },
   bones: { status: "watch", headline: "Exercise 1 of 2 sessions", detail: "Bone loss estimate: low" },
 } as const;
 
 /** Simulated dose accumulated before the 30 days in the history. */
 export const SIMULATED_DOSE_BASE_MSV = 20;
 
+/** Cabin CO2 comes from the history (see the "co2" series). The rest are fixed simulated values. */
 export const SIMULATED_CABIN = {
-  co2MmHg: 2.7,
   tempC: 22.4,
   pressureKPa: 101.3,
   noiseDb: 54,

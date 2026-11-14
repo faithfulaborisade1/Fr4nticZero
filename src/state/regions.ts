@@ -1,7 +1,9 @@
 import { computeBaseline } from "../engine/baseline";
 import { doseStatus } from "../engine/bands";
 import {
+  EYES_CO2_NOTE,
   IMMUNE_LINK_NOTE,
+  MENU_FATIGUE_NOTE,
   evaluateCrosslinks,
   type Crosslinks,
 } from "../engine/crosslinks";
@@ -85,9 +87,28 @@ export function buildSummaries(
     headline: `${Math.round(cumulative)} mSv total`,
     detail: `${latest(history, "dose_daily").toFixed(2)} mSv today · limit under 600`,
   };
-  for (const id of ["eyes", "ear", "immune", "stomach", "bones"] as const) {
+  for (const id of ["ear", "immune", "bones"] as const) {
     out[id] = { id, ...STATIC_READINGS[id] };
   }
+
+  const eyesScore = latest(history, "eyes_score");
+  out.eyes = {
+    id: "eyes",
+    status: st("eyes_score"),
+    headline: `Vision check score ${eyesScore} of 9`,
+    detail: links.eyesCo2 ? "Cabin CO2 high · under investigation" : "Weekly check, or when something changes",
+    note: links.eyesCo2 ? EYES_CO2_NOTE : undefined,
+  };
+
+  out.stomach = {
+    id: "stomach",
+    status: links.menuFatigue ? "watch" : "ok",
+    headline: `Meals ${latest(history, "meals_eaten")} of 3 · ${latest(history, "body_mass").toFixed(1)} kg`,
+    detail: links.menuFatigue
+      ? "Possible menu fatigue · under investigation"
+      : `B-vitamins ${latest(history, "b_vitamin_count")} of 4${links.bBelowPlan ? " (below plan)" : ""}`,
+    note: links.menuFatigue ? MENU_FATIGUE_NOTE : undefined,
+  };
   if (links.immuneWatch) {
     out.immune = {
       id: "immune",
