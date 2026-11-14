@@ -29,6 +29,20 @@ export function missionDay(c: ClockState): number {
   return Math.floor(c.elapsedMin / MINUTES_PER_DAY);
 }
 
+/** "Day 30 08:15" style label for an ISO time on the mission clock. */
+export function missionTimeLabel(c: ClockState, iso: string): string {
+  const start = new Date(c.startISO);
+  const startMinOfDay = start.getUTCHours() * 60 + start.getUTCMinutes();
+  // Day 1 begins at the start time, so the clock reads from that time of day.
+  const min = Math.round((new Date(iso).getTime() - start.getTime()) / 60_000);
+  const day = Math.floor(min / MINUTES_PER_DAY) + 1;
+  const inDay =
+    (((min + startMinOfDay) % MINUTES_PER_DAY) + MINUTES_PER_DAY) % MINUTES_PER_DAY;
+  const hh = String(Math.floor(inDay / 60)).padStart(2, "0");
+  const mm = String(inDay % 60).padStart(2, "0");
+  return `Day ${day} ${hh}:${mm}`;
+}
+
 export function tick(c: ClockState, realSeconds: number): ClockState {
   if (!c.playing) return c;
   return { ...c, elapsedMin: c.elapsedMin + realSeconds * c.speed };

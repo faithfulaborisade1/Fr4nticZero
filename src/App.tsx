@@ -1,18 +1,39 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { generateHistory } from "./data/generator";
 import { REGIONS, getRegionMeta, type RegionId } from "./data/regions";
+import { DEFAULT_SCENARIO, getScenario } from "./data/scenarios";
 import { MARS_DELAY_MAX_SEC, makeEnvironment } from "./engine/environments";
 import type { Environment } from "./engine/types";
+import { buildCards } from "./state/cards";
+import {
+  createClock,
+  jumpToDay,
+  missionDay,
+  nowISO,
+  pause,
+  play,
+  tick,
+} from "./state/clock";
 import { buildSummaries } from "./state/regions";
+import { SimulatedBadge, StatusBadge } from "./ui/Badge";
 import { BodyScan } from "./ui/BodyScan";
 import { CabinStrip } from "./ui/CabinStrip";
+import { DecisionCardView } from "./ui/DecisionCard";
 import { EnvironmentBar } from "./ui/EnvironmentBar";
 import { RegionCard } from "./ui/RegionCard";
-import { StatusBadge, SimulatedBadge } from "./ui/Badge";
+import { ScenarioBar } from "./ui/ScenarioBar";
+
+const HISTORY_DAYS = 30;
+// Start on mission day 30, paused, one mission minute per real second.
+const INITIAL_CLOCK = jumpToDay(createClock(undefined, 1), HISTORY_DAYS - 1);
 
 export default function App() {
-  const history = useMemo(() => generateHistory(2026, 30), []);
-  const summaries = useMemo(() => buildSummaries(history), [history]);
+  const baseHistory = useMemo(() => generateHistory(2026, HISTORY_DAYS), []);
+
+  const [clock, setClock] = useState(INITIAL_CLOCK);
+  const [scenarioId, setScenarioId] = useState(DEFAULT_SCENARIO);
+  const [readingISO, setReadingISO] = useState(() => nowISO(INITIAL_CLOCK));
+  const [choices, setChoices] = useState<Record<string, string>>({});
 
   const [envId, setEnvId] = useState<Environment["id"]>("station");
   const [delaySec, setDelaySec] = useState(MARS_DELAY_MAX_SEC);
@@ -20,8 +41,25 @@ export default function App() {
   const [selected, setSelected] = useState<RegionId | null>(null);
   const [hovered, setHovered] = useState<RegionId | null>(null);
 
+  useEffect(() => {
+    const id = setInterval(() => setClock((c) => tick(c, 0.25)), 250);
+    return () => clearInterval(id);
+  }, []);
+
+  const history = useMemo(
+    () => getScenario(scenarioId).apply(baseHistory),
+    [baseHistory, scenarioId],
+  );
+  const summaries = useMemo(() => buildSummaries(history), [history]);
+
   const env = makeEnvironment(envId, delaySec, blackout);
-  const missionDay = history.bp_systolic.length;
+  const entries = useMemo(
+    () => buildCards(history, env, readingISO),
+    // env is rebuilt each render from primitives; depend on those.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [history, envId, delaySec, blackout, readingISO],
+  );
+  const now = nowISO(clock);
 
   const left = REGIONS.filter((r) => r.side === "left");
   const right = REGIONS.filter((r) => r.side === "right");
@@ -49,7 +87,7 @@ export default function App() {
 
       <EnvironmentBar
         env={env}
-        missionDay={missionDay}
+        missionDay={missionDay(clock) + 1}
         onEnvChange={(id) => {
           setEnvId(id);
           if (id === "moon") setDelaySec(8);
@@ -58,6 +96,29 @@ export default function App() {
         onDelayChange={setDelaySec}
         onBlackoutChange={setBlackout}
       />
+
+      <section aria-label="Decision cards" className="flex flex-col gap-3">
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-300">
+          Whose call is this, and by when?
+        </h2>
+        {entries.length === 0 ? (
+          <p className="rounded-xl border border-emerald-500/50 bg-emerald-500/10 p-4 text-sm">
+            ✓ No flagged readings. Everything is near your own baseline.
+          </p>
+        ) : (
+          entries.map((e) => (
+            <DecisionCardView
+              key={e.card.id}
+              entry={e}
+              clock={clock}
+              nowISO={now}
+              blackout={blackout}
+              choice={choices[e.card.id]}
+              onChoose={(c) => setChoices((p) => ({ ...p, [e.card.id]: c }))}
+            />
+          ))
+        )}
+      </section>
 
       <main className="grid gap-4 lg:grid-cols-[1fr_auto_1fr] lg:items-center lg:gap-12">
         <div className="order-2 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:order-1 lg:grid-cols-1">
@@ -106,6 +167,18 @@ export default function App() {
       )}
 
       <CabinStrip />
+
+      <ScenarioBar
+        scenarioId={scenarioId}
+        clock={clock}
+        onScenario={(id) => {
+          setScenarioId(id);
+          setReadingISO(nowISO(clock));
+          setChoices({});
+        }}
+        onTogglePlay={() => setClock((c) => (c.playing ? pause(c) : play(c)))}
+        onSpeed={(s) => setClock((c) => ({ ...c, speed: s }))}
+      />
 
       <footer className="mt-auto pt-4 text-xs text-slate-400">
         Prototype, not a medical device. All crew data is simulated.
