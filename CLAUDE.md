@@ -12,6 +12,8 @@ NASA Space Apps 2026 entry. Static offline web app (Vite, React, TypeScript, Tai
 - a design decision, limitation or disclosure item (sections 7 to 9)
 - the team's own notes and their status (section 10)
 
+The README is built from this document. When the app's behaviour, limitations, sources or disclosure change, update `README.md` in the same commit and re-check each claim in it against the running app.
+
 Also bump the "Last updated" line and add a row to the changelog (section 11). Never mark a source as confirmed unless you opened the link and checked the number.
 
 ## Honesty rules

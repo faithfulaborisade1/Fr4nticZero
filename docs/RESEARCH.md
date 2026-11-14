@@ -2,7 +2,7 @@
 
 Living document. Updated whenever a rule, threshold, source, scenario, cross-link or design decision changes (see `CLAUDE.md`). The README is built from this file.
 
-Last updated: Saturday 14 Nov 2026, end of build step 8.
+Last updated: Saturday 14 Nov 2026, end of build step 9 (README).
 
 ## 1. What we are building
 
@@ -27,7 +27,10 @@ Worked example (blood pressure, window 30 min): Station reply about 15 min, so c
 - [ ] 2026 Judging and Awards Guide: criteria wording (the guide read for the brief carried 2024 dates).
 - [ ] Every source link below, opened and the number confirmed. **None has been opened by the build agent yet.**
 - [ ] Whether a planning document counts as allowed pre-work (participant FAQ: no work on challenges before the hackathon). Disclose it.
-- [ ] Which NASA OSDR dataset (Inspiration4 processed data) to use for the "real data" touch. The PDF says use at least one real dataset; the handoff says stretch. Not started.
+- [ ] Which NASA OSDR dataset (Inspiration4 processed data) to use for the "real data" touch. The PDF says use at least one real dataset; the handoff says stretch. Not started, and the README states that no real dataset is loaded.
+- [ ] Add the exact challenge-resource links (CSA CANS, Artemis II Immune Biomarkers, B-vitamins and SANS, SANS spinal fluid, menu fatigue, CSA infographic) to the README. They are on the challenge Resources tab and the README currently names them without links.
+- [ ] Check the README's AI-use disclosure wording against the 2026 submission and judging guides.
+- [ ] Check the README claims against the final live demo before submitting (the README describes what the app does today).
 
 ## 3. Sources (copied from the handoff, to be confirmed at the link)
 
@@ -154,6 +157,7 @@ Handwriting was read from a photo, so check this against the sheet. Each note ha
 | Sat | 3 | Decision card, live countdown, scenario 1 |
 | Sat | 4 | Region detail with trend charts, Heart and Head check-ins, cross-links, scenario 2 |
 | Sat | 5 | Decision ledger, blackout hold, surgeon review |
+| Sat | 9 | README written from this document: pitch first, objective-to-feature map, scenarios, honesty and limitations, sources, resources, beyond-space paragraph, AI-use disclosure, references. No real dataset is loaded and the README says so. |
 | Sat | 8 | Local-storage persistence and "Reset demo", offline service worker with manifest and icon (verified with the server stopped), mobile layout audit at 375 px, contrast audit, reduced-motion handling, wording fixes. Fixed a bug where a ticking clock would have blocked saving. |
 | Sat | 7 | Hazard tabs with published figures and source links, "How this is measured" on each decision card, buddy alert tiers, take-step costs with kit and pantry stock and a crew-time tally, figure zoom, dot plot compare view, tests that every rule source is a link or marked DEMO. Team notes status updated. |
 | Sat | 6 | Eyes deep flow (weekly vision check, CO2 cross-link, B-vitamin note), Nutrition panel (daily log, weekly meal survey, menu-fatigue flag, pantry suggestions), radiation gauge, scenario 3 plus the extra menu-fatigue scenario. Added this research doc. |
