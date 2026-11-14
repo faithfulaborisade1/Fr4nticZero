@@ -1,3 +1,5 @@
+import { HowToButton } from "./HowToGuide";
+import { DEVICE_HOW_TO } from "../data/howTo";
 import { useState } from "react";
 import { IndicatorIcon } from "./identity";
 import { deviceIssue, getDevice, failedDeviceFor, isDown, type DeviceState } from "../data/devices";
@@ -127,7 +129,7 @@ export function DecisionCardView({
             const missing = missingItem(supplies, s);
             const stepDevice = s.device ? getDevice(s.device) : undefined;
             const deviceDown = !!s.device && isDown(devices, s.device);
-            return <li key={s.text} className="step-row"><span className={`step-number ${done ? "step-complete" : ""}`} aria-hidden="true">{done ? "✓" : String(i + 1).padStart(2, "0")}</span><div className="step-copy"><strong>{s.text}</strong><small>{s.crewMinutes} min{s.uses?.map((u) => ` · ${u.qty} × ${kitName(u.item)}`).join("")}</small>{deviceDown && !done && <span className="step-warning">⚠ {stepDevice ? deviceIssue(stepDevice, envId).title : "Device unavailable"}. Fallback: {stepDevice ? deviceIssue(stepDevice, envId).fallback : ""}</span>}{!deviceDown && missing && !done && <span className="step-warning">⚠ Out of {kitName(missing)}</span>}</div>{done ? <span className="step-done" role="status">Done</span> : !deviceDown && !missing ? <button type="button" onClick={() => onTakeStep(i, s)} className="step-button">Mark done</button> : null}</li>;
+            return <li key={s.text} className="step-row"><span className={`step-number ${done ? "step-complete" : ""}`} aria-hidden="true">{done ? "✓" : String(i + 1).padStart(2, "0")}</span><div className="step-copy"><strong>{s.text}</strong><small>{s.crewMinutes} min{s.uses?.map((u) => ` · ${u.qty} × ${kitName(u.item)}`).join("")}</small>{s.device && DEVICE_HOW_TO[s.device] && <HowToButton indicator={DEVICE_HOW_TO[s.device]} compact />}{deviceDown && !done && <span className="step-warning">⚠ {stepDevice ? deviceIssue(stepDevice, envId).title : "Device unavailable"}. Fallback: {stepDevice ? deviceIssue(stepDevice, envId).fallback : ""}</span>}{!deviceDown && missing && !done && <span className="step-warning">⚠ Out of {kitName(missing)}</span>}</div>{done ? <span className="step-done" role="status">Done</span> : !deviceDown && !missing ? <button type="button" onClick={() => onTakeStep(i, s)} className="step-button">Mark done</button> : null}</li>;
           })}</ol>
           <p className="case-footnote">{minutesToday(supplies, day)} min of health steps taken today</p>
         </section>

@@ -1566,3 +1566,265 @@ section[aria-label$="details"] > div:first-child h2 {
   align-items: center;
   gap: 10px;
 }
+
+
+/* ---------- Animated how-to guides ---------- */
+.ht-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  margin-top: 8px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid rgb(45 212 191 / 0.4);
+  background: var(--accent-weak);
+  color: var(--accent-strong);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.ht-trigger:hover {
+  background: rgb(45 212 191 / 0.2);
+}
+.ht-trigger.is-compact {
+  min-height: 28px;
+  margin-top: 6px;
+  padding: 0 10px;
+  font-size: 12px;
+  align-self: flex-start;
+}
+.ht-field {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+.ht-field > label {
+  width: 100%;
+}
+.ht-dialog {
+  width: min(640px, calc(100vw - 24px));
+  max-height: calc(100vh - 24px);
+  padding: 0;
+  border: 1px solid var(--border-strong);
+  border-radius: 14px;
+  background: var(--surface-1);
+  color: var(--text);
+  box-shadow: 0 30px 80px rgb(0 0 0 / 0.6);
+}
+.ht-dialog::backdrop {
+  background: rgb(4 8 14 / 0.72);
+  backdrop-filter: blur(3px);
+}
+.ht-panel {
+  display: flex;
+  flex-direction: column;
+}
+.ht-head {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 16px 16px 12px 18px;
+  border-bottom: 1px solid var(--border);
+}
+.ht-head h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 650;
+}
+.ht-head p {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: var(--text-3);
+}
+.ht-stage {
+  position: relative;
+  margin: 14px 18px 0;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: radial-gradient(400px 200px at 50% 40%, #142233, #0b1018);
+  overflow: hidden;
+}
+.ht-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 360 / 220;
+}
+.ht-svg text {
+  font-family: Inter, "Segoe UI", system-ui, sans-serif;
+}
+.ht-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: rgb(255 255 255 / 0.06);
+}
+.ht-progress span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--accent);
+}
+.ht-progress span.is-running {
+  animation: ht-progress linear forwards;
+}
+@keyframes ht-progress {
+  to { width: 100%; }
+}
+.ht-copy {
+  padding: 14px 18px 4px;
+}
+.ht-copy h3 {
+  margin: 4px 0 6px;
+  font-size: 17px;
+  font-weight: 650;
+}
+.ht-copy p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+.ht-space {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px !important;
+  padding: 9px 11px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgb(96 165 250 / 0.35);
+  background: rgb(96 165 250 / 0.08);
+  color: #cfe0fb !important;
+  font-size: 13px !important;
+}
+.ht-space svg {
+  flex: none;
+  margin-top: 2px;
+  color: #93c5fd;
+}
+.ht-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 14px 18px;
+}
+.ht-dots {
+  display: flex;
+  gap: 6px;
+}
+.ht-dots button {
+  width: 26px;
+  height: 26px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  display: grid;
+  place-items: center;
+}
+.ht-dots button::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border-strong);
+  transition: width 0.15s, background 0.15s;
+}
+.ht-dots button.is-done::before {
+  background: rgb(45 212 191 / 0.55);
+}
+.ht-dots button.is-active::before {
+  width: 20px;
+  border-radius: 4px;
+  background: var(--accent);
+}
+.ht-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.ht-controls .dw-btn:disabled,
+.ht-controls .dw-icon-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.ht-source {
+  margin: 0;
+  padding: 10px 18px 16px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--text-3);
+}
+.ht-source a {
+  color: var(--accent-strong);
+}
+
+/* Scene motion (stopped by the global reduced-motion rule) */
+.ht-svg .ht-breathe,
+.ht-svg .ht-inflate,
+.ht-svg .ht-slide-in,
+.ht-svg .ht-grow,
+.ht-svg .ht-shrink,
+.ht-svg .ht-blink,
+.ht-svg .ht-gauge {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.ht-breathe { animation: ht-breathe 4s ease-in-out infinite; }
+@keyframes ht-breathe { 50% { transform: scale(1.03); } }
+.ht-timer { animation: ht-timer 6s linear forwards; stroke-dashoffset: 0; }
+@keyframes ht-timer { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
+.ht-slide-in { animation: ht-slide-in 1.4s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes ht-slide-in { from { opacity: 0; transform: translateX(-70px); } }
+.ht-inflate { animation: ht-inflate 3.2s ease-in-out infinite; }
+@keyframes ht-inflate { 0%, 100% { transform: scale(1); } 45% { transform: scale(1.12, 1.25); } }
+.ht-gauge { transform-origin: left center; animation: ht-gauge 3.2s ease-in-out infinite; }
+@keyframes ht-gauge { 0%, 100% { transform: scaleX(0.1); } 45% { transform: scaleX(1); } }
+.ht-blink { animation: ht-blink 1s ease-in-out infinite; }
+@keyframes ht-blink { 50% { opacity: 0.35; } }
+.ht-appear { animation: ht-appear 0.6s ease-out both; }
+.ht-appear.d1 { animation-delay: 0.6s; }
+.ht-appear.d2 { animation-delay: 1.2s; }
+.ht-appear.d3 { animation-delay: 1.8s; }
+@keyframes ht-appear { from { opacity: 0; transform: translateY(6px); } }
+.ht-drop { animation: ht-drop 1.6s ease-in infinite; }
+.ht-drop.d1 { animation-delay: 0.5s; }
+.ht-drop.d2 { animation-delay: 1s; }
+@keyframes ht-drop { 0% { opacity: 0; transform: translateY(-10px); } 20% { opacity: 1; } 100% { opacity: 0; transform: translateY(40px); } }
+.ht-strip-in { animation: ht-strip-in 1.4s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes ht-strip-in { from { transform: translateX(-160px); } }
+.ht-lancet { animation: ht-lancet 2.4s ease-in-out infinite; }
+@keyframes ht-lancet { 0%, 100% { transform: translateX(20px); } 40%, 55% { transform: translateX(0); } }
+.ht-grow { animation: ht-grow 2.4s ease-out infinite; }
+@keyframes ht-grow { 0%, 45% { transform: scale(0); } 100% { transform: scale(1); } }
+.ht-approach { animation: ht-approach 1.6s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes ht-approach { from { transform: translateX(80px); } }
+.ht-shrink { animation: ht-shrink 1.2s ease-in 1.4s both; }
+@keyframes ht-shrink { to { transform: scale(0); opacity: 0; } }
+.ht-drop-in { animation: ht-drop-in 1.6s ease-in 0.4s both; }
+@keyframes ht-drop-in { from { transform: translateY(-20px); opacity: 0; } 30% { opacity: 1; } to { transform: translateY(46px); opacity: 0.2; } }
+@media (max-width: 480px) {
+  .ht-foot {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+  .ht-controls {
+    justify-content: space-between;
+  }
+  .ht-dots {
+    justify-content: center;
+  }
+}
+
+/* The CSS reset removes the dialog's auto margin; restore centring. */
+.ht-dialog {
+  margin: auto;
+}
+.ov-muted svg {
+  vertical-align: -2px;
+}
+@keyframes ht-grow { 0%, 38% { transform: scale(0); } 62%, 100% { transform: scale(1); } }

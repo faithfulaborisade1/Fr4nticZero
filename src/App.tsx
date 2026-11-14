@@ -40,6 +40,7 @@ import { routineFor } from "./state/routine";
 import { OverviewPage, RoutineCard } from "./ui/OverviewPage";
 import { Sidebar } from "./ui/shell/Sidebar";
 import { Topbar } from "./ui/shell/Topbar";
+import { HowToHost } from "./ui/HowToGuide";
 import { groupOf } from "./ui/shell/nav";
 import { BodyScan } from "./ui/BodyScan";
 import { CrewAlertsPage, CrewMessagesPage, CrewProfilesPage, MedicationPage } from "./ui/CrewPages";
@@ -347,6 +348,7 @@ export default function App() {
         onClick={() => setMobileNavOpen(false)}
       />
 
+      <HowToHost />
       <div className="dw-main">
         <Topbar
           group={page === "emergency" ? "Support" : groupOf(page)}

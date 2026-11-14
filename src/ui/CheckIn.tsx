@@ -1,3 +1,4 @@
+import { HowToButton } from "./HowToGuide";
 import { useState, type FormEvent } from "react";
 import { IndicatorIcon } from "./identity";
 import { INDICATOR_META } from "../data/indicators";
@@ -89,7 +90,8 @@ export function CheckIn({ title, fields, onSubmit, blocked = {} }: Props) {
           }
           const why = blocked[f.indicator];
           return (
-            <label key={f.indicator} className="block text-sm">
+            <div key={f.indicator} className="ht-field">
+            <label className="block text-sm">
               <span className="dw-id-title">
                 <IndicatorIcon id={f.indicator} size={24} />
                 {m.label} ({m.unit})
@@ -107,6 +109,8 @@ export function CheckIn({ title, fields, onSubmit, blocked = {} }: Props) {
               />
               {why && <span className="mt-1 block text-xs text-red-300">⚠ {why}</span>}
             </label>
+            <HowToButton indicator={f.indicator} />
+            </div>
           );
         })}
       </div>
