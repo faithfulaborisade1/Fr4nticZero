@@ -1,3 +1,4 @@
+import { Info } from "lucide-react";
 import { useEffect, useState } from "react";
 import { regionInHazard, type HazardFilter } from "../data/hazards";
 import { getRegionMeta, type RegionId } from "../data/regions";
@@ -29,6 +30,7 @@ const POINTS: { id: RegionId; x: number; y: number }[] = [
 
 export function BodyScan({ model, summaries, selected, highlighted, filter, onSelect }: Props) {
   const [zoomedOut, setZoomedOut] = useState(false);
+  const [aiTipOpen, setAiTipOpen] = useState(false);
   useEffect(() => setZoomedOut(false), [selected]);
   const focus = POINTS.find((point) => point.id === selected);
   const zoomed = !!focus && !zoomedOut;
@@ -41,7 +43,22 @@ export function BodyScan({ model, summaries, selected, highlighted, filter, onSe
       return <button key={id} type="button" className={`body-point body-point-${summaries[id].statusAvailable === false ? "unassessed" : status} ${active ? "is-active" : ""}`} style={{ left: `${x}%`, top: `${y}%`, opacity: regionInHazard(id, filter) ? 1 : 0.25 }} aria-label={`${getRegionMeta(id).label}: ${summaries[id].statusAvailable === false ? "Not assessed" : STATUS_STYLE[status].word}. ${summaries[id].headline}`} aria-pressed={selected === id} onClick={() => onSelect(id)}><span /></button>;
     })}
     </div>
-    <span className="body-model-disclosure">AI-GENERATED ILLUSTRATION</span>
+    <span className={`body-ai ${aiTipOpen ? "is-open" : ""}`}>
+      <button
+        type="button"
+        className="body-ai-btn"
+        aria-label="About this image"
+        aria-describedby="body-ai-tip"
+        aria-expanded={aiTipOpen}
+        onClick={() => setAiTipOpen((v) => !v)}
+        onBlur={() => setAiTipOpen(false)}
+      >
+        <Info size={14} aria-hidden="true" />
+      </button>
+      <span role="tooltip" id="body-ai-tip" className="body-ai-tip">
+        AI-generated illustration, not a medical image. Markers show simulated readings.
+      </span>
+    </span>
     {selected && <button type="button" className="zoom-control" onClick={() => setZoomedOut((value) => !value)}>{zoomedOut ? `Zoom in on ${getRegionMeta(selected).label}` : "Show whole body"}</button>}
   </div>;
 }
